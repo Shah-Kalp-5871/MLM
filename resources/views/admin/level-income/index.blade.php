@@ -29,7 +29,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#1f1f1f]">
-                    @forelse($commissions as $comm)
+                    @forelse ($commissions as $comm)
                     <tr>
                         <td class="px-6 py-4 font-bold text-slate-200">{{ $comm->receiver->name ?? 'N/A' }}</td>
                         <td class="px-6 py-4 text-slate-400">{{ $comm->fromUser->name ?? 'N/A' }}</td>

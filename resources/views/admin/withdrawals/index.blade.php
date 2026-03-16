@@ -31,29 +31,48 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#1f1f1f]">
-                    <!-- Row 1 -->
+                    @forelse ($withdrawals as $withdrawal)
                     <tr class="hover:bg-white/[0.02] transition-colors group">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
-                                <span class="font-medium text-slate-200">Rahul Kumar</span>
+                                <span class="font-medium text-slate-200">{{ $withdrawal->user->name }}</span>
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-slate-400">₹1,240</td>
-                        <td class="px-6 py-4 font-bold">₹500.00</td>
-                        <td class="px-6 py-4 text-red-500/70">₹25.00</td>
-                        <td class="px-6 py-4 text-green-400">₹475.00</td>
+                        <td class="px-6 py-4 text-slate-400">₹{{ number_format($withdrawal->user->wallet->balance ?? 0, 2) }}</td>
+                        <td class="px-6 py-4 font-bold">₹{{ number_format($withdrawal->amount, 2) }}</td>
+                        <td class="px-6 py-4 text-red-500/70">₹{{ number_format($withdrawal->amount * 0.05, 2) }}</td>
+                        <td class="px-6 py-4 text-green-400">₹{{ number_format($withdrawal->amount * 0.95, 2) }}</td>
                         <td class="px-6 py-4">
-                            <span class="text-xs text-slate-500 bg-slate-800/10 px-2 py-1 rounded border border-[#1f1f1f]">Bank Transfer</span>
+                            <span class="text-xs text-slate-500 bg-slate-800/10 px-2 py-1 rounded border border-[#1f1f1f]">{{ $withdrawal->method }}</span>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="badge-pending text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">Pending</span>
+                            @if($withdrawal->status == 'pending')
+                                <span class="badge-pending text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">Pending</span>
+                            @elseif($withdrawal->status == 'approved')
+                                <span class="badge-active text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">Paid</span>
+                            @else
+                                <span class="bg-red-500/10 text-red-500 text-[10px] px-2 py-0.5 rounded-full uppercase font-bold border border-red-500/20">{{ $withdrawal->status }}</span>
+                            @endif
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <button class="text-purple-500 hover:text-purple-400 font-bold text-xs uppercase tracking-wider underline">Mark as Paid</button>
+                            @if($withdrawal->status == 'pending')
+                            <div class="flex justify-end gap-2">
+                                <form action="{{ route('admin.withdrawals.approve', $withdrawal->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="text-purple-500 hover:text-purple-400 font-bold text-xs uppercase tracking-wider underline">Mark as Paid</button>
+                                </form>
+                            </div>
+                            @endif
                         </td>
                     </tr>
+                    @empty
+                    <tr><td colspan="8" class="px-6 py-12 text-center text-slate-500 italic">No withdrawal requests found.</td></tr>
+                    @endforelse
                 </tbody>
             </table>
+        </div>
+        <div class="p-4 border-t border-[#1f1f1f]">
+            {{ $withdrawals->links() }}
         </div>
     </div>
 </div>

@@ -46,7 +46,7 @@
             <div class="glass-panel px-6 py-3 rounded-2xl flex justify-between items-center">
                 
                 <!-- Logo -->
-                <a href="/user/dashboard" class="flex items-center gap-3">
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20">
                         <i data-lucide="zap" class="w-5 h-5 text-white"></i>
                     </div>
@@ -58,22 +58,24 @@
 
                 <!-- Desktop Links -->
                 <div class="hidden lg:flex items-center gap-6">
-                    <a href="/user/dashboard" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->is('user/dashboard') ? 'active' : '' }}"><i data-lucide="home" class="w-4 h-4"></i> Home</a>
-                    <a href="/user/investments" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->is('user/investments*') ? 'active' : '' }}"><i data-lucide="briefcase" class="w-4 h-4"></i> Invest</a>
-                    <a href="/user/earnings" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->is('user/earnings*') ? 'active' : '' }}"><i data-lucide="trending-up" class="w-4 h-4"></i> Earnings</a>
-                    <a href="/user/network" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->is('user/network*') ? 'active' : '' }}"><i data-lucide="network" class="w-4 h-4"></i> Network</a>
-                    <a href="/user/referrals" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->is('user/referrals*') ? 'active' : '' }}"><i data-lucide="users" class="w-4 h-4"></i> Referrals</a>
-                    <a href="/user/club-rewards" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->is('user/club-rewards*') ? 'active' : '' }}"><i data-lucide="award" class="w-4 h-4"></i> Club</a>
-                    <a href="/user/wallet" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->is('user/wallet*') ? 'active' : '' }}"><i data-lucide="wallet" class="w-4 h-4"></i> Wallet</a>
-                    <a href="/user/withdrawals" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->is('user/withdrawals*') ? 'active' : '' }}"><i data-lucide="credit-card" class="w-4 h-4"></i> Withdraw</a>
-                    <a href="/user/profile" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->is('user/profile*') ? 'active' : '' }}"><i data-lucide="user" class="w-4 h-4"></i> Profile</a>
+                    <a href="{{ route('dashboard') }}" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->routeIs('dashboard') ? 'active' : '' }}"><i data-lucide="home" class="w-4 h-4"></i> Home</a>
+                    <a href="{{ route('packages.index') }}" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->routeIs('packages.index') ? 'active' : '' }}"><i data-lucide="briefcase" class="w-4 h-4"></i> Invest</a>
+                    <a href="{{ route('dashboard') }}" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2"><i data-lucide="trending-up" class="w-4 h-4"></i> Earnings</a>
+                    <a href="{{ route('team.index') }}" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->routeIs('team.index') ? 'active' : '' }}"><i data-lucide="network" class="w-4 h-4"></i> Network</a>
+                    <a href="{{ route('referrals.index') }}" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->routeIs('referrals.index') ? 'active' : '' }}"><i data-lucide="users" class="w-4 h-4"></i> Referrals</a>
+                    <a href="{{ route('dashboard') }}" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2"><i data-lucide="award" class="w-4 h-4"></i> Club</a>
+                    <a href="{{ route('wallet.index') }}" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->routeIs('wallet.index') ? 'active' : '' }}"><i data-lucide="wallet" class="w-4 h-4"></i> Wallet</a>
+                    <a href="{{ route('withdraw.create') }}" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->routeIs('withdraw.create') ? 'active' : '' }}"><i data-lucide="credit-card" class="w-4 h-4"></i> Withdraw</a>
+                    <a href="{{ route('profile.index') }}" class="nav-link text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2 {{ request()->routeIs('profile.index') ? 'active' : '' }}"><i data-lucide="user" class="w-4 h-4"></i> Profile</a>
                 </div>
 
                 <!-- Right Actions -->
                 <div class="flex items-center gap-4">
-                    <a href="/auth/login" class="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-500 hover:bg-rose-500/20 transition-all">
-                        <i data-lucide="power" class="w-4 h-4"></i>
-                    </a>
+                    <form action="{{ route('login') }}" method="GET">
+                        <button type="submit" class="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-500 hover:bg-rose-500/20 transition-all">
+                            <i data-lucide="power" class="w-4 h-4"></i>
+                        </button>
+                    </form>
                     <button class="lg:hidden w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-300" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
                         <i data-lucide="menu" class="w-5 h-5"></i>
                     </button>
@@ -84,15 +86,15 @@
         
         <!-- Mobile Menu (Hidden by default) -->
         <div id="mobile-menu" class="hidden absolute top-[80px] left-4 right-4 glass-panel rounded-2xl p-4 shadow-2xl lg:hidden flex-col gap-2">
-            <a href="/user/dashboard" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="home" class="w-4 h-4 text-purple-400"></i> Home</a>
-            <a href="/user/investments" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="briefcase" class="w-4 h-4 text-purple-400"></i> Invest</a>
-            <a href="/user/earnings" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="trending-up" class="w-4 h-4 text-purple-400"></i> Earnings</a>
-            <a href="/user/network" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="network" class="w-4 h-4 text-purple-400"></i> Network</a>
-            <a href="/user/referrals" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="users" class="w-4 h-4 text-purple-400"></i> Referrals</a>
-            <a href="/user/club-rewards" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="award" class="w-4 h-4 text-purple-400"></i> Club Rewards</a>
-            <a href="/user/wallet" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="wallet" class="w-4 h-4 text-purple-400"></i> Wallet</a>
-            <a href="/user/withdrawals" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="credit-card" class="w-4 h-4 text-purple-400"></i> Withdraw</a>
-            <a href="/user/profile" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="user" class="w-4 h-4 text-purple-400"></i> Profile</a>
+            <a href="{{ route('dashboard') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="home" class="w-4 h-4 text-purple-400"></i> Home</a>
+            <a href="{{ route('packages.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="briefcase" class="w-4 h-4 text-purple-400"></i> Invest</a>
+            <a href="{{ route('dashboard') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="trending-up" class="w-4 h-4 text-purple-400"></i> Earnings</a>
+            <a href="{{ route('team.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="network" class="w-4 h-4 text-purple-400"></i> Network</a>
+            <a href="{{ route('referrals.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="users" class="w-4 h-4 text-purple-400"></i> Referrals</a>
+            <a href="{{ route('dashboard') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="award" class="w-4 h-4 text-purple-400"></i> Club Rewards</a>
+            <a href="{{ route('wallet.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="wallet" class="w-4 h-4 text-purple-400"></i> Wallet</a>
+            <a href="{{ route('withdraw.create') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="credit-card" class="w-4 h-4 text-purple-400"></i> Withdraw</a>
+            <a href="{{ route('profile.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3"><i data-lucide="user" class="w-4 h-4 text-purple-400"></i> Profile</a>
         </div>
     </nav>
 

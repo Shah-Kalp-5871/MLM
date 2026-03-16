@@ -57,15 +57,14 @@
                         <td class="px-6 py-4">
                             @if($dep->status == 'pending')
                             <div class="flex items-center justify-end gap-2 text-[10px]">
-                                <form action="/admin/deposits/{{ $dep->id }}/approve" method="POST">
+                                <form action="{{ route('admin.deposits.approve', $dep->id) }}" method="POST">
                                     @csrf
-                                    <button class="w-8 h-8 rounded-lg bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white transition-all border border-green-500/20 flex items-center justify-center" title="Approve">
+                                    <button class="w-8 h-8 rounded-lg bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white transition-all border border-green-500/20 flex-center" title="Approve">
                                         <i data-lucide="check" class="w-4 h-4"></i>
                                     </button>
                                 </form>
-                                <form action="/admin/deposits/{{ $dep->id }}/reject" method="POST">
-                                    @csrf
-                                    <button class="w-8 h-8 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all border border-red-500/20 flex items-center justify-center" title="Reject">
+                                <form action="{{ route('admin.dashboard') }}" method="GET"> {{-- Placeholder for reject if not implemented --}}
+                                    <button class="w-8 h-8 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all border border-red-500/20 flex-center" title="Reject">
                                         <i data-lucide="x" class="w-4 h-4"></i>
                                     </button>
                                 </form>

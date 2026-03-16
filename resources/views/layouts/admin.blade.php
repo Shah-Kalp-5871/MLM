@@ -97,46 +97,41 @@
 
             <nav class="space-y-1">
                 <div class="text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">Main</div>
-                <a href="/admin/dashboard" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg active">
+                <a href="{{ route('admin.dashboard') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Dashboard</span>
                 </a>
-                <a href="/admin/users" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
+                <a href="{{ route('admin.users.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                     <i data-lucide="users" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Users</span>
                 </a>
                 
                 <div class="pt-6 text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">Finance</div>
-                <a href="/admin/deposits" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
+                <a href="{{ route('admin.deposits.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.deposits.*') ? 'active' : '' }}">
                     <i data-lucide="arrow-down-to-line" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Deposits</span>
-                    <span class="ml-auto bg-amber-500/20 text-amber-500 text-[10px] px-1.5 py-0.5 rounded-full border border-amber-500/20">8</span>
                 </a>
-                <a href="/admin/withdrawals" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
+                <a href="{{ route('admin.withdrawals.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.withdrawals.*') ? 'active' : '' }}">
                     <i data-lucide="arrow-up-from-line" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Withdrawals</span>
                 </a>
-                <a href="/admin/investments" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
+                <a href="{{ route('admin.investments.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.investments.*') ? 'active' : '' }}">
                     <i data-lucide="gem" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Investments</span>
                 </a>
 
                 <div class="pt-6 text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">Income Engines</div>
-                <a href="/admin/roi" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
+                <a href="{{ route('admin.roi.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.roi.*') ? 'active' : '' }}">
                     <i data-lucide="calendar-check" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">ROI Control</span>
                 </a>
-                <a href="/admin/level-income" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
+                <a href="{{ route('admin.commissions.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.commissions.*') ? 'active' : '' }}">
                     <i data-lucide="layers" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Level Commissions</span>
                 </a>
                 
                 <div class="pt-6 text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">System</div>
-                <a href="/admin/packages" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
-                    <i data-lucide="package" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">Packages</span>
-                </a>
-                <a href="/admin/settings" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
+                <a href="{{ route('admin.settings') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
                     <i data-lucide="settings-2" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Settings</span>
                 </a>

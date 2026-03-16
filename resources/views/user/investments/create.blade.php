@@ -13,55 +13,49 @@
     <!-- Decor -->
     <div class="absolute -top-24 -right-24 w-48 h-48 bg-purple-600/10 rounded-full blur-3xl group-hover:bg-purple-600/20 transition-all"></div>
 
-    <form class="relative z-10 space-y-8">
+    <form action="{{ route('deposits.store') }}" method="POST" enctype="multipart/form-data" class="relative z-10 space-y-8">
+        @csrf
         <div>
             <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Choose Package</label>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                @foreach($packages as $package)
                 <label class="cursor-pointer group/card">
-                    <input type="radio" name="package" class="hidden peer" checked>
+                    <input type="radio" name="package_id" value="{{ $package->id }}" class="hidden peer" {{ $loop->first ? 'checked' : '' }}>
                     <div class="p-4 rounded-2xl glass-panel border border-white/5 peer-checked:border-purple-500 peer-checked:bg-purple-500/10 transition-all text-center">
-                        <p class="text-[10px] font-bold text-gray-500 uppercase mb-1">Starter</p>
-                        <p class="text-white font-black">₹500</p>
+                        <p class="text-[10px] font-bold text-gray-500 uppercase mb-1">{{ $package->name }}</p>
+                        <p class="text-white font-black">₹{{ number_format($package->price, 0) }}</p>
                     </div>
                 </label>
-                <label class="cursor-pointer group/card">
-                    <input type="radio" name="package" class="hidden peer">
-                    <div class="p-4 rounded-2xl glass-panel border border-white/5 peer-checked:border-purple-500 peer-checked:bg-purple-500/10 transition-all text-center">
-                        <p class="text-[10px] font-bold text-gray-500 uppercase mb-1">Pro</p>
-                        <p class="text-white font-black">₹1,000</p>
-                    </div>
-                </label>
-                <label class="cursor-pointer group/card">
-                    <input type="radio" name="package" class="hidden peer">
-                    <div class="p-4 rounded-2xl glass-panel border border-white/5 peer-checked:border-purple-500 peer-checked:bg-purple-500/10 transition-all text-center">
-                        <p class="text-[10px] font-bold text-gray-500 uppercase mb-1">Elite</p>
-                        <p class="text-white font-black">₹5,000</p>
-                    </div>
-                </label>
+                @endforeach
             </div>
         </div>
 
         <div class="space-y-6">
             <div>
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Investment Amount (₹)</label>
-                <input type="number" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-purple-500 focus:outline-none transition-all placeholder:text-gray-600" placeholder="500.00">
+                <input type="number" name="amount" step="0.01" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-purple-500 focus:outline-none transition-all placeholder:text-gray-600" placeholder="500.00" required>
             </div>
 
             <div>
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Payment Method</label>
-                <select class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-purple-500 focus:outline-none transition-all appearance-none cursor-pointer">
-                    <option>USDT TRC20</option>
-                    <option>Bank Transfer</option>
-                    <option>Internal Wallet</option>
+                <select name="payment_method" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-purple-500 focus:outline-none transition-all appearance-none cursor-pointer" required>
+                    <option value="USDT TRC20">USDT TRC20</option>
+                    <option value="Bank Transfer">Bank Transfer</option>
+                    <option value="Internal Wallet">Internal Wallet Balance</option>
                 </select>
             </div>
 
             <div>
+                <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Transaction Hash / Reference ID</label>
+                <input type="text" name="transaction_hash" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-purple-500 focus:outline-none transition-all placeholder:text-gray-600" placeholder="Optional reference ID">
+            </div>
+
+            <div>
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Payment Proof (Screenshot)</label>
-                <div class="relative group/upload h-32 border-2 border-dashed border-white/10 rounded-2xl flex flex-col items-center justify-center bg-black/20 hover:bg-black/40 hover:border-purple-500/30 transition-all cursor-pointer">
+                <div onclick="document.getElementById('proof_upload').click()" class="relative group/upload h-32 border-2 border-dashed border-white/10 rounded-2xl flex flex-col items-center justify-center bg-black/20 hover:bg-black/40 hover:border-purple-500/30 transition-all cursor-pointer">
                     <i data-lucide="cloud-upload" class="w-8 h-8 text-gray-500 group-hover/upload:text-purple-400 mb-2 transition-all"></i>
                     <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Click to upload image</p>
-                    <input type="file" class="absolute inset-0 opacity-0 cursor-pointer">
+                    <input type="file" id="proof_upload" name="payment_proof" class="absolute inset-0 opacity-0 cursor-pointer">
                 </div>
             </div>
         </div>

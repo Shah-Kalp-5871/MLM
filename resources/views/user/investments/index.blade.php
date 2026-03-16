@@ -9,6 +9,12 @@
     <a href="/user/investments/create" class="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-900/40 flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i> Invest Now</a>
 </div>
 
+@php
+    $totalInvestment = auth()->user()->investments()->where('status', 'active')->sum('amount');
+    $activeCount = auth()->user()->investments()->where('status', 'active')->count();
+    $expectedWeekly = $totalInvestment * 0.03; // Simple estimation logic
+@endphp
+
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
     <div class="glass-panel p-6 rounded-2xl border border-purple-500/20 flex flex-col justify-center">
         <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-2">ROI Explanation</h2>
@@ -30,15 +36,15 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-purple-500">
             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Total Investment</p>
-            <h3 class="text-2xl font-black text-white">₹5,000.00</h3>
+            <h3 class="text-2xl font-black text-white">₹{{ number_format($totalInvestment, 2) }}</h3>
         </div>
         <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-emerald-500">
             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Active Packages</p>
-            <h3 class="text-2xl font-black text-white">1</h3>
+            <h3 class="text-2xl font-black text-white">{{ $activeCount }}</h3>
         </div>
         <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-amber-500 sm:col-span-2">
             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Expected Weekly Profit</p>
-            <h3 class="text-2xl font-black text-white">₹150.00 – ₹175.00</h3>
+            <h3 class="text-2xl font-black text-white">₹{{ number_format($expectedWeekly, 2) }} – ₹{{ number_format($expectedWeekly * 1.15, 2) }}</h3>
         </div>
     </div>
 </div>
@@ -58,25 +64,30 @@
                 </tr>
             </thead>
             <tbody>
+                @forelse($investments as $inv)
                 <tr>
-                    <td class="font-mono text-gray-400 text-xs">#INV-1001</td>
-                    <td class="font-bold text-white">Starter Package</td>
-                    <td class="font-bold text-white">₹500.00</td>
-                    <td class="text-xs">5% Weekly</td>
-                    <td><span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase rounded-full">Active</span></td>
-                    <td class="text-xs">10 Mar 2026</td>
-                    <td class="text-xs text-gray-500">12 Jun 2026</td>
+                    <td class="font-mono text-gray-400 text-xs">#INV-{{ $inv->id }}</td>
+                    <td class="font-bold text-white">{{ $inv->package->name ?? 'Custom' }}</td>
+                    <td class="font-bold text-white">₹{{ number_format($inv->amount, 2) }}</td>
+                    <td class="text-xs">{{ $inv->daily_roi_percentage * 7 }}% Weekly</td>
+                    <td>
+                        <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase rounded-full">
+                            {{ ucfirst($inv->status) }}
+                        </span>
+                    </td>
+                    <td class="text-xs">{{ $inv->created_at->format('d M Y') }}</td>
+                    <td class="text-xs text-gray-500">{{ $inv->matures_at ? \Carbon\Carbon::parse($inv->matures_at)->format('d M Y') : 'N/A' }}</td>
                 </tr>
+                @empty
+                <tr>
+                    <td colspan="7" class="text-center py-8 text-gray-500 italic">No investments found.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
-    <div class="p-4 border-t border-white/5 flex justify-between items-center bg-white/[0.01]">
-        <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Showing 1 to 1 of 1 records</span>
-        <div class="pagination">
-            <a href="#">&laquo; Prev</a>
-            <a href="#" class="active">1</a>
-            <a href="#">Next &raquo;</a>
-        </div>
+    <div class="p-4 border-t border-white/5 flex justify-center bg-white/[0.01]">
+        {{ $investments->links() }}
     </div>
 </div>
 @endsection

@@ -17,6 +17,22 @@ class InvestmentService
     public function __construct(protected ClubService $clubService) {}
 
     /**
+     * Create a new deposit request (waiting for proof verification).
+     */
+    public function createDeposit(array $data)
+    {
+        return Deposit::create([
+            'user_id' => auth()->id(),
+            'package_id' => $data['package_id'],
+            'amount' => $data['amount'],
+            'payment_method' => $data['payment_method'],
+            'transaction_hash' => $data['transaction_hash'] ?? null,
+            'payment_proof' => $data['payment_proof'] ?? null,
+            'status' => 'pending',
+        ]);
+    }
+
+    /**
      * Approve a deposit and start the investment process.
      */
     public function approveDepositAndInvest(int $depositId)
