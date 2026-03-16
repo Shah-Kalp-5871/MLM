@@ -1,3 +1,6 @@
+<?php
+
+$content = <<<'EOD'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -276,3 +279,7 @@
     </script>
 </body>
 </html>
+EOD;
+
+file_put_contents('resources/views/welcome.blade.php', $content);
+echo "New welcome.blade.php generated successfully.\n";
