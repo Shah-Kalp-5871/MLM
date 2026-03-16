@@ -1,9 +1,9 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="max-w-4xl mx-auto space-y-8">
     <div class="flex items-center gap-4">
-        <a href="/admin/users" class="w-10 h-10 rounded-xl glass border border-[#1f1f1f] flex items-center justify-center text-slate-400 hover:text-white transition-all">
+        <a href="{{ route('admin.users.index') }}" class="w-10 h-10 rounded-xl glass border border-[#1f1f1f] flex items-center justify-center text-slate-400 hover:text-white transition-all">
             <i data-lucide="arrow-left" class="w-5 h-5"></i>
         </a>
         <div>

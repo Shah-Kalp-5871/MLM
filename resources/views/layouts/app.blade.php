@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -122,30 +122,30 @@
   <ul class="nav-menu">
     @if(request()->is('admin*'))
       <!-- Admin Menu -->
-      <li><a href="/admin/dashboard" class="{{ request()->is('admin/dashboard') ? 'active' : '' }}"><i class="fa-solid fa-house"></i> Dashboard</a></li>
-      <li><a href="/admin/users" class="{{ request()->is('admin/users*') ? 'active' : '' }}"><i class="fa-solid fa-users"></i> Users</a></li>
-      <li><a href="/admin/deposits" class="{{ request()->is('admin/deposits*') ? 'active' : '' }}"><i class="fa-solid fa-money-bill-transfer"></i> Deposits</a></li>
-      <li><a href="/admin/withdrawals" class="{{ request()->is('admin/withdrawals*') ? 'active' : '' }}"><i class="fa-solid fa-building-columns"></i> Withdrawals</a></li>
-      <li><a href="/admin/roi" class="{{ request()->is('admin/roi*') ? 'active' : '' }}"><i class="fa-solid fa-chart-line"></i> ROI Income</a></li>
-      <li><a href="/admin/level-income" class="{{ request()->is('admin/level-income*') ? 'active' : '' }}"><i class="fa-solid fa-layer-group"></i> Level Income</a></li>
-      <li><a href="/admin/network" class="{{ request()->is('admin/network*') ? 'active' : '' }}"><i class="fa-solid fa-network-wired"></i> Network Tree</a></li>
-      <li><a href="/admin/club" class="{{ request()->is('admin/club*') ? 'active' : '' }}"><i class="fa-solid fa-award"></i> Club Rewards</a></li>
-      <li><a href="/admin/vouchers" class="{{ request()->is('admin/vouchers*') ? 'active' : '' }}"><i class="fa-solid fa-ticket"></i> Vouchers</a></li>
-      <li><a href="/admin/reports" class="{{ request()->is('admin/reports*') ? 'active' : '' }}"><i class="fa-solid fa-file-invoice"></i> Reports</a></li>
+      <li><a href="{{ route('admin.dashboard') }}" class="{{ request()->is('admin/dashboard') ? 'active' : '' }}"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+      <li><a href="{{ route('admin.users.index') }}" class="{{ request()->is('admin/users*') ? 'active' : '' }}"><i class="fa-solid fa-users"></i> Users</a></li>
+      <li><a href="{{ route('admin.deposits.index') }}" class="{{ request()->is('admin/deposits*') ? 'active' : '' }}"><i class="fa-solid fa-money-bill-transfer"></i> Deposits</a></li>
+      <li><a href="{{ route('admin.withdrawals.index') }}" class="{{ request()->is('admin/withdrawals*') ? 'active' : '' }}"><i class="fa-solid fa-building-columns"></i> Withdrawals</a></li>
+      <li><a href="{{ route('admin.roi.index') }}" class="{{ request()->is('admin/roi*') ? 'active' : '' }}"><i class="fa-solid fa-chart-line"></i> ROI Income</a></li>
+      <li><a href="{{ route('admin.level-income.index') }}" class="{{ request()->is('admin/level-income*') ? 'active' : '' }}"><i class="fa-solid fa-layer-group"></i> Level Income</a></li>
+      <li><a href="{{ url('admin/network') }}" class="{{ request()->is('admin/network*') ? 'active' : '' }}"><i class="fa-solid fa-network-wired"></i> Network Tree</a></li>
+      <li><a href="{{ url('admin/club') }}" class="{{ request()->is('admin/club*') ? 'active' : '' }}"><i class="fa-solid fa-award"></i> Club Rewards</a></li>
+      <li><a href="{{ url('admin/vouchers') }}" class="{{ request()->is('admin/vouchers*') ? 'active' : '' }}"><i class="fa-solid fa-ticket"></i> Vouchers</a></li>
+      <li><a href="{{ url('admin/reports') }}" class="{{ request()->is('admin/reports*') ? 'active' : '' }}"><i class="fa-solid fa-file-invoice"></i> Reports</a></li>
     @else
       <!-- User Menu -->
-      <li><a href="/user/dashboard" class="{{ request()->is('user/dashboard') ? 'active' : '' }}"><i class="fa-solid fa-house"></i> Dashboard</a></li>
-      <li><a href="/user/investments" class="{{ request()->is('user/investments*') ? 'active' : '' }}"><i class="fa-solid fa-piggy-bank"></i> Investments</a></li>
-      <li><a href="/user/wallet" class="{{ request()->is('user/wallet*') ? 'active' : '' }}"><i class="fa-solid fa-wallet"></i> Wallet</a></li>
-      <li><a href="/user/withdrawals" class="{{ request()->is('user/withdrawals*') ? 'active' : '' }}"><i class="fa-solid fa-building-columns"></i> Withdrawals</a></li>
-      <li><a href="/user/referrals" class="{{ request()->is('user/referrals*') ? 'active' : '' }}"><i class="fa-solid fa-user-plus"></i> Referrals</a></li>
-      <li><a href="/user/network" class="{{ request()->is('user/network*') ? 'active' : '' }}"><i class="fa-solid fa-network-wired"></i> Network Tree</a></li>
-      <li><a href="/user/roi" class="{{ request()->is('user/roi*') ? 'active' : '' }}"><i class="fa-solid fa-chart-line"></i> ROI</a></li>
-      <li><a href="/user/level-income" class="{{ request()->is('user/level-income*') ? 'active' : '' }}"><i class="fa-solid fa-layer-group"></i> Level Income</a></li>
-      <li><a href="/user/club-rewards" class="{{ request()->is('user/club-rewards*') ? 'active' : '' }}"><i class="fa-solid fa-award"></i> Club Rewards</a></li>
-      <li><a href="/user/profile" class="{{ request()->is('user/profile*') ? 'active' : '' }}"><i class="fa-solid fa-gear"></i> Profile</a></li>
+      <li><a href="{{ url('user/dashboard') }}" class="{{ request()->is('user/dashboard') ? 'active' : '' }}"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+      <li><a href="{{ url('user/investments') }}" class="{{ request()->is('user/investments*') ? 'active' : '' }}"><i class="fa-solid fa-piggy-bank"></i> Investments</a></li>
+      <li><a href="{{ url('user/wallet') }}" class="{{ request()->is('user/wallet*') ? 'active' : '' }}"><i class="fa-solid fa-wallet"></i> Wallet</a></li>
+      <li><a href="{{ url('user/withdrawals') }}" class="{{ request()->is('user/withdrawals*') ? 'active' : '' }}"><i class="fa-solid fa-building-columns"></i> Withdrawals</a></li>
+      <li><a href="{{ url('user/referrals') }}" class="{{ request()->is('user/referrals*') ? 'active' : '' }}"><i class="fa-solid fa-user-plus"></i> Referrals</a></li>
+      <li><a href="{{ url('user/network') }}" class="{{ request()->is('user/network*') ? 'active' : '' }}"><i class="fa-solid fa-network-wired"></i> Network Tree</a></li>
+      <li><a href="{{ url('user/roi') }}" class="{{ request()->is('user/roi*') ? 'active' : '' }}"><i class="fa-solid fa-chart-line"></i> ROI</a></li>
+      <li><a href="{{ url('user/level-income') }}" class="{{ request()->is('user/level-income*') ? 'active' : '' }}"><i class="fa-solid fa-layer-group"></i> Level Income</a></li>
+      <li><a href="{{ url('user/club-rewards') }}" class="{{ request()->is('user/club-rewards*') ? 'active' : '' }}"><i class="fa-solid fa-award"></i> Club Rewards</a></li>
+      <li><a href="{{ url('user/profile') }}" class="{{ request()->is('user/profile*') ? 'active' : '' }}"><i class="fa-solid fa-gear"></i> Profile</a></li>
     @endif
-    <li style="margin-top:20px"><a href="/auth/login" style="color:#dc3545"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+    <li style="margin-top:20px"><a href="{{ route('login') }}" style="color:#dc3545"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
   </ul>
 </aside>
 
@@ -167,3 +167,4 @@
 
 </body>
 </html>
+

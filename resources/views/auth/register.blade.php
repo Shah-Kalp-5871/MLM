@@ -1,4 +1,4 @@
-@extends('layouts.auth')
+﻿@extends('layouts.auth')
 @section('content')
 <div class="glass-panel w-full max-w-[540px] p-10 rounded-[2rem] shadow-2xl relative overflow-hidden group">
     <!-- Decor -->
@@ -58,7 +58,7 @@
 
     <div class="mt-10 pt-8 border-t border-white/5 text-center relative z-10">
         <p class="text-[11px] text-gray-500 font-semibold uppercase tracking-widest">
-            Already a member? <a href="/auth/login" class="text-purple-400 font-black hover:text-white transition-colors ml-1 underline decoration-2 underline-offset-4">Sign In</a>
+            Already a member? <a href="{{ route('login') }}" class="text-purple-400 font-black hover:text-white transition-colors ml-1 underline decoration-2 underline-offset-4">Sign In</a>
         </p>
     </div>
 </div>

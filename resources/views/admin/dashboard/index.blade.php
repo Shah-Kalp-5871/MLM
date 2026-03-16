@@ -80,7 +80,7 @@
                     <i data-lucide="clock" class="w-4 h-4 text-amber-500"></i>
                     Pending Payment Approvals
                 </h3>
-                <a href="/admin/deposits" class="text-xs text-purple-400 hover:text-purple-300 font-bold uppercase tracking-wider">View All</a>
+                <a href="{{ route('admin.deposits.index') }}" class="text-xs text-purple-400 hover:text-purple-300 font-bold uppercase tracking-wider">View All</a>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm">
@@ -106,7 +106,7 @@
                             <td class="px-6 py-4"><span class="text-slate-400">{{ $dep->method }}</span></td>
                             <td class="px-6 py-4 font-bold">$settings['platform_currency_symbol']{{ number_format($dep->amount, 2) }}</td>
                             <td class="px-6 py-4">
-                                <a href="/admin/deposits" class="text-purple-500 hover:text-purple-400 font-bold text-xs uppercase tracking-wider underline">Review</a>
+                                <a href="{{ route('admin.deposits.index') }}" class="text-purple-500 hover:text-purple-400 font-bold text-xs uppercase tracking-wider underline">Review</a>
                             </td>
                         </tr>
                         @empty
@@ -124,7 +124,7 @@
                     <i data-lucide="user-plus" class="w-4 h-4 text-blue-500"></i>
                     Recent Registrations
                 </h3>
-                <a href="/admin/users" class="text-xs text-purple-400 hover:text-purple-300 font-bold uppercase tracking-wider">Manage Users</a>
+                <a href="{{ route('admin.users.index') }}" class="text-xs text-purple-400 hover:text-purple-300 font-bold uppercase tracking-wider">Manage Users</a>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm">
@@ -163,3 +163,4 @@
     </div>
 </div>
 @endsection
+

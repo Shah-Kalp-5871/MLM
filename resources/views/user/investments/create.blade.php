@@ -6,7 +6,7 @@
         <h1 class="text-2xl font-bold tracking-tight uppercase">New Investment</h1>
         <p class="text-xs text-gray-500 font-medium uppercase tracking-widest mt-1">Start growing your wealth</p>
     </div>
-    <a href="/user/investments" class="px-6 py-3 rounded-xl glass-panel text-white text-xs font-bold uppercase tracking-wider hover:bg-white/10 transition-all flex items-center gap-2"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</a>
+    <a href="{{ url('user/investments') }}" class="px-6 py-3 rounded-xl glass-panel text-white text-xs font-bold uppercase tracking-wider hover:bg-white/10 transition-all flex items-center gap-2"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</a>
 </div>
 
 <div class="glass-panel max-w-2xl mx-auto rounded-3xl p-10 border border-purple-500/20 shadow-2xl relative overflow-hidden group">
@@ -66,3 +66,4 @@
     </form>
 </div>
 @endsection
+

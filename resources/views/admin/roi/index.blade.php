@@ -8,7 +8,7 @@
             <p class="text-slate-400 text-sm">Automate and monitor weekly profit distribution.</p>
         </div>
         <div class="flex items-center gap-3">
-             <form action="/admin/roi/run" method="POST">
+             <form action="{{ url('admin/roi/run') }}" method="POST">
                 @csrf
                 <button type="submit" class="btn-gradient px-8 py-3 rounded-2xl text-sm font-bold shadow-xl shadow-purple-600/20 flex items-center gap-2">
                     <i data-lucide="play" class="w-4 h-4"></i> Execute ROI Distribution
@@ -86,3 +86,4 @@
     </div>
 </div>
 @endsection
+
