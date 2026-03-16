@@ -15,25 +15,27 @@ class DashboardController extends Controller
     public function index()
     {
         $totalUsers = User::count();
-        $pendingDeposits = Deposit::where('status', 'pending')->sum('amount');
-        $activeInvestments = Investment::where('status', 'active')->sum('amount');
-        $withdrawalsPending = Withdrawal::where('status', 'pending')->sum('amount');
         $totalBusiness = Deposit::where('status', 'approved')->sum('amount');
-
-        // Next ROI Payout (Next Monday)
-        $nextPayoutDate = \Carbon\Carbon::now()->next(\Carbon\Carbon::MONDAY)->format('d M');
-        $daysToPayout = \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::now()->next(\Carbon\Carbon::MONDAY));
+        
+        $pendingDepositsCount = Deposit::where('status', 'pending')->count();
+        $pendingDepositsAmount = Deposit::where('status', 'pending')->sum('amount');
+        $pendingWithdrawalsCount = Withdrawal::where('status', 'pending')->count();
+        $pendingWithdrawalsAmount = Withdrawal::where('status', 'pending')->sum('amount');
+        
+        $totalInvestments = Investment::sum('amount');
+        $totalROIPaid = \App\Models\ROIIncome::sum('roi_amount');
+        $totalCommissionsPaid = \App\Models\LevelCommission::sum('commission_amount');
         
         $stats = [
             'total_users' => $totalUsers,
-            'pending_deposits' => $pendingDeposits,
-            'active_investments' => $activeInvestments,
-            'withdrawals_pending' => $withdrawalsPending,
-            'total_business' => $totalBusiness,
-            'next_payout' => $nextPayoutDate,
-            'days_to_payout' => "IN $daysToPayout DAYS",
-            'eligible_amount' => $activeInvestments * 0.03, // Based on standard 3% weekly
-            'active_user_rate' => $totalUsers > 0 ? round((Investment::where('status', 'active')->distinct('user_id')->count() / $totalUsers) * 100, 1) : 0,
+            'total_deposits' => $totalBusiness,
+            'pending_deposits_count' => $pendingDepositsCount,
+            'pending_deposits_amount' => $pendingDepositsAmount,
+            'pending_withdrawals_count' => $pendingWithdrawalsCount,
+            'pending_withdrawals_amount' => $pendingWithdrawalsAmount,
+            'total_investments' => $totalInvestments,
+            'total_roi_paid' => $totalROIPaid,
+            'total_commissions_paid' => $totalCommissionsPaid,
         ];
 
         $recent_users = User::with(['upline' => fn($q) => $q->withTrashed()])
@@ -41,11 +43,15 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        $recent_deposits = Deposit::with(['user' => fn($q) => $q->withTrashed()])
-            ->orderBy('created_at', 'desc')
-            ->limit(5)
-            ->get();
+        $recent_activity = collect();
+        
+        $deposits = Deposit::with('user')->latest()->limit(5)->get()->map(fn($i) => ['type' => 'Deposit', 'user' => $i->user->name ?? 'Guest', 'amount' => $i->amount, 'time' => $i->created_at->diffForHumans()]);
+        $withdrawals = Withdrawal::with('user')->latest()->limit(5)->get()->map(fn($i) => ['type' => 'Withdrawal', 'user' => $i->user->name ?? 'Guest', 'amount' => $i->amount, 'time' => $i->created_at->diffForHumans()]);
+        $registrations = User::latest()->limit(5)->get()->map(fn($i) => ['type' => 'Registration', 'user' => $i->name, 'amount' => null, 'time' => $i->created_at->diffForHumans()]);
+        $roi = \App\Models\ROIIncome::with('user')->latest('distributed_at')->limit(5)->get()->map(fn($i) => ['type' => 'ROI', 'user' => $i->user->name ?? 'Guest', 'amount' => $i->roi_amount, 'time' => $i->distributed_at->diffForHumans()]);
 
-        return view('admin.dashboard.index', compact('stats', 'recent_users', 'recent_deposits'));
+        $recent_activity = $deposits->concat($withdrawals)->concat($registrations)->concat($roi)->sortByDesc('time')->limit(10);
+
+        return view('admin.dashboard.index', compact('stats', 'recent_users', 'recent_deposits', 'recent_activity'));
     }
 }

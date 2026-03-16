@@ -1,4 +1,4 @@
-﻿@extends('layouts.admin')
+@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-6">
@@ -25,11 +25,11 @@
                 <thead class="bg-[#0c0c0c] text-slate-500 uppercase text-[10px] font-bold">
                     <tr>
                         <th class="px-6 py-4">User Details</th>
-                        <th class="px-6 py-4">Referral Code</th>
-                        <th class="px-6 py-4">Upline</th>
+                        <th class="px-6 py-4">Wallet Balance</th>
+                        <th class="px-6 py-4">Total Invested</th>
+                        <th class="px-6 py-4">Directs</th>
+                        <th class="px-6 py-4">Team Size</th>
                         <th class="px-6 py-4">Status</th>
-                        <th class="px-6 py-4">Wallet</th>
-                        <th class="px-6 py-4">Join Date</th>
                         <th class="px-6 py-4 text-right">Actions</th>
                     </tr>
                 </thead>
@@ -47,27 +47,31 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 font-mono text-purple-400 text-xs">{{ $user->referral_code ?? '—' }}</td>
-                        <td class="px-6 py-4 text-slate-400 text-xs">
-                            {{ $user->upline?->referral_code ?? '—' }}
+                        <td class="px-6 py-4 font-bold text-emerald-400">
+                            {{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($user->wallet->balance ?? 0, 2) }}
                         </td>
+                        <td class="px-6 py-4 font-bold text-blue-400">
+                            {{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($user->total_investment ?? 0, 2) }}
+                        </td>
+                        <td class="px-6 py-4 text-center font-bold">{{ $user->referrals_count ?? 0 }}</td>
+                        <td class="px-6 py-4 text-center font-bold text-purple-400">{{ $user->team_size ?? 0 }}</td>
                         <td class="px-6 py-4">
                             <span class="badge-{{ $user->status === 'active' ? 'active' : 'pending' }} text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">
                                 {{ ucfirst($user->status ?? 'pending') }}
                             </span>
                         </td>
-                        <td class="px-6 py-4">
-                            <div class="flex flex-col">
-                                <span class="font-bold">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($user->wallet->balance ?? 0, 2) }}</span>
-                                <span class="text-[10px] text-slate-500">Balance</span>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 text-slate-400 text-xs">{{ $user->created_at?->format('d M Y') }}</td>
                         <td class="px-6 py-4 text-right">
                             <div class="flex items-center justify-end gap-2">
-                                <a href="{{ route('admin.users.show', $user->id) }}" class="w-8 h-8 rounded-lg border border-[#1f1f1f] flex items-center justify-center text-slate-400 hover:text-white hover:border-purple-500 transition-all">
+                                <a href="{{ route('admin.users.show', $user->id) }}" class="w-8 h-8 rounded-lg border border-[#1f1f1f] flex items-center justify-center text-slate-400 hover:text-white hover:border-purple-500 transition-all" title="View Profile">
                                     <i data-lucide="eye" class="w-4 h-4"></i>
                                 </a>
+                                <form action="{{ route('admin.users.update-status', $user->id) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="status" value="{{ $user->status == 'active' ? 'blocked' : 'active' }}">
+                                    <button class="w-8 h-8 rounded-lg border border-[#1f1f1f] flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-all" title="{{ $user->status == 'active' ? 'Block' : 'Unblock' }}">
+                                        <i data-lucide="shield-off" class="w-4 h-4"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>

@@ -23,7 +23,6 @@ class InvestmentService
     {
         return Deposit::create([
             'user_id' => auth()->id(),
-            'package_id' => $data['package_id'],
             'amount' => $data['amount'],
             'payment_method' => $data['payment_method'],
             'transaction_hash' => $data['transaction_hash'] ?? null,
@@ -47,29 +46,13 @@ class InvestmentService
             // 1. Update Deposit Status
             $deposit->update(['status' => 'approved']);
 
-            // 2. Create Investment
-            // For now, we assume the deposit amount is fully invested into a package
-            // In a real flow, the user might deposit to wallet first, then choose a package.
-            // But for this "banger" flow, we link them.
-            
-            $package = Package::where('price', '<=', $deposit->amount)
-                ->orderBy('price', 'desc')
-                ->first();
-
-            if (!$package) {
-                // If no package matches, we just add to wallet balance
-                $this->addToWallet($deposit->user_id, $deposit->amount, 'deposit');
-                return $deposit;
-            }
-
             $investment = Investment::create([
                 'user_id' => $deposit->user_id,
-                'package_id' => $package->id,
                 'amount' => $deposit->amount,
-                'daily_roi_percentage' => $package->roi_percentage,
+                'daily_roi_percentage' => 1.0, // Default 1% daily ROI
                 'status' => 'active',
-                'next_payout_at' => now()->addDays(1), // Assume daily ROI for logic
-                'matures_at' => now()->addDays($package->duration_days ?? 365),
+                'next_payout_at' => now()->addDays(1),
+                'matures_at' => now()->addDays(365), // Default 1 year duration
             ]);
 
             // 3. Distribute Business Volume (BV) up the tree

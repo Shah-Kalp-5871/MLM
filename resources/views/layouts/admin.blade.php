@@ -102,76 +102,48 @@
             </div>
 
             <nav class="space-y-1">
-                <div class="text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">Main</div>
+                <div class="text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">Main Control</div>
                 <a href="{{ route('admin.dashboard') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Dashboard</span>
                 </a>
                 <a href="{{ route('admin.users.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                     <i data-lucide="users" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">Users</span>
+                    <span class="text-sm font-medium">Users Management</span>
                 </a>
                 
-                <div class="pt-6 text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">Finance</div>
+                <div class="pt-6 text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">Financial Operations</div>
                 <a href="{{ route('admin.deposits.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.deposits.*') ? 'active' : '' }}">
                     <i data-lucide="arrow-down-to-line" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">Deposits</span>
+                    <span class="text-sm font-medium">Pending Deposits</span>
                 </a>
                 <a href="{{ route('admin.withdrawals.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.withdrawals.*') ? 'active' : '' }}">
                     <i data-lucide="arrow-up-from-line" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">Withdrawals</span>
+                    <span class="text-sm font-medium">Withdrawal Requests</span>
                 </a>
                 <a href="{{ route('admin.investments.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.investments.*') ? 'active' : '' }}">
                     <i data-lucide="gem" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">Investments</span>
+                    <span class="text-sm font-medium">Investments List</span>
                 </a>
 
-                <div class="pt-6 text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">Income Engines & Growth</div>
-                <a href="{{ route('admin.packages.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.packages.*') ? 'active' : '' }}">
-                    <i data-lucide="package" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">Investment Packages</span>
-                </a>
+                <div class="pt-6 text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">Network & Growth</div>
                 <a href="{{ route('admin.network.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.network.*') ? 'active' : '' }}">
                     <i data-lucide="network" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Network Tree</span>
                 </a>
-                <a href="{{ route('admin.roi.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.roi.*') ? 'active' : '' }}">
-                    <i data-lucide="calendar-check" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">ROI Control</span>
-                </a>
                 <a href="{{ route('admin.commissions.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.commissions.*') ? 'active' : '' }}">
                     <i data-lucide="layers" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">Level Commissions</span>
-                </a>
-                <a href="{{ route('admin.clubs.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.clubs.*') ? 'active' : '' }}">
-                    <i data-lucide="award" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">Club Qualifications</span>
-                </a>
-                <a href="{{ route('admin.vouchers.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.vouchers.*') ? 'active' : '' }}">
-                    <i data-lucide="ticket" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">Voucher Inventory</span>
+                    <span class="text-sm font-medium">Commission History</span>
                 </a>
 
-                <div class="pt-6 text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">System & Analytics</div>
+                <div class="pt-6 text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">System Control</div>
                 <a href="{{ route('admin.reports.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.reports.index') ? 'active' : '' }}">
                     <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">Platform Analytics</span>
-                </a>
-                <a href="{{ route('admin.activity-logs.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.activity-logs.index') ? 'active' : '' }}">
-                    <i data-lucide="file-text" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">Activity Logs</span>
-                </a>
-                <a href="{{ route('admin.level-settings.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.level-settings.index') ? 'active' : '' }}">
-                    <i data-lucide="list-tree" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">Level Pricing</span>
-                </a>
-                <a href="{{ route('admin.club-milestones.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.club-milestones.index') ? 'active' : '' }}">
-                    <i data-lucide="milestone" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">Club Milestones</span>
+                    <span class="text-sm font-medium">Business Reports</span>
                 </a>
                 <a href="{{ route('admin.settings') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
                     <i data-lucide="settings-2" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">General Settings</span>
+                    <span class="text-sm font-medium">Profile Settings</span>
                 </a>
             </nav>
         </div>

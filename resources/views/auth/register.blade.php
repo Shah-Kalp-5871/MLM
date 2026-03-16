@@ -1,6 +1,6 @@
-﻿@extends('layouts.auth')
+@extends('layouts.auth')
 @section('content')
-<div class="glass-panel w-full max-w-[540px] p-10 rounded-[2rem] shadow-2xl relative overflow-hidden group">
+<div class="glass-panel mx-auto w-full max-w-[540px] p-10 rounded-[2rem] shadow-2xl relative overflow-hidden group">
     <!-- Decor -->
     <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-indigo-600/10 rounded-full blur-3xl group-hover:bg-indigo-600/20 transition-all duration-700"></div>
     
@@ -62,3 +62,5 @@
         </p>
     </div>
 </div>
+
+@endsection

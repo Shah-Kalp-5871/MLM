@@ -78,7 +78,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 // Admin Routes (Protected)
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-    Route::resource('packages', \App\Http\Controllers\Admin\PackageController::class);
     Route::resource('vouchers', \App\Http\Controllers\Admin\VoucherController::class);
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [AdminUserController::class, 'show'])->name('users.show');

@@ -8,10 +8,21 @@ use Illuminate\Http\Request;
 
 class NetworkController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Get root-level users (those not referred by anyone)
-        $rootUsers = User::whereNull('upline_id')->with('referrals')->get();
-        return view('admin.network.index', compact('rootUsers'));
+        $search = $request->input('search');
+        $rootUser = null;
+
+        if ($search) {
+            $rootUser = User::where('email', $search)
+                ->orWhere('referral_code', $search)
+                ->with('referrals')
+                ->first();
+        } else {
+            // Default to the first user with no upline (usually the admin/master node)
+            $rootUser = User::whereNull('upline_id')->with('referrals')->first();
+        }
+
+        return view('admin.network.tree', compact('rootUser'));
     }
 }

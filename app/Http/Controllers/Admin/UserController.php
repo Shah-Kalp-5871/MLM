@@ -17,27 +17,34 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::withTrashed()->with(['wallet', 'investments', 'deposits', 'withdrawls', 'profile', 'upline', 'referrals' => fn($q) => $q->withTrashed()])->findOrFail($id);
+        $user = User::withTrashed()->with(['wallet', 'investments', 'deposits', 'withdrawls', 'profile', 'upline', 'referrals'])->findOrFail($id);
         
-        // Direct Business: Sum of investments from direct referrals
-        $directBusiness = Investment::whereIn('user_id', $user->referrals->pluck('id'))
-            ->where('status', 'active')
-            ->sum('amount');
-            
-        // Team Business: Accurate calculation by summing investments of all descendants
-        $descendantIds = $user->mlmDescendants()->pluck('descendant_id');
-        $teamBusiness = Investment::whereIn('user_id', $descendantIds)
-            ->where('status', 'active')
-            ->sum('amount');
-        
-        $referrals = User::where('upline_id', $user->id)->with('wallet', 'investments')->get();
-        
-        // Mocking security data (In production, these would be in a separate audit log table)
-        $user->last_login_ip = '192.168.1.' . ($user->id % 255);
-        $user->devices = 'Windows / Chrome';
-        $user->kyc_status = $user->id % 2 == 0 ? 'Verified' : 'Pending';
+        $stats = [
+            'total_deposited' => $user->deposits()->where('status', 'approved')->sum('amount'),
+            'total_withdrawn' => $user->withdrawls()->where('status', 'approved')->sum('amount'),
+            'total_roi_earned' => \App\Models\ROIIncome::where('user_id', $user->id)->sum('roi_amount'),
+            'total_commission_earned' => \App\Models\LevelCommission::where('user_id', $user->id)->sum('commission_amount'),
+            'total_investments' => $user->investments()->count(),
+            'active_investments' => $user->investments()->where('status', 'active')->count(),
+            'total_investment_amount' => $user->investments()->sum('amount'),
+            'roi_income_breakdown' => \App\Models\ROIIncome::where('user_id', $user->id)->orderBy('distributed_at', 'desc')->limit(5)->get(),
+            'commission_breakdown' => \App\Models\LevelCommission::where('user_id', $user->id)->with('fromUser')->orderBy('created_at', 'desc')->limit(5)->get(),
+            'direct_referrals' => $user->referrals()->count(),
+            'total_team_size' => $user->mlmDescendants()->count(),
+            'team_investment_volume' => Investment::whereIn('user_id', $user->mlmDescendants()->pluck('descendant_id'))->sum('amount'),
+        ];
 
-        return view('admin.users.show', compact('user', 'directBusiness', 'teamBusiness', 'referrals'));
+        // Combined Earnings Table
+        $earnings = collect();
+        foreach($stats['roi_income_breakdown'] as $roi) {
+            $earnings->push(['type' => 'ROI', 'amount' => $roi->roi_amount, 'from' => 'System', 'id' => $roi->investment_id, 'date' => $roi->distributed_at]);
+        }
+        foreach($stats['commission_breakdown'] as $com) {
+            $earnings->push(['type' => 'Level Commission', 'amount' => $com->commission_amount, 'from' => $com->fromUser->name ?? 'User', 'id' => null, 'date' => $com->created_at]);
+        }
+        $earnings = $earnings->sortByDesc('date');
+
+        return view('admin.users.show', compact('user', 'stats', 'earnings'));
     }
 
     public function edit($id)
