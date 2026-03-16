@@ -1,3 +1,6 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\PackageController;
 use App\Http\Controllers\User\InvestmentController as UserInvestmentController;
@@ -6,6 +9,10 @@ use App\Http\Controllers\User\WalletController;
 use App\Http\Controllers\User\WithdrawalController;
 use App\Http\Controllers\User\ReferralController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\LevelIncomeController;
+use App\Http\Controllers\User\ROIController;
+use App\Http\Controllers\User\ClubRewardController;
+use App\Http\Controllers\User\EarningsController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DepositController as AdminDepositController;
@@ -41,6 +48,10 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/referrals', [ReferralController::class, 'index'])->name('referrals.index');
     Route::get('/team', [ReferralController::class, 'team'])->name('team.index');
+    Route::get('/level-income', [LevelIncomeController::class, 'index'])->name('level-income.index');
+    Route::get('/roi', [ROIController::class, 'index'])->name('roi.index');
+    Route::get('/club-rewards', [ClubRewardController::class, 'index'])->name('club-rewards.index');
+    Route::get('/earnings', [EarningsController::class, 'index'])->name('earnings.index');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
@@ -48,8 +59,12 @@ Route::middleware(['auth'])->group(function () {
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::resource('packages', \App\Http\Controllers\Admin\PackageController::class);
+    Route::resource('vouchers', \App\Http\Controllers\Admin\VoucherController::class);
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [AdminUserController::class, 'show'])->name('users.show');
+    Route::get('/users/{id}/edit', [AdminUserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{id}', [AdminUserController::class, 'update'])->name('users.update');
     Route::post('/users/{id}/status', [AdminUserController::class, 'updateStatus'])->name('users.update-status');
     Route::get('/deposits', [AdminDepositController::class, 'index'])->name('deposits.index');
     Route::post('/deposits/{id}/approve', [AdminDepositController::class, 'approve'])->name('deposits.approve');
@@ -66,6 +81,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     Route::get('/commissions', [AdminCommissionController::class, 'index'])->name('commissions.index');
     Route::get('/clubs', [AdminClubController::class, 'index'])->name('clubs.index');
+    Route::get('/level-settings', [\App\Http\Controllers\Admin\LevelSettingController::class, 'index'])->name('level-settings.index');
+    Route::post('/level-settings', [\App\Http\Controllers\Admin\LevelSettingController::class, 'update'])->name('level-settings.update');
+    Route::get('/club-milestones', [\App\Http\Controllers\Admin\ClubMilestoneController::class, 'index'])->name('club-milestones.index');
+    Route::post('/club-milestones', [\App\Http\Controllers\Admin\ClubMilestoneController::class, 'store'])->name('club-milestones.store');
+    Route::put('/club-milestones/{id}', [\App\Http\Controllers\Admin\ClubMilestoneController::class, 'update'])->name('club-milestones.update');
+    Route::get('/activity-logs', [\App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('activity-logs.index');
+    Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
     Route::get('/settings', [AdminSettingsController::class, 'settings'])->name('settings');
     Route::post('/settings', [AdminSettingsController::class, 'update'])->name('settings.update');
 });
