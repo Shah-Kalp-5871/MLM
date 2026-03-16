@@ -1,4 +1,4 @@
-@extends('layouts.user')
+﻿@extends('layouts.user')
 
 @section('content')
 <div class="mb-8 flex justify-between items-center text-white">
@@ -23,7 +23,7 @@
                     <input type="radio" name="package_id" value="{{ $package->id }}" class="hidden peer" {{ $loop->first ? 'checked' : '' }}>
                     <div class="p-4 rounded-2xl glass-panel border border-white/5 peer-checked:border-purple-500 peer-checked:bg-purple-500/10 transition-all text-center">
                         <p class="text-[10px] font-bold text-gray-500 uppercase mb-1">{{ $package->name }}</p>
-                        <p class="text-white font-black">₹{{ number_format($package->price, 0) }}</p>
+                        <p class="text-white font-black">$settings['platform_currency_symbol']{{ number_format($package->price, 0) }}</p>
                     </div>
                 </label>
                 @endforeach
@@ -32,7 +32,7 @@
 
         <div class="space-y-6">
             <div>
-                <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Investment Amount (₹)</label>
+                <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Investment Amount ($settings['platform_currency_symbol'])</label>
                 <input type="number" name="amount" step="0.01" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-purple-500 focus:outline-none transition-all placeholder:text-gray-600" placeholder="500.00" required>
             </div>
 

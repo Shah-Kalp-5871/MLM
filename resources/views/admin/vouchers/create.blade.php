@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="max-w-2xl mx-auto space-y-8">
@@ -21,7 +21,7 @@
                 <div class="space-y-2">
                     <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Voucher Value (INR)</label>
                     <div class="relative">
-                        <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 font-bold">₹</span>
+                        <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 font-bold">$settings['platform_currency_symbol']</span>
                         <input type="number" name="value" placeholder="500" class="w-full bg-[#0c0c0c] border border-[#1f1f1f] rounded-2xl pl-10 pr-5 py-4 text-lg font-black text-slate-200 focus:border-amber-500 outline-none transition-all" required>
                     </div>
                 </div>

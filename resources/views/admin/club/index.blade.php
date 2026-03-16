@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-6">
@@ -27,19 +27,19 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#1f1f1f]">
-                    @forelse($users as $user)
+                    @forelse($qualifications as $qual)
                     <tr>
-                        <td class="px-6 py-4 font-bold text-slate-200">{{ $user->name }}</td>
-                        <td class="px-6 py-4 font-bold text-blue-400">₹{{ number_format($user->direct_business, 2) }}</td>
-                        <td class="px-6 py-4 font-bold text-indigo-400">₹{{ number_format($user->total_business, 2) }}</td>
+                        <td class="px-6 py-4 font-bold text-slate-200">{{ $qual->user->name ?? 'Deleted User' }}</td>
+                        <td class="px-6 py-4 font-bold text-blue-400">$settings['platform_currency_symbol']{{ number_format($qual->user->direct_business ?? 0, 2) }}</td>
+                        <td class="px-6 py-4 font-bold text-indigo-400">$settings['platform_currency_symbol']{{ number_format($qual->user->total_business ?? 0, 2) }}</td>
                         <td class="px-6 py-4 font-bold text-purple-400 italic">
-                            {{ $user->clubQualification->milestone->name ?? 'None' }}
+                            {{ $qual->milestone->name ?? 'None' }}
                         </td>
                         <td class="px-6 py-4">
-                            @if($user->clubQualification)
+                            @if($qual->milestone)
                             @php
-                                $nextTarget = $user->clubQualification->milestone->direct_business_target ?? 0;
-                                $progress = $nextTarget > 0 ? min(100, round(($user->direct_business / $nextTarget) * 100)) : 100;
+                                $nextTarget = $qual->milestone->direct_business_target ?? 0;
+                                $progress = $nextTarget > 0 ? min(100, round(($qual->user->direct_business ?? 0 / $nextTarget) * 100)) : 100;
                             @endphp
                             <div class="space-y-1">
                                 <div class="w-full bg-slate-800 rounded-full h-1.5">
@@ -65,7 +65,7 @@
         </div>
     </div>
     <div class="mt-4">
-        {{ $users->links() }}
+        {{ $qualifications->links() }}
     </div>
 </div>
 @endsection

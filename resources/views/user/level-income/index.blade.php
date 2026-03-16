@@ -1,4 +1,4 @@
-@extends('layouts.user')
+﻿@extends('layouts.user')
 @section('content')
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px">
   <div>
@@ -19,7 +19,7 @@
           <td>{{ $c->fromUser->name ?? 'System' }}</td>
           <td>Level {{ $c->level }}</td>
           <td>{{ $c->roiIncome->week_number ?? 'N/A' }}</td>
-          <td>₹{{ number_format($c->amount, 2) }}</td>
+          <td>$settings['platform_currency_symbol']{{ number_format($c->amount, 2) }}</td>
           <td>{{ $c->created_at ? \Carbon\Carbon::parse($c->created_at)->format('M d, Y') : 'N/A' }}</td>
         </tr>
         @empty

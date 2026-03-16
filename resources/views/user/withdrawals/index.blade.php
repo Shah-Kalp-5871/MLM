@@ -1,4 +1,4 @@
-@extends('layouts.user')
+﻿@extends('layouts.user')
 
 @section('content')
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
@@ -23,15 +23,15 @@
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
     <div class="glass-panel p-6 rounded-2xl bg-[#0a0f18] border border-emerald-500/20">
         <p class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1">Available to Withdraw</p>
-        <h3 class="text-2xl font-black text-white">₹{{ number_format($wallet->balance, 2) }}</h3>
+        <h3 class="text-2xl font-black text-white">$settings['platform_currency_symbol']{{ number_format($wallet->balance, 2) }}</h3>
     </div>
     <div class="glass-panel p-6 rounded-2xl border-l-[3px] border-emerald-500">
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Total Withdrawn</p>
-        <h3 class="text-2xl font-black text-white">₹{{ number_format($wallet->total_withdrawn, 2) }}</h3>
+        <h3 class="text-2xl font-black text-white">$settings['platform_currency_symbol']{{ number_format($wallet->total_withdrawn, 2) }}</h3>
     </div>
     <div class="glass-panel p-6 rounded-2xl border-l-[3px] border-amber-500">
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Pending Amount</p>
-        <h3 class="text-2xl font-black text-white">₹{{ number_format($withdrawals->where('status', 'pending')->sum('amount'), 2) }}</h3>
+        <h3 class="text-2xl font-black text-white">$settings['platform_currency_symbol']{{ number_format($withdrawals->where('status', 'pending')->sum('amount'), 2) }}</h3>
     </div>
 </div>
 
@@ -52,7 +52,7 @@
             <tbody>
                 @forelse($withdrawals as $w)
                 <tr>
-                    <td class="font-bold text-white font-mono">₹{{ number_format($w->amount, 2) }}</td>
+                    <td class="font-bold text-white font-mono">$settings['platform_currency_symbol']{{ number_format($w->amount, 2) }}</td>
                     <td>{{ $w->method }}</td>
                     <td>
                         @if($w->status == 'approved')

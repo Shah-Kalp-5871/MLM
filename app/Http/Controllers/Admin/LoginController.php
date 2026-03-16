@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,7 +10,10 @@ class LoginController extends Controller
 {
     public function showLoginForm()
     {
-        return view('auth.login');
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+        return view('admin.auth.login');
     }
 
     public function login(Request $request)
@@ -21,16 +24,15 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            if (Auth::user()->role === 'admin') {
+            if (Auth::user()->role !== 'admin') {
                 Auth::logout();
                 return back()->withErrors([
-                    'email' => 'Administrators must login through the admin portal.',
+                    'email' => 'Access denied. This area is for administrators only.',
                 ]);
             }
 
             $request->session()->regenerate();
-
-            return redirect()->intended('/dashboard');
+            return redirect()->intended(route('admin.dashboard'));
         }
 
         return back()->withErrors([
@@ -41,11 +43,8 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
-
-        return redirect('/');
+        return redirect()->route('admin.login');
     }
 }

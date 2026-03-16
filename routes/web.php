@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\ROIController as AdminROIController;
 use App\Http\Controllers\Admin\LevelCommissionController as AdminCommissionController;
 use App\Http\Controllers\Admin\ClubRewardController as AdminClubController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
+use App\Http\Controllers\Admin\NetworkController as AdminNetworkController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -63,8 +64,15 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-// Admin Routes
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+// Admin Authentication Routes
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::get('/login', [\App\Http\Controllers\Admin\LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [\App\Http\Controllers\Admin\LoginController::class, 'login'])->name('login.submit');
+    Route::post('/logout', [\App\Http\Controllers\Admin\LoginController::class, 'logout'])->name('logout');
+});
+
+// Admin Routes (Protected)
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::resource('packages', \App\Http\Controllers\Admin\PackageController::class);
     Route::resource('vouchers', \App\Http\Controllers\Admin\VoucherController::class);
@@ -97,6 +105,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
     Route::get('/settings', [AdminSettingsController::class, 'settings'])->name('settings');
     Route::post('/settings', [AdminSettingsController::class, 'update'])->name('settings.update');
+    Route::get('/network', [AdminNetworkController::class, 'index'])->name('network.index');
 });
 
 // Auth Routes

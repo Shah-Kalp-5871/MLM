@@ -1,4 +1,4 @@
-@extends('layouts.user')
+﻿@extends('layouts.user')
 
 @section('content')
 <div class="flex justify-between items-center mb-8">
@@ -38,7 +38,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-purple-500">
             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Total Investment</p>
-            <h3 class="text-2xl font-black text-white">₹{{ number_format($totalInvestment, 2) }}</h3>
+            <h3 class="text-2xl font-black text-white">$settings['platform_currency_symbol']{{ number_format($totalInvestment, 2) }}</h3>
         </div>
         <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-emerald-500">
             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Active Packages</p>
@@ -46,7 +46,7 @@
         </div>
         <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-amber-500 sm:col-span-2">
             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Expected Weekly Profit</p>
-            <h3 class="text-2xl font-black text-white">₹{{ number_format($expectedWeekly, 2) }} – ₹{{ number_format($totalInvestment * ($maxROI / 100), 2) }}</h3>
+            <h3 class="text-2xl font-black text-white">$settings['platform_currency_symbol']{{ number_format($expectedWeekly, 2) }} – $settings['platform_currency_symbol']{{ number_format($totalInvestment * ($maxROI / 100), 2) }}</h3>
         </div>
     </div>
 </div>
@@ -70,7 +70,7 @@
                 <tr>
                     <td class="font-mono text-gray-400 text-xs">#INV-{{ $inv->id }}</td>
                     <td class="font-bold text-white">{{ $inv->package->name ?? 'Custom' }}</td>
-                    <td class="font-bold text-white">₹{{ number_format($inv->amount, 2) }}</td>
+                    <td class="font-bold text-white">$settings['platform_currency_symbol']{{ number_format($inv->amount, 2) }}</td>
                     <td class="text-xs">{{ $inv->daily_roi_percentage * 7 }}% Weekly</td>
                     <td>
                         <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase rounded-full">

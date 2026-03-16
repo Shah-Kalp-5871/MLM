@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-6">
@@ -25,7 +25,7 @@
             <div class="space-y-4">
                 <div class="flex items-center justify-between">
                     <span class="text-xs text-slate-500 font-bold uppercase tracking-widest">Price</span>
-                    <span class="text-2xl font-black text-slate-200">₹{{ number_format($package->price, 2) }}</span>
+                    <span class="text-2xl font-black text-slate-200">$settings['platform_currency_symbol']{{ number_format($package->price, 2) }}</span>
                 </div>
                 <div class="flex items-center justify-between">
                     <span class="text-xs text-slate-500 font-bold uppercase tracking-widest">Weekly ROI</span>
@@ -52,3 +52,4 @@
     </div>
 </div>
 @endsection
+

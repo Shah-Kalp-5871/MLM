@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-10">
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <h3 class="text-slate-400 text-sm font-medium">Total Approved Deposits</h3>
-            <p class="text-2xl font-bold mt-1">₹{{ number_format($stats['total_business'], 2) }}</p>
+            <p class="text-2xl font-bold mt-1">$settings['platform_currency_symbol']{{ number_format($stats['total_business'], 2) }}</p>
         </div>
 
         <!-- Card 3 -->
@@ -54,7 +54,7 @@
                 </div>
             </div>
             <h3 class="text-slate-400 text-sm font-medium">Active Investments</h3>
-            <p class="text-2xl font-bold mt-1">₹{{ number_format($stats['active_investments'], 2) }}</p>
+            <p class="text-2xl font-bold mt-1">$settings['platform_currency_symbol']{{ number_format($stats['active_investments'], 2) }}</p>
         </div>
 
         <!-- Card 4 -->
@@ -98,13 +98,13 @@
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
                                     <div class="w-8 h-8 rounded-full bg-slate-800 border border-[#1f1f1f] flex items-center justify-center text-[10px] font-bold">
-                                        {{ substr($dep->user->name, 0, 2) }}
+                                        {{ $dep->user ? substr($dep->user->name, 0, 2) : '??' }}
                                     </div>
-                                    <span class="font-medium">{{ $dep->user->name }}</span>
+                                    <span class="font-medium">{{ $dep->user->name ?? 'Deleted User' }}</span>
                                 </div>
                             </td>
                             <td class="px-6 py-4"><span class="text-slate-400">{{ $dep->method }}</span></td>
-                            <td class="px-6 py-4 font-bold">₹{{ number_format($dep->amount, 2) }}</td>
+                            <td class="px-6 py-4 font-bold">$settings['platform_currency_symbol']{{ number_format($dep->amount, 2) }}</td>
                             <td class="px-6 py-4">
                                 <a href="/admin/deposits" class="text-purple-500 hover:text-purple-400 font-bold text-xs uppercase tracking-wider underline">Review</a>
                             </td>

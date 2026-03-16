@@ -12,8 +12,9 @@ class WithdrawalController extends Controller
 {
     public function index()
     {
-        $withdrawals = Withdrawal::with('user')->orderBy('created_at', 'desc')->paginate(20);
-        return view('admin.withdrawals.index', compact('withdrawals'));
+        $withdrawals = Withdrawal::with(['user' => fn($q) => $q->withTrashed()])->orderBy('created_at', 'desc')->paginate(20);
+        $pendingCount = Withdrawal::where('status', 'pending')->count();
+        return view('admin.withdrawals.index', compact('withdrawals', 'pendingCount'));
     }
 
     public function approve($id)

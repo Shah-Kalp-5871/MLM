@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-6">
@@ -40,19 +40,19 @@
                             </td>
                             <td class="px-8 py-5">
                                  <div class="relative w-32">
-                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[10px] font-bold">₹</span>
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[10px] font-bold">$settings['platform_currency_symbol']</span>
                                     <input type="number" name="direct_business_target" value="{{ $m->direct_business_target }}" class="w-full bg-[#0c0c0c] border border-[#1f1f1f] rounded-xl pl-6 pr-3 py-2 text-sm font-bold focus:border-amber-500 outline-none text-slate-200">
                                 </div>
                             </td>
                              <td class="px-8 py-5">
                                  <div class="relative w-32">
-                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[10px] font-bold">₹</span>
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[10px] font-bold">$settings['platform_currency_symbol']</span>
                                     <input type="number" name="team_business_target" value="{{ $m->team_business_target }}" class="w-full bg-[#0c0c0c] border border-[#1f1f1f] rounded-xl pl-6 pr-3 py-2 text-sm font-bold focus:border-amber-500 outline-none text-slate-200">
                                 </div>
                             </td>
                             <td class="px-8 py-5">
                                 <div class="relative w-32">
-                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[10px] font-bold">₹</span>
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[10px] font-bold">$settings['platform_currency_symbol']</span>
                                     <input type="number" name="voucher_value" value="{{ $m->voucher_value }}" class="w-full bg-[#0c0c0c] border border-[#1f1f1f] rounded-xl pl-6 pr-3 py-2 text-sm font-bold focus:border-amber-500 outline-none text-green-500">
                                 </div>
                             </td>
@@ -72,3 +72,4 @@
     </div>
 </div>
 @endsection
+

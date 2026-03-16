@@ -1,4 +1,4 @@
-@extends('layouts.user')
+﻿@extends('layouts.user')
 
 @section('content')
 <div class="mb-8 flex justify-between items-center text-white">
@@ -14,7 +14,7 @@
     <div class="glass-panel rounded-3xl p-8 border border-emerald-500/20 bg-emerald-500/5 flex items-center justify-between">
         <div>
             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Available Profit</p>
-            <h3 class="text-3xl font-black text-white">₹{{ number_format($wallet->balance ?? 0, 2) }}</h3>
+            <h3 class="text-3xl font-black text-white">$settings['platform_currency_symbol']{{ number_format($wallet->balance ?? 0, 2) }}</h3>
         </div>
         <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400">
             <i data-lucide="wallet" class="w-8 h-8"></i>
@@ -27,9 +27,9 @@
             @csrf
             <div class="space-y-6">
                 <div>
-                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Withdrawal Amount (₹)</label>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Withdrawal Amount ($settings['platform_currency_symbol'])</label>
                     <input type="number" name="amount" min="{{ $settings['min_withdrawal'] ?? 10 }}" step="0.01" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-emerald-500 focus:outline-none transition-all placeholder:text-gray-600" placeholder="{{ $settings['min_withdrawal'] ?? '100.00' }}" required>
-                    <p class="text-[10px] text-gray-500 mt-2 ml-1 italic">Minimum withdrawal amount: ₹{{ number_format($settings['min_withdrawal'] ?? 10, 2) }}</p>
+                    <p class="text-[10px] text-gray-500 mt-2 ml-1 italic">Minimum withdrawal amount: $settings['platform_currency_symbol']{{ number_format($settings['min_withdrawal'] ?? 10, 2) }}</p>
                 </div>
 
                 <div>

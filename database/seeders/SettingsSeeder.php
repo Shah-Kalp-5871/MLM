@@ -23,8 +23,8 @@ class SettingsSeeder extends Seeder
 
             // Platform Config
             ['key' => 'platform_name',          'value' => 'NexaNet',   'type' => 'string',   'group' => 'general',    'label' => 'Platform Name',                'is_public' => true],
-            ['key' => 'platform_currency',      'value' => 'INR',       'type' => 'string',   'group' => 'general',    'label' => 'Currency Code',                'is_public' => true],
-            ['key' => 'platform_currency_symbol','value' => '₹',        'type' => 'string',   'group' => 'general',    'label' => 'Currency Symbol',              'is_public' => true],
+            ['key' => 'platform_currency',      'value' => 'USD',       'type' => 'string',   'group' => 'general',    'label' => 'Currency Code',                'is_public' => true],
+            ['key' => 'platform_currency_symbol','value' => '$',        'type' => 'string',   'group' => 'general',    'label' => 'Currency Symbol',              'is_public' => true],
             ['key' => 'referral_link_base',     'value' => '/auth/register?ref=', 'type' => 'string', 'group' => 'referral', 'label' => 'Referral Link Base URL', 'is_public' => true],
 
             // Level Income Config

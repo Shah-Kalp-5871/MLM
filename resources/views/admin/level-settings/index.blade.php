@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-6">
@@ -23,7 +23,7 @@
                             <th class="px-8 py-4 w-32 text-center">Level</th>
                             <th class="px-8 py-4">Commission Percentage (%)</th>
                             <th class="px-8 py-4">Contextual Label</th>
-                            <th class="px-8 py-4 text-right">Preview Payout (on ₹100 ROI)</th>
+                            <th class="px-8 py-4 text-right">Preview Payout (on $settings['platform_currency_symbol']100 ROI)</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-[#1f1f1f]">
@@ -41,7 +41,7 @@
                             <td class="px-8 py-5">
                                 <input type="text" name="levels[{{ $level->id }}][label]" value="{{ $level->label }}" class="bg-transparent border-none text-slate-500 text-xs font-bold uppercase tracking-widest outline-none w-full">
                             </td>
-                            <td class="px-8 py-5 text-right font-black text-green-500">₹{{ number_format($level->percentage, 2) }}</td>
+                            <td class="px-8 py-5 text-right font-black text-green-500">$settings['platform_currency_symbol']{{ number_format($level->percentage, 2) }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -54,3 +54,4 @@
     </div>
 </div>
 @endsection
+

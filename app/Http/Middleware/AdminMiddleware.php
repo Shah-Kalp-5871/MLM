@@ -20,6 +20,6 @@ class AdminMiddleware
             return $next($request);
         }
 
-        abort(403, 'Unauthorized action.');
+        return redirect()->route('admin.login')->withErrors(['email' => 'Please login as an administrator.']);
     }
 }

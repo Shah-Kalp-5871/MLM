@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-8">
@@ -33,7 +33,7 @@
         <div class="grid grid-cols-2 gap-4 w-full md:w-auto">
             <div class="glass p-4 rounded-2xl text-center border-[#1f1f1f]">
                 <p class="text-[10px] text-slate-500 font-bold uppercase">Balance</p>
-                <p class="text-xl font-black text-emerald-400">₹{{ number_format($user->wallet->balance ?? 0, 2) }}</p>
+                <p class="text-xl font-black text-emerald-400">$settings['platform_currency_symbol']{{ number_format($user->wallet->balance ?? 0, 2) }}</p>
             </div>
             <div class="glass p-4 rounded-2xl text-center border-[#1f1f1f]">
                 <p class="text-[10px] text-slate-500 font-bold uppercase">Network</p>
@@ -57,7 +57,7 @@
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-bold text-slate-500 uppercase">Direct Business</span>
-                            <span class="text-lg font-black text-slate-200">₹14,500</span>
+                            <span class="text-lg font-black text-slate-200">$settings['platform_currency_symbol']14,500</span>
                         </div>
                         <div class="w-full bg-slate-800 rounded-full h-1.5">
                             <div class="bg-blue-500 h-1.5 rounded-full" style="width: 65%"></div>
@@ -66,7 +66,7 @@
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-bold text-slate-500 uppercase">Team Business</span>
-                            <span class="text-lg font-black text-slate-200">₹1,42,000</span>
+                            <span class="text-lg font-black text-slate-200">$settings['platform_currency_symbol']1,42,000</span>
                         </div>
                         <div class="w-full bg-slate-800 rounded-full h-1.5">
                             <div class="bg-purple-600 h-1.5 rounded-full" style="width: 82%"></div>
@@ -93,8 +93,8 @@
                         @forelse($referrals as $r)
                         <tr>
                             <td class="px-6 py-4 font-medium">{{ $r->name }}</td>
-                            <td class="px-6 py-4 text-slate-400">₹{{ number_format($r->investments->sum('amount'), 2) }}</td>
-                            <td class="px-6 py-4 text-emerald-400 font-bold">₹{{ number_format($r->wallet->balance ?? 0, 2) }}</td>
+                            <td class="px-6 py-4 text-slate-400">$settings['platform_currency_symbol']{{ number_format($r->investments->sum('amount'), 2) }}</td>
+                            <td class="px-6 py-4 text-emerald-400 font-bold">$settings['platform_currency_symbol']{{ number_format($r->wallet->balance ?? 0, 2) }}</td>
                             <td class="px-6 py-4">
                                 <span class="badge {{ $r->status == 'active' ? 'badge-success' : 'badge-danger' }} text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">{{ $r->status }}</span>
                             </td>
@@ -149,3 +149,4 @@
     </div>
 </div>
 @endsection
+

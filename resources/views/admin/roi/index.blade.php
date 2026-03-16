@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-10">
@@ -22,15 +22,15 @@
         <div class="glass p-6 rounded-2xl border-l-4 border-purple-600">
             <h4 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Next Payout</h4>
             <div class="flex items-end justify-between">
-                <span class="text-2xl font-bold">Mon, 23 Mar</span>
-                <span class="text-[10px] text-purple-400 font-bold">IN 4 DAYS</span>
+                <span class="text-2xl font-bold">{{ $next_payout }}</span>
+                <span class="text-[10px] text-purple-400 font-bold uppercase tracking-widest">In {{ $days_left }} days</span>
             </div>
         </div>
         <div class="glass p-6 rounded-2xl border-l-4 border-blue-600">
             <h4 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Eligible Amount</h4>
             <div class="flex items-end justify-between">
-                <span class="text-2xl font-bold">₹12,450.00</span>
-                <span class="text-[10px] text-blue-400 font-bold">84 INVESTMENTS</span>
+                <span class="text-2xl font-bold text-blue-400">$settings['platform_currency_symbol']{{ number_format($eligible_amount, 2) }}</span>
+                <span class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">{{ $total_investments }} Active Assets</span>
             </div>
         </div>
         <div class="glass p-6 rounded-2xl border-l-4 border-green-600">
@@ -67,7 +67,7 @@
                     <tr>
                         <td class="px-6 py-4 font-mono text-xs text-purple-400">#ROI-{{ $inc->id }}</td>
                         <td class="px-6 py-4 text-slate-400">{{ $inc->distributed_at ? \Carbon\Carbon::parse($inc->distributed_at)->format('d M Y, h:i A') : 'N/A' }}</td>
-                        <td class="px-6 py-4 font-bold text-green-400">₹{{ number_format($inc->roi_amount, 2) }}</td>
+                        <td class="px-6 py-4 font-bold text-green-400">$settings['platform_currency_symbol']{{ number_format($inc->roi_amount, 2) }}</td>
                         <td class="px-6 py-4">{{ $inc->investment?->user?->name ?? 'N/A' }}</td>
                         <td class="px-6 py-4 text-blue-400 font-bold">INV-{{ $inc->investment_id }}</td>
                         <td class="px-6 py-4">

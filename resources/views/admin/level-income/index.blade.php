@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-6">
@@ -30,15 +30,20 @@
                 </thead>
                 <tbody class="divide-y divide-[#1f1f1f]">
                     @forelse ($commissions as $comm)
-                    <tr>
-                        <td class="px-6 py-4 font-bold text-slate-200">{{ $comm->receiver->name ?? 'N/A' }}</td>
-                        <td class="px-6 py-4 text-slate-400">{{ $comm->fromUser->name ?? 'N/A' }}</td>
+                    <tr class="hover:bg-white/[0.02] transition-colors">
                         <td class="px-6 py-4">
-                            <span class="bg-purple-600/10 text-purple-400 px-2 py-0.5 rounded-full text-[10px] font-bold border border-purple-600/20">LEVEL {{ $comm->level }}</span>
+                            <span class="font-bold text-slate-200">{{ $comm->receiver->name ?? 'N/A' }}</span>
                         </td>
-                        <td class="px-6 py-4 text-slate-400 text-xs">₹{{ number_format($comm->roi_amount ?? 0, 2) }}</td>
-                        <td class="px-6 py-4 font-bold text-green-400">₹{{ number_format($comm->commission_amount, 2) }} ({{ $comm->commission_percentage }}%)</td>
-                        <td class="px-6 py-4 text-xs text-slate-400">{{ $comm->created_at ? \Carbon\Carbon::parse($comm->created_at)->format('d M Y, h:i A') : 'N/A' }}</td>
+                        <td class="px-6 py-4 text-slate-400 font-medium">{{ $comm->fromUser->name ?? 'N/A' }}</td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="bg-purple-600/10 text-purple-400 px-3 py-1 rounded-full text-[10px] font-bold border border-purple-600/20">L{{ $comm->level }}</span>
+                        </td>
+                        <td class="px-6 py-4 text-slate-500 text-xs font-mono">$settings['platform_currency_symbol']{{ number_format($comm->roi_amount ?? 0, 2) }}</td>
+                        <td class="px-6 py-4 font-bold text-emerald-400">$settings['platform_currency_symbol']{{ number_format($comm->commission_amount, 2) }}</td>
+                        <td class="px-6 py-4">
+                            <div class="text-xs text-slate-400">{{ $comm->created_at ? $comm->created_at->format('d M Y') : 'N/A' }}</div>
+                            <div class="text-[9px] text-slate-600 uppercase">{{ $comm->created_at ? $comm->created_at->diffForHumans() : '' }}</div>
+                        </td>
                     </tr>
                     @empty
                     <tr><td colspan="6" class="px-6 py-12 text-center text-slate-500 italic">No commission records found.</td></tr>
@@ -46,6 +51,11 @@
                 </tbody>
             </table>
         </div>
+        @if($commissions->hasPages())
+        <div class="p-6 border-t border-[#1f1f1f]">
+            {{ $commissions->links() }}
+        </div>
+        @endif
     </div>
 </div>
 @endsection

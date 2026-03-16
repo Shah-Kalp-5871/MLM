@@ -13,7 +13,7 @@ class ROIController extends Controller
 
     public function index()
     {
-        $roi_history = ROIIncome::with('investment.user')->orderBy('created_at', 'desc')->paginate(20);
+        $roi_history = ROIIncome::with('investment.user')->orderBy('distributed_at', 'desc')->paginate(20);
         
         // Dynamic Metrics for Engine Control Cards
         $next_payout = \Carbon\Carbon::now()->next(\Carbon\Carbon::MONDAY)->format('D, d M');

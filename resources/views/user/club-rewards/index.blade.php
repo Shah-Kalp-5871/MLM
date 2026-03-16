@@ -1,4 +1,4 @@
-@extends('layouts.user')
+﻿@extends('layouts.user')
 
 @section('content')
 <div class="mb-8">
@@ -42,7 +42,7 @@
         <div class="flex justify-between items-end mb-4">
             <div>
                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Direct Business</p>
-                <h3 class="text-xl font-black text-white">₹{{ number_format($directBusiness, 2) }} / <span class="text-gray-500 text-sm">₹{{ number_format($directTarget, 2) }}</span></h3>
+                <h3 class="text-xl font-black text-white">$settings['platform_currency_symbol']{{ number_format($directBusiness, 2) }} / <span class="text-gray-500 text-sm">$settings['platform_currency_symbol']{{ number_format($directTarget, 2) }}</span></h3>
             </div>
             <span class="text-xs font-bold text-emerald-400">{{ round($directPercent) }}%</span>
         </div>
@@ -50,7 +50,7 @@
             <div class="h-full bg-gradient-to-r from-emerald-600 to-teal-400 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.3)]" style="width: {{ $directPercent }}%"></div>
         </div>
         @if($directTarget > $directBusiness)
-        <p class="text-[10px] text-gray-500 mt-3 font-medium italic">₹{{ number_format($directTarget - $directBusiness, 2) }} more needed from direct referrals</p>
+        <p class="text-[10px] text-gray-500 mt-3 font-medium italic">$settings['platform_currency_symbol']{{ number_format($directTarget - $directBusiness, 2) }} more needed from direct referrals</p>
         @else
         <p class="text-[10px] text-emerald-500 mt-3 font-medium italic">Target achieved for {{ $nextMilestone->name ?? 'next level' }}!</p>
         @endif
@@ -61,7 +61,7 @@
         <div class="flex justify-between items-end mb-4">
             <div>
                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Team Business</p>
-                <h3 class="text-xl font-black text-white">₹{{ number_format($teamBusiness, 2) }} / <span class="text-gray-500 text-sm">₹{{ number_format($teamTarget, 2) }}</span></h3>
+                <h3 class="text-xl font-black text-white">$settings['platform_currency_symbol']{{ number_format($teamBusiness, 2) }} / <span class="text-gray-500 text-sm">$settings['platform_currency_symbol']{{ number_format($teamTarget, 2) }}</span></h3>
             </div>
             <span class="text-xs font-bold text-purple-400">{{ round($teamPercent) }}%</span>
         </div>
@@ -69,7 +69,7 @@
             <div class="h-full bg-gradient-to-r from-purple-600 to-indigo-400 rounded-full shadow-[0_0_10px_rgba(147,51,234,0.3)]" style="width: {{ $teamPercent }}%"></div>
         </div>
         @if($teamTarget > $teamBusiness)
-        <p class="text-[10px] text-gray-500 mt-3 font-medium italic">₹{{ number_format($teamTarget - $teamBusiness, 2) }} more needed from your entire network</p>
+        <p class="text-[10px] text-gray-500 mt-3 font-medium italic">$settings['platform_currency_symbol']{{ number_format($teamTarget - $teamBusiness, 2) }} more needed from your entire network</p>
         @else
         <p class="text-[10px] text-purple-500 mt-3 font-medium italic">Target achieved for {{ $nextMilestone->name ?? 'next level' }}!</p>
         @endif
@@ -95,8 +95,8 @@
                     @foreach($milestones as $milestone)
                     <tr class="{{ $directBusiness >= $milestone->direct_business_target && $teamBusiness >= $milestone->team_business_target ? 'bg-emerald-500/5' : '' }}">
                         <td class="font-bold text-white">{{ $milestone->name }}</td>
-                        <td class="text-xs text-gray-400">₹{{ number_format($milestone->direct_business_target / 1000, 0) }}k + ₹{{ number_format($milestone->team_business_target / 1000, 0) }}k</td>
-                        <td class="font-bold text-amber-500 text-xs">₹{{ number_format($milestone->voucher_value) }} Voucher</td>
+                        <td class="text-xs text-gray-400">$settings['platform_currency_symbol']{{ number_format($milestone->direct_business_target / 1000, 0) }}k + $settings['platform_currency_symbol']{{ number_format($milestone->team_business_target / 1000, 0) }}k</td>
+                        <td class="font-bold text-amber-500 text-xs">$settings['platform_currency_symbol']{{ number_format($milestone->voucher_value) }} Voucher</td>
                     </tr>
                     @endforeach
                 </tbody>

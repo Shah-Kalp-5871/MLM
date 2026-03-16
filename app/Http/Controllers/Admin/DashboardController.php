@@ -36,8 +36,15 @@ class DashboardController extends Controller
             'active_user_rate' => $totalUsers > 0 ? round((Investment::where('status', 'active')->distinct('user_id')->count() / $totalUsers) * 100, 1) : 0,
         ];
 
-        $recent_users = User::orderBy('created_at', 'desc')->limit(5)->get();
-        $recent_deposits = Deposit::with('user')->orderBy('created_at', 'desc')->limit(5)->get();
+        $recent_users = User::with(['upline' => fn($q) => $q->withTrashed()])
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+
+        $recent_deposits = Deposit::with(['user' => fn($q) => $q->withTrashed()])
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
 
         return view('admin.dashboard.index', compact('stats', 'recent_users', 'recent_deposits'));
     }

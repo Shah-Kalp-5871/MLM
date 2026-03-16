@@ -13,8 +13,9 @@ class DepositController extends Controller
 
     public function index()
     {
-        $deposits = Deposit::with('user')->orderBy('created_at', 'desc')->paginate(20);
-        return view('admin.deposits.index', compact('deposits'));
+        $deposits = Deposit::with(['user' => fn($q) => $q->withTrashed()])->orderBy('created_at', 'desc')->paginate(20);
+        $pendingCount = Deposit::where('status', 'pending')->count();
+        return view('admin.deposits.index', compact('deposits', 'pendingCount'));
     }
 
     public function approve($id)

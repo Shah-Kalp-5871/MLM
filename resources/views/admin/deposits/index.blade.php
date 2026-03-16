@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-6">
@@ -8,7 +8,7 @@
             <p class="text-slate-400 text-sm">Review manual payment proofs and activate investments.</p>
         </div>
         <div class="flex items-center gap-3">
-            <span class="text-xs font-bold text-amber-500 bg-amber-500/10 px-3 py-1.5 rounded-full border border-amber-500/20">8 PENDING DEPOSITS</span>
+            <span class="text-xs font-bold text-amber-500 bg-amber-500/10 px-3 py-1.5 rounded-full border border-amber-500/20">{{ $pendingCount }} PENDING DEPOSITS</span>
         </div>
     </div>
 
@@ -33,9 +33,9 @@
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-full bg-slate-800 border border-[#1f1f1f] flex items-center justify-center text-[10px] font-bold">
-                                    {{ substr($dep->user->name, 0, 2) }}
+                                    {{ $dep->user ? substr($dep->user->name, 0, 2) : '??' }}
                                 </div>
-                                <span class="font-medium text-slate-200">{{ $dep->user->name }}</span>
+                                <span class="font-medium text-slate-200">{{ $dep->user->name ?? 'Deleted User' }}</span>
                             </div>
                         </td>
                         <td class="px-6 py-4">
@@ -43,7 +43,7 @@
                                 {{ optional($dep->package)->name ?? 'Manual' }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 font-bold text-green-400">₹{{ number_format($dep->amount, 2) }}</td>
+                        <td class="px-6 py-4 font-bold text-green-400">$settings['platform_currency_symbol']{{ number_format($dep->amount, 2) }}</td>
                         <td class="px-6 py-4">
                             <div class="flex flex-col">
                                 <span class="text-xs text-slate-300">{{ $dep->payment_method }}</span>

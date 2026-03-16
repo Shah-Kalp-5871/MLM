@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-6">
@@ -8,6 +8,7 @@
             <p class="text-slate-400 text-sm">Approve and track payout requests efficiently.</p>
         </div>
         <div class="flex items-center gap-3">
+             <span class="text-xs font-bold text-amber-500 bg-amber-500/10 px-3 py-1.5 rounded-full border border-amber-500/20">{{ $pendingCount }} PENDING WITHDRAWALS</span>
              <button class="bg-[#121212] border border-[#1f1f1f] px-4 py-2 rounded-xl text-sm font-medium hover:border-slate-700 transition-all flex items-center gap-2">
                 <i data-lucide="download" class="w-4 h-4"></i> Export Batch
             </button>
@@ -35,13 +36,13 @@
                     <tr class="hover:bg-white/[0.02] transition-colors group">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
-                                <span class="font-medium text-slate-200">{{ $withdrawal->user->name }}</span>
+                                <span class="font-medium text-slate-200">{{ $withdrawal->user->name ?? 'Deleted User' }}</span>
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-slate-400">₹{{ number_format($withdrawal->user->wallet->balance ?? 0, 2) }}</td>
-                        <td class="px-6 py-4 font-bold">₹{{ number_format($withdrawal->amount, 2) }}</td>
-                        <td class="px-6 py-4 text-red-500/70">₹{{ number_format($withdrawal->amount * 0.05, 2) }}</td>
-                        <td class="px-6 py-4 text-green-400">₹{{ number_format($withdrawal->amount * 0.95, 2) }}</td>
+                        <td class="px-6 py-4 text-slate-400">$settings['platform_currency_symbol']{{ number_format($withdrawal->user?->wallet?->balance ?? 0, 2) }}</td>
+                        <td class="px-6 py-4 font-bold">$settings['platform_currency_symbol']{{ number_format($withdrawal->amount, 2) }}</td>
+                        <td class="px-6 py-4 text-red-500/70">$settings['platform_currency_symbol']{{ number_format($withdrawal->amount * 0.05, 2) }}</td>
+                        <td class="px-6 py-4 text-green-400">$settings['platform_currency_symbol']{{ number_format($withdrawal->amount * 0.95, 2) }}</td>
                         <td class="px-6 py-4">
                             <span class="text-xs text-slate-500 bg-slate-800/10 px-2 py-1 rounded border border-[#1f1f1f]">{{ $withdrawal->method }}</span>
                         </td>

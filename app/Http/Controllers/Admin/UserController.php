@@ -11,13 +11,13 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('wallet')->orderBy('created_at', 'desc')->paginate(20);
+        $users = User::with(['wallet', 'upline' => fn($q) => $q->withTrashed()])->orderBy('created_at', 'desc')->paginate(20);
         return view('admin.users.index', compact('users'));
     }
 
     public function show($id)
     {
-        $user = User::with(['wallet', 'investments', 'deposits', 'withdrawls', 'profile', 'upline', 'referrals'])->findOrFail($id);
+        $user = User::withTrashed()->with(['wallet', 'investments', 'deposits', 'withdrawls', 'profile', 'upline', 'referrals' => fn($q) => $q->withTrashed()])->findOrFail($id);
         
         // Direct Business: Sum of investments from direct referrals
         $directBusiness = Investment::whereIn('user_id', $user->referrals->pluck('id'))
