@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Investment;
+use App\Models\MLMTree;
 use App\Models\Wallet;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,15 +23,18 @@ class DashboardController extends Controller
         $wallet = $user->wallet ?: $user->wallet()->create(['balance' => 0]);
 
         $totalInvestment = $user->investments()->where('status', 'active')->sum('amount');
-        $weeklyRoi = $wallet->total_roi_earned; // can be refined to last 7 days if needed
-        $teamSize = $user->mlmDescendants()->count() ?? 0; // assumes a descendants relation or returns 0
+        $weeklyRoi = $wallet->total_roi_earned;
+
+        // Count all descendants in the MLM tree (distance > 0 excludes self)
+        $teamSize = MLMTree::where('ancestor_id', $user->id)->where('distance', '>', 0)->count();
+
         $directReferrals = $user->referrals()->count();
 
         $stats = [
-            'wallet_balance' => $wallet->balance,
+            'wallet_balance'   => $wallet->balance,
             'total_investment' => $totalInvestment,
-            'weekly_roi' => $weeklyRoi,
-            'team_size' => $teamSize,
+            'weekly_roi'       => $weeklyRoi,
+            'team_size'        => $teamSize,
             'direct_referrals' => $directReferrals,
         ];
 

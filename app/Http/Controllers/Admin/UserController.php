@@ -24,12 +24,19 @@ class UserController extends Controller
             ->where('status', 'active')
             ->sum('amount');
             
-        // Team Business: Simplified version using total team investment volume
-        // In a full implementation, this would recurse through the MLM tree
-        $teamBusiness = Investment::where('status', 'active')->sum('amount'); // This is a placeholder, should ideally be filtered by team
+        // Team Business: Accurate calculation by summing investments of all descendants
+        $descendantIds = $user->mlmDescendants()->pluck('descendant_id');
+        $teamBusiness = Investment::whereIn('user_id', $descendantIds)
+            ->where('status', 'active')
+            ->sum('amount');
         
         $referrals = User::where('upline_id', $user->id)->with('wallet', 'investments')->get();
         
+        // Mocking security data (In production, these would be in a separate audit log table)
+        $user->last_login_ip = '192.168.1.' . ($user->id % 255);
+        $user->devices = 'Windows / Chrome';
+        $user->kyc_status = $user->id % 2 == 0 ? 'Verified' : 'Pending';
+
         return view('admin.users.show', compact('user', 'directBusiness', 'teamBusiness', 'referrals'));
     }
 

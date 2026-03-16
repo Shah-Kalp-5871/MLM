@@ -14,11 +14,11 @@
                 <div class="space-y-4">
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Platform Name</label>
-                        <input type="text" name="platform_name" value="NexaNet MLM" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
+                        <input type="text" name="platform_name" value="{{ $settings['platform_name'] ?? 'NexaNet MLM' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
                     </div>
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Support Email</label>
-                        <input type="email" name="support_email" value="support@nexanet.com" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
+                        <input type="email" name="support_email" value="{{ $settings['support_email'] ?? 'support@nexanet.com' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
                     </div>
                 </div>
             </div>
@@ -32,21 +32,21 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Min Withdrawal</label>
-                        <input type="text" name="min_withdrawal" value="200" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
+                        <input type="text" name="min_withdrawal" value="{{ $settings['min_withdrawal'] ?? '200' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
                     </div>
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Withdrawal Fee (%)</label>
-                        <input type="text" name="withdrawal_fee" value="5" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
+                        <input type="text" name="withdrawal_fee" value="{{ $settings['withdrawal_fee'] ?? '5' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
                     </div>
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Deposit Minimum</label>
-                        <input type="text" name="min_deposit" value="500" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
+                        <input type="text" name="min_deposit" value="{{ $settings['min_deposit'] ?? '500' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
                     </div>
                      <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">ROI Distribution Day</label>
                         <select name="roi_day" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none appearance-none">
-                            <option value="monday">Monday</option>
-                            <option value="sunday">Sunday</option>
+                            <option value="Monday" {{ ($settings['roi_day'] ?? '') == 'Monday' ? 'selected' : '' }}>Monday</option>
+                            <option value="Sunday" {{ ($settings['roi_day'] ?? '') == 'Sunday' ? 'selected' : '' }}>Sunday</option>
                         </select>
                     </div>
                 </div>

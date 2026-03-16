@@ -29,6 +29,13 @@ Route::get('/', function () {
 
 Route::get('/test/verify', [\App\Http\Controllers\TestController::class, 'verify']);
 
+Route::get('/test-mail', function () {
+    return app(\App\Services\EmailService::class)
+        ->sendWelcomeEmail('test@example.com', 'Test User') 
+        ? 'Email Sent successfully!' 
+        : 'Email Sending Failed! Check logs.';
+});
+
 // User Routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -92,8 +99,19 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/settings', [AdminSettingsController::class, 'update'])->name('settings.update');
 });
 
-// Auth Routes (Temporary - should be handled by Laravel Fortify/Breeze)
+// Auth Routes
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+
 Route::group(['prefix' => 'auth'], function () {
-    Route::view('/login', 'auth.login')->name('login');
-    Route::view('/register', 'auth.register')->name('register');
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
+    
+    Route::get('/register/otp', [RegisterController::class, 'showOtpForm'])->name('register.otp');
+    Route::post('/register/otp', [RegisterController::class, 'verifyOtp'])->name('register.otp.verify');
+    Route::get('/register/otp/resend', [RegisterController::class, 'resendOtp'])->name('register.otp.resend');
 });

@@ -12,25 +12,28 @@ class Voucher extends Model
     protected $fillable = [
         'code',
         'value',
-        'type', // club_reward, special, promo
-        'assigned_to', // user_id
-        'is_used',
-        'used_at',
-        'status', // active, expired, cancelled
+        'club_reward_id',
+        'status', // unused, assigned, redeemed, expired
+        'expires_at',
+        'created_by',
     ];
 
     protected $casts = [
-        'is_used' => 'boolean',
-        'used_at' => 'datetime',
+        'expires_at' => 'datetime',
     ];
 
-    public function assignedUser()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'assigned_to');
+        return $this->hasOneThrough(User::class, VoucherAssignment::class, 'voucher_id', 'id', 'id', 'user_id');
     }
 
-    public function redemptions()
+    public function assignment()
     {
-        return $this->hasMany(VoucherRedemption::class);
+        return $this->hasOne(VoucherAssignment::class);
+    }
+
+    public function clubReward()
+    {
+        return $this->belongsTo(ClubReward::class);
     }
 }

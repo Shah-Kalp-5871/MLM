@@ -11,15 +11,15 @@ class ClubReward extends Model
 
     protected $fillable = [
         'user_id',
-        'milestone_id',
-        'reward_type', // cash, voucher, asset
-        'reward_value',
-        'status', // pending, awarded, claimed
-        'claimed_at',
+        'club_milestone_id',
+        'tier',
+        'reward_amount',
+        'status', // awarded, assigned, redeemed, expired
+        'awarded_at',
     ];
 
     protected $casts = [
-        'claimed_at' => 'datetime',
+        'awarded_at' => 'datetime',
     ];
 
     public function user()
@@ -29,6 +29,11 @@ class ClubReward extends Model
 
     public function milestone()
     {
-        return $this->belongsTo(ClubMilestone::class, 'milestone_id');
+        return $this->belongsTo(ClubMilestone::class, 'club_milestone_id');
+    }
+
+    public function vouchers()
+    {
+        return $this->hasMany(Voucher::class);
     }
 }

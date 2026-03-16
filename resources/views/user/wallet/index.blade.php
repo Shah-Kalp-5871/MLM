@@ -29,7 +29,7 @@
     </div>
     <div>
         <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-1">Quick Note</h4>
-        <p class="text-[11px] text-gray-400 leading-relaxed">Your wallet balance consists of weekly ROI and Level Commissions. Club Milestone Rewards are kept in your <a href="/user/club-rewards" class="text-amber-500 hover:underline">Voucher Wallet</a>.</p>
+        <p class="text-[11px] text-gray-400 leading-relaxed">Your wallet balance consists of weekly ROI and Level Commissions. Club Milestone Rewards are kept in your <a href="{{ route('club-rewards.index') }}" class="text-amber-500 hover:underline">Voucher Wallet</a>.</p>
     </div>
 </div>
 

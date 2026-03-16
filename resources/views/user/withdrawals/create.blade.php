@@ -28,8 +28,8 @@
             <div class="space-y-6">
                 <div>
                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Withdrawal Amount (₹)</label>
-                    <input type="number" name="amount" step="0.01" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-emerald-500 focus:outline-none transition-all placeholder:text-gray-600" placeholder="100.00" required>
-                    <p class="text-[10px] text-gray-500 mt-2 ml-1 italic">Minimum withdrawal amount: ₹10.00</p>
+                    <input type="number" name="amount" min="{{ $settings['min_withdrawal'] ?? 10 }}" step="0.01" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-emerald-500 focus:outline-none transition-all placeholder:text-gray-600" placeholder="{{ $settings['min_withdrawal'] ?? '100.00' }}" required>
+                    <p class="text-[10px] text-gray-500 mt-2 ml-1 italic">Minimum withdrawal amount: ₹{{ number_format($settings['min_withdrawal'] ?? 10, 2) }}</p>
                 </div>
 
                 <div>

@@ -10,17 +10,18 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('admins')->insert([
+        DB::table('users')->updateOrInsert(
+            ['email' => 'admin@nexanet.com'],
             [
-                'name'       => 'Super Admin',
-                'email'      => 'admin@nexanet.com',
-                'password'   => Hash::make('Admin@123'),
-                'role'       => 'super_admin',
-                'status'     => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+                'name'              => 'Super Admin',
+                'password'          => Hash::make('Admin@123'),
+                'role'              => 'admin',
+                'status'            => 'active',
+                'referral_code'     => 'ADMIN001',
+                'created_at'        => now(),
+                'updated_at'        => now(),
+            ]
+        );
 
         $this->command->info('✓ Admin seeded: admin@nexanet.com / Admin@123 (CHANGE IN PRODUCTION!)');
     }

@@ -101,7 +101,7 @@
                     <tr>
                         <td class="font-bold text-white">{{ $commission->fromUser->name ?? 'System' }}</td>
                         <td><span class="px-2 py-1 bg-white/10 rounded text-[10px] font-bold uppercase text-purple-400">Level {{ $commission->level }}</span></td>
-                        <td class="text-emerald-400 font-bold">+₹{{ number_format($commission->amount, 2) }}</td>
+                        <td class="text-emerald-400 font-bold">+₹{{ number_format($commission->commission_amount, 2) }}</td>
                         <td class="text-xs text-gray-400">{{ $commission->created_at ? \Carbon\Carbon::parse($commission->created_at)->format('d M Y') : 'N/A' }}</td>
                     </tr>
                     @empty

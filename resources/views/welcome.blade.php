@@ -49,8 +49,8 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <a href="/auth/login" class="text-xs font-bold text-gray-400 uppercase tracking-widest hover:text-white transition-colors">Login</a>
-                <a href="/auth/register" class="px-6 py-3 rounded-xl bg-white text-black text-xs font-bold uppercase tracking-wider hover:bg-purple-500 hover:text-white transition-all shadow-xl shadow-white/5">Get Started</a>
+                <a href="{{ route('login') }}" class="text-xs font-bold text-gray-400 uppercase tracking-widest hover:text-white transition-colors">Login</a>
+                <a href="{{ route('register') }}" class="px-6 py-3 rounded-xl bg-white text-black text-xs font-bold uppercase tracking-wider hover:bg-purple-500 hover:text-white transition-all shadow-xl shadow-white/5">Get Started</a>
             </div>
         </div>
     </nav>
@@ -69,21 +69,21 @@
                     Join the next generation of network marketing. Secure, transparent, and built for your growth. Earn through ROI, referral networks, and milestone rewards.
                 </p>
                 <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-                    <a href="/auth/register" class="w-full sm:w-auto px-10 py-5 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-sm font-black uppercase tracking-widest transition-all shadow-2xl shadow-purple-900/40">Launch Dashboard</a>
+                    <a href="{{ route('register') }}" class="w-full sm:w-auto px-10 py-5 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-sm font-black uppercase tracking-widest transition-all shadow-2xl shadow-purple-900/40">Launch Dashboard</a>
                     <a href="#how" class="w-full sm:w-auto px-10 py-5 rounded-2xl glass-panel text-white text-sm font-black uppercase tracking-widest hover:bg-white/5 transition-all">Learn More</a>
                 </div>
                 <div class="pt-8 grid grid-cols-3 gap-8 border-t border-white/5 max-w-md">
                     <div>
-                        <p class="text-2xl font-black text-white">40K+</p>
+                        <p class="text-2xl font-black text-white">{{ number_format($stats['total_users'] ?? 10) }}+</p>
                         <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mt-1">Investors</p>
                     </div>
                     <div>
-                        <p class="text-2xl font-black text-white">₹2B+</p>
+                        <p class="text-2xl font-black text-white">₹{{ number_format($stats['total_payouts'] ?? 1000000) }}+</p>
                         <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mt-1">Distributed</p>
                     </div>
                     <div>
-                        <p class="text-2xl font-black text-white">5 Level</p>
-                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mt-1">Depth</p>
+                        <p class="text-2xl font-black text-white">10 Levels</p>
+                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mt-1">Network Depth</p>
                     </div>
                 </div>
             </div>
@@ -246,8 +246,8 @@
             <h2 class="text-4xl md:text-5xl font-black text-white mb-8 tracking-tighter">Ready to Start Your Journey?</h2>
             <p class="text-gray-400 text-lg mb-12 max-w-2xl mx-auto">Join thousands of investors who are already building their network and earning daily profit.</p>
             <div class="flex flex-col sm:flex-row items-center gap-6 justify-center">
-                <a href="/auth/register" class="w-full sm:w-auto px-12 py-5 rounded-2xl bg-white text-black text-sm font-black uppercase tracking-widest hover:bg-purple-500 hover:text-white transition-all shadow-2xl shadow-white/10">Create Account Now</a>
-                <a href="/auth/login" class="w-full sm:w-auto px-12 py-5 rounded-2xl border border-white/10 text-white text-sm font-black uppercase tracking-widest hover:bg-white/5 transition-all">Sign In to Dashboard</a>
+                <a href="{{ route('register') }}" class="w-full sm:w-auto px-12 py-5 rounded-2xl bg-white text-black text-sm font-black uppercase tracking-widest hover:bg-purple-500 hover:text-white transition-all shadow-2xl shadow-white/10">Create Account Now</a>
+                <a href="{{ route('login') }}" class="w-full sm:w-auto px-12 py-5 rounded-2xl border border-white/10 text-white text-sm font-black uppercase tracking-widest hover:bg-white/5 transition-all">Sign In to Dashboard</a>
             </div>
         </div>
     </section>

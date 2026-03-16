@@ -96,4 +96,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(WalletTransaction::class);
     }
+
+    public function vouchers()
+    {
+        return $this->belongsToMany(Voucher::class, 'voucher_assignments', 'user_id', 'voucher_id');
+    }
 }

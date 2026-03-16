@@ -14,7 +14,16 @@ class SettingsController extends Controller
 
     public function update(Request $request)
     {
-        // Logic to update global settings (stored in DB or config)
+        $data = $request->except('_token');
+        
+        foreach ($data as $key => $value) {
+            \App\Models\Setting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
+        }
+
+        // Clear view cache or optimize if needed to reflect global share changes
         return back()->with('success', 'Settings updated successfully.');
     }
 }

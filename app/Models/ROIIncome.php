@@ -24,7 +24,8 @@ class ROIIncome extends Model
     ];
 
     protected $casts = [
-        'payout_date' => 'date',
+        'for_week_ending' => 'date',
+        'distributed_at' => 'datetime',
     ];
 
     public function user()

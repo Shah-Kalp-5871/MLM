@@ -20,12 +20,20 @@ class DashboardController extends Controller
         $withdrawalsPending = Withdrawal::where('status', 'pending')->sum('amount');
         $totalBusiness = Deposit::where('status', 'approved')->sum('amount');
 
+        // Next ROI Payout (Next Monday)
+        $nextPayoutDate = \Carbon\Carbon::now()->next(\Carbon\Carbon::MONDAY)->format('d M');
+        $daysToPayout = \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::now()->next(\Carbon\Carbon::MONDAY));
+        
         $stats = [
             'total_users' => $totalUsers,
             'pending_deposits' => $pendingDeposits,
             'active_investments' => $activeInvestments,
             'withdrawals_pending' => $withdrawalsPending,
             'total_business' => $totalBusiness,
+            'next_payout' => $nextPayoutDate,
+            'days_to_payout' => "IN $daysToPayout DAYS",
+            'eligible_amount' => $activeInvestments * 0.03, // Based on standard 3% weekly
+            'active_user_rate' => $totalUsers > 0 ? round((Investment::where('status', 'active')->distinct('user_id')->count() / $totalUsers) * 100, 1) : 0,
         ];
 
         $recent_users = User::orderBy('created_at', 'desc')->limit(5)->get();

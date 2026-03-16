@@ -121,13 +121,13 @@
                 <tbody>
                     @forelse($vouchers as $voucher)
                     <tr>
-                        <td class="font-bold text-white">{{ $voucher->type == 'club_reward' ? 'Milestone Reward' : ucfirst($voucher->type) }}</td>
+                        <td class="font-bold text-white">{{ $voucher->club_reward_id ? 'Milestone Reward' : 'Promo Voucher' }}</td>
                         <td class="font-mono text-purple-400 text-xs bg-black/40 px-2 py-1 rounded inline-block">{{ $voucher->code }}</td>
                         <td>
-                            @if($voucher->is_used)
+                            @if($voucher->status === 'redeemed')
                             <span class="px-2 py-1 bg-gray-500/20 text-gray-400 text-[10px] font-bold uppercase rounded">Used</span>
                             @else
-                            <span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase rounded">Unused</span>
+                            <span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase rounded">{{ ucfirst($voucher->status) }}</span>
                             @endif
                         </td>
                     </tr>

@@ -13,7 +13,7 @@ class ClubRewardController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $vouchers = Voucher::where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(10);
+        $vouchers = $user->vouchers()->orderBy('created_at', 'desc')->paginate(10);
         
         // Calculate Direct Business (active investments of level 1)
         $directReferralIds = $user->referrals()->pluck('id');

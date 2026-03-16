@@ -14,8 +14,9 @@ class ReportController extends Controller
 {
     public function index()
     {
+        $total_users = User::count();
         $stats = [
-            'total_users' => User::count(),
+            'total_users' => $total_users,
             'monthly_users' => User::where('created_at', '>=', Carbon::now()->startOfMonth())->count(),
             'total_deposits' => Deposit::where('status', 'approved')->sum('amount'),
             'total_investments' => Investment::where('status', 'active')->sum('amount'),
@@ -23,6 +24,8 @@ class ReportController extends Controller
             'daily_avg_revenue' => Deposit::where('status', 'approved')
                 ->where('created_at', '>=', Carbon::now()->subDays(30))
                 ->sum('amount') / 30,
+            'retention_rate' => $total_users > 0 ? round((Investment::where('status', 'active')->distinct('user_id')->count() / $total_users) * 100, 1) : 0,
+            'total_payouts' => \App\Models\ROIIncome::sum('amount') + \App\Models\LevelCommission::sum('amount'),
         ];
 
         // Payout Composition

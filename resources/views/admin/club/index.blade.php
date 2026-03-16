@@ -37,14 +37,18 @@
                         </td>
                         <td class="px-6 py-4">
                             @if($user->clubQualification)
+                            @php
+                                $nextTarget = $user->clubQualification->milestone->direct_business_target ?? 0;
+                                $progress = $nextTarget > 0 ? min(100, round(($user->direct_business / $nextTarget) * 100)) : 100;
+                            @endphp
                             <div class="space-y-1">
                                 <div class="w-full bg-slate-800 rounded-full h-1.5">
-                                    <div class="bg-purple-600 h-1.5 rounded-full" style="width: 50%"></div>
+                                    <div class="bg-purple-600 h-1.5 rounded-full" style="width: {{ $progress }}%"></div>
                                 </div>
-                                <span class="text-[9px] text-slate-500 font-bold uppercase">Tracking active</span>
+                                <span class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">{{ $progress }}% ACCURACY</span>
                             </div>
                             @else
-                            <span class="text-[9px] text-slate-600 uppercase font-bold">Not Qualified</span>
+                            <span class="text-[9px] text-slate-600 uppercase font-bold tracking-widest">Qualification Pending</span>
                             @endif
                         </td>
                         <td class="px-6 py-4 text-right">

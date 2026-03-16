@@ -85,7 +85,9 @@
     </div>
     
     <div class="p-4 border-t border-white/5 flex justify-center bg-white/[0.01]">
-        {{ $recent_transactions->links() }}
+        <a href="{{ route('wallet.index') }}" class="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-purple-400 transition-colors flex items-center gap-2">
+            See All Transactions <i data-lucide="arrow-right" class="w-3 h-3"></i>
+        </a>
     </div>
 </div>
 @endsection

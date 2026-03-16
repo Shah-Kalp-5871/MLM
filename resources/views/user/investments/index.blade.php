@@ -12,7 +12,9 @@
 @php
     $totalInvestment = auth()->user()->investments()->where('status', 'active')->sum('amount');
     $activeCount = auth()->user()->investments()->where('status', 'active')->count();
-    $expectedWeekly = $totalInvestment * 0.03; // Simple estimation logic
+    $minROI = $settings['weekly_roi_min'] ?? 3;
+    $maxROI = $settings['weekly_roi_max'] ?? 3.5;
+    $expectedWeekly = $totalInvestment * ($minROI / 100);
 @endphp
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
@@ -24,11 +26,11 @@
         <div class="flex gap-4">
             <div class="bg-black/30 p-3 rounded-xl border border-white/5 flex-1">
                 <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Weekly ROI</p>
-                <p class="text-white font-black">3% – 3.5%</p>
+                <p class="text-white font-black">{{ $minROI }}% – {{ $maxROI }}%</p>
             </div>
             <div class="bg-black/30 p-3 rounded-xl border border-white/5 flex-1">
                 <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Monthly ROI</p>
-                <p class="text-white font-black">12% – 14%</p>
+                <p class="text-white font-black">{{ $minROI * 4 }}% – {{ $maxROI * 4 }}%</p>
             </div>
         </div>
     </div>
@@ -44,7 +46,7 @@
         </div>
         <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-amber-500 sm:col-span-2">
             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Expected Weekly Profit</p>
-            <h3 class="text-2xl font-black text-white">₹{{ number_format($expectedWeekly, 2) }} – ₹{{ number_format($expectedWeekly * 1.15, 2) }}</h3>
+            <h3 class="text-2xl font-black text-white">₹{{ number_format($expectedWeekly, 2) }} – ₹{{ number_format($totalInvestment * ($maxROI / 100), 2) }}</h3>
         </div>
     </div>
 </div>
