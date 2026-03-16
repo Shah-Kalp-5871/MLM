@@ -12,10 +12,14 @@
         <p class="text-xs text-gray-400 mb-6">Share this link to invite users. You earn level commissions on their ROI.</p>
         
         <div class="flex items-center gap-3">
+            @php
+                $refCode = auth()->user()->referral_code;
+                $refLink = route('register', ['ref' => $refCode]);
+            @endphp
             <div class="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-3 font-mono text-sm text-purple-400 select-all">
-                https://platform.com/register?ref=KALP123
+                {{ $refLink }}
             </div>
-            <button class="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-900/40 flex items-center gap-2" onclick="alert('Copied to clipboard!')">
+            <button type="button" class="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-900/40 flex items-center gap-2" onclick="navigator.clipboard.writeText('{{ $refLink }}')">
                 <i data-lucide="copy" class="w-4 h-4"></i> Copy
             </button>
         </div>
@@ -25,14 +29,14 @@
         <div class="glass-panel p-5 rounded-2xl border-l-[6px] border-l-purple-500 flex items-center justify-between">
             <div>
                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Direct Referrals</p>
-                <h3 class="text-2xl font-black text-white">4</h3>
+                <h3 class="text-2xl font-black text-white">{{ $referrals->total() }}</h3>
             </div>
             <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400"><i data-lucide="users" class="w-6 h-6"></i></div>
         </div>
         <div class="glass-panel p-5 rounded-2xl border-l-[6px] border-l-blue-500 flex items-center justify-between">
             <div>
                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Total Team Member</p>
-                <h3 class="text-2xl font-black text-white">24</h3>
+                <h3 class="text-2xl font-black text-white">{{ $referrals->total() }}</h3>
             </div>
             <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400"><i data-lucide="network" class="w-6 h-6"></i></div>
         </div>
@@ -54,27 +58,23 @@
                 </tr>
             </thead>
             <tbody>
+                @forelse($referrals as $ref)
                 <tr>
-                    <td class="font-bold text-white">Rahul</td>
-                    <td class="text-gray-400 text-xs">rahul@example.com</td>
-                    <td class="text-xs text-gray-500">01 Mar 2026</td>
-                    <td class="font-mono text-emerald-400">₹5,000</td>
+                    <td class="font-bold text-white">{{ $ref->name }}</td>
+                    <td class="text-gray-400 text-xs">{{ $ref->email }}</td>
+                    <td class="text-xs text-gray-500">{{ $ref->created_at?->format('d M Y') }}</td>
+                    <td class="font-mono text-emerald-400">₹{{ number_format($ref->wallet->total_deposited ?? 0, 2) }}</td>
                 </tr>
+                @empty
                 <tr>
-                    <td class="font-bold text-white">Neha</td>
-                    <td class="text-gray-400 text-xs">neha@example.com</td>
-                    <td class="text-xs text-gray-500">05 Mar 2026</td>
-                    <td class="font-mono text-emerald-400">₹2,000</td>
+                    <td colspan="4" class="text-center py-8 text-gray-500 italic">No referrals yet.</td>
                 </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
     <div class="p-4 border-t border-white/5 flex justify-center bg-white/[0.01]">
-        <div class="pagination">
-            <a href="#">&laquo; Prev</a>
-            <a href="#" class="active">1</a>
-            <a href="#">Next &raquo;</a>
-        </div>
+        {{ $referrals->links() }}
     </div>
 </div>
 @endsection

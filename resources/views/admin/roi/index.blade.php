@@ -63,15 +63,15 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#1f1f1f]">
-                    @forelse($incomes as $inc)
+                    @forelse($roi_history as $inc)
                     <tr>
                         <td class="px-6 py-4 font-mono text-xs text-purple-400">#ROI-{{ $inc->id }}</td>
-                        <td class="px-6 py-4 text-slate-400">{{ $inc->created_at->format('d M Y, h:i A') }}</td>
-                        <td class="px-6 py-4 font-bold text-green-400">₹{{ number_format($inc->amount, 2) }}</td>
-                        <td class="px-6 py-4">{{ $inc->user->name }}</td>
-                        <td class="px-6 py-4 text-blue-400 font-bold">{{ $inc->investment_id }}</td>
+                        <td class="px-6 py-4 text-slate-400">{{ $inc->distributed_at ? \Carbon\Carbon::parse($inc->distributed_at)->format('d M Y, h:i A') : 'N/A' }}</td>
+                        <td class="px-6 py-4 font-bold text-green-400">₹{{ number_format($inc->roi_amount, 2) }}</td>
+                        <td class="px-6 py-4">{{ $inc->investment?->user?->name ?? 'N/A' }}</td>
+                        <td class="px-6 py-4 text-blue-400 font-bold">INV-{{ $inc->investment_id }}</td>
                         <td class="px-6 py-4">
-                            <span class="badge-active text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">{{ $inc->status }}</span>
+                            <span class="badge-active text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">Completed</span>
                         </td>
                     </tr>
                     @empty
@@ -79,6 +79,9 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+        <div class="p-4 border-t border-[#1f1f1f]">
+            {{ $roi_history->links() }}
         </div>
     </div>
 </div>

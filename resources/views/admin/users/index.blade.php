@@ -34,94 +34,57 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#1f1f1f]">
-                    <!-- Sample Row 1 -->
+                    @forelse($users as $user)
                     <tr class="hover:bg-white/[0.02] transition-colors group">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 border border-[#1f1f1f] flex items-center justify-center font-bold text-slate-300">RK</div>
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 border border-[#1f1f1f] flex items-center justify-center font-bold text-slate-300">
+                                    {{ strtoupper(substr($user->name, 0, 2)) }}
+                                </div>
                                 <div class="flex flex-col">
-                                    <span class="font-bold text-slate-200">Rahul Kumar</span>
-                                    <span class="text-xs text-slate-500 italic">rahul@example.com</span>
+                                    <span class="font-bold text-slate-200">{{ $user->name }}</span>
+                                    <span class="text-xs text-slate-500 italic">{{ $user->email }}</span>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 font-mono text-purple-400 text-xs">NEXA8821</td>
-                        <td class="px-6 py-4 text-slate-400 text-xs text-center">—</td>
+                        <td class="px-6 py-4 font-mono text-purple-400 text-xs">{{ $user->referral_code ?? '—' }}</td>
+                        <td class="px-6 py-4 text-slate-400 text-xs">
+                            {{ $user->upline?->referral_code ?? '—' }}
+                        </td>
                         <td class="px-6 py-4">
-                            <span class="badge-active text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">Active</span>
+                            <span class="badge-{{ $user->status === 'active' ? 'active' : 'pending' }} text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">
+                                {{ ucfirst($user->status ?? 'pending') }}
+                            </span>
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex flex-col">
-                                <span class="font-bold">₹1,240.00</span>
+                                <span class="font-bold">₹{{ number_format($user->wallet->balance ?? 0, 2) }}</span>
                                 <span class="text-[10px] text-slate-500">Balance</span>
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-slate-400 text-xs">12 Mar 2026</td>
+                        <td class="px-6 py-4 text-slate-400 text-xs">{{ $user->created_at?->format('d M Y') }}</td>
                         <td class="px-6 py-4 text-right">
                             <div class="flex items-center justify-end gap-2">
-                                <a href="/admin/users/show" class="w-8 h-8 rounded-lg border border-[#1f1f1f] flex items-center justify-center text-slate-400 hover:text-white hover:border-purple-500 transition-all">
+                                <a href="{{ route('admin.users.show', $user->id) }}" class="w-8 h-8 rounded-lg border border-[#1f1f1f] flex items-center justify-center text-slate-400 hover:text-white hover:border-purple-500 transition-all">
                                     <i data-lucide="eye" class="w-4 h-4"></i>
                                 </a>
-                                <button class="w-8 h-8 rounded-lg border border-[#1f1f1f] flex items-center justify-center text-slate-400 hover:text-white hover:border-blue-500 transition-all">
-                                    <i data-lucide="edit-3" class="w-4 h-4"></i>
-                                </button>
-                                <button class="w-8 h-8 rounded-lg border border-[#1f1f1f] flex items-center justify-center text-slate-400 hover:text-red-500 hover:border-red-500 transition-all">
-                                    <i data-lucide="user-minus" class="w-4 h-4"></i>
-                                </button>
                             </div>
                         </td>
                     </tr>
-                    <!-- Sample Row 2 -->
-                    <tr class="hover:bg-white/[0.02] transition-colors group">
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center font-bold text-orange-500 uppercase">AS</div>
-                                <div class="flex flex-col">
-                                    <span class="font-bold text-slate-200">Amit Singh</span>
-                                    <span class="text-xs text-slate-500 italic">amit@example.com</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 font-mono text-purple-400 text-xs">NEXA9902</td>
-                        <td class="px-6 py-4 text-slate-400 text-xs">NEXA8821</td>
-                        <td class="px-6 py-4">
-                            <span class="badge-pending text-[10px] px-2 py-0.5 rounded-full uppercase font-bold text-amber-500">Pending</span>
-                        </td>
-                        <td class="px-6 py-4">
-                            <div class="flex flex-col">
-                                <span class="font-bold">₹0.00</span>
-                                <span class="text-[10px] text-slate-500">Balance</span>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 text-slate-400 text-xs">15 Mar 2026</td>
-                        <td class="px-6 py-4 text-right">
-                             <div class="flex items-center justify-end gap-2">
-                                <a href="/admin/users/show" class="w-8 h-8 rounded-lg border border-[#1f1f1f] flex items-center justify-center text-slate-400 hover:text-white hover:border-purple-500 transition-all">
-                                    <i data-lucide="eye" class="w-4 h-4"></i>
-                                </a>
-                                <button class="w-8 h-8 rounded-lg border border-[#1f1f1f] flex items-center justify-center text-slate-400 hover:text-white hover:border-blue-500 transition-all">
-                                    <i data-lucide="edit-3" class="w-4 h-4"></i>
-                                </button>
-                                <button class="w-8 h-8 rounded-lg border border-[#1f1f1f] flex items-center justify-center text-slate-400 hover:text-red-500 hover:border-red-500 transition-all">
-                                    <i data-lucide="user-minus" class="w-4 h-4"></i>
-                                </button>
-                            </div>
-                        </td>
+                    @empty
+                    <tr>
+                        <td colspan="7" class="px-6 py-12 text-center text-slate-500 italic">No users found.</td>
                     </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
         <div class="p-6 border-t border-[#1f1f1f] flex items-center justify-between">
-            <span class="text-xs text-slate-500 font-medium">Showing 1 to 2 of 1,284 users</span>
-            <div class="flex items-center gap-2">
-                <button class="w-8 h-8 rounded-lg border border-[#1f1f1f] flex items-center justify-center text-slate-500 disabled:opacity-50" disabled>
-                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
-                </button>
-                <button class="w-8 h-8 rounded-lg bg-purple-600/20 border border-purple-500/50 flex items-center justify-center text-white text-xs font-bold">1</button>
-                <button class="w-8 h-8 rounded-lg border border-[#1f1f1f] flex items-center justify-center text-slate-500 hover:bg-white/5 hover:text-white transition-all text-sm">2</button>
-                <button class="w-8 h-8 rounded-lg border border-[#1f1f1f] flex items-center justify-center text-slate-500 hover:bg-white/5 hover:text-white transition-all">
-                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                </button>
+            <span class="text-xs text-slate-500 font-medium">
+                Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} users
+            </span>
+            <div>
+                {{ $users->links() }}
             </div>
         </div>
     </div>
