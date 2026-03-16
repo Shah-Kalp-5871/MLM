@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Admin - NexaNet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --card-dark: #0f0f0f;
+            --border-dark: #1f1f1f;
+            --accent-purple: #8b5cf6;
+            --accent-blue: #3b82f6;
+            --accent-red: #ef4444;
+            --accent-green: #10b981;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-dark);
+        }
+
+        .sidebar-link {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-muted);
+        }
+
+        .sidebar-link:hover {
+            color: #ffffff;
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 3px solid var(--accent-purple);
+        }
+
+        .sidebar-link.active {
+            color: #ffffff;
+            background: rgba(139, 92, 246, 0.15);
+            border-left: 3px solid var(--accent-purple);
+        }
+
+        .stats-card {
+            background: linear-gradient(145deg, #121212, #0a0a0a);
+            border: 1px solid var(--border-dark);
+            transition: transform 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-purple);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: #1f1f1f; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2d2d2d; }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            transition: all 0.3s ease;
+        }
+
+        .btn-gradient:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .badge-pending { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); }
+        .badge-active { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
+    </style>
+</head>
+<body class="flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside class="fixed left-0 top-0 bottom-0 w-64 glass border-r border-[#1f1f1f] z-50 hidden lg:block">
+        <div class="p-6">
+            <div class="flex items-center gap-3 mb-10">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-blue-600 flex items-center justify-center">
+                    <i data-lucide="shield-check" class="text-white w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">CoreAdmin</h1>
+                    <p class="text-[10px] text-purple-400 font-bold tracking-[0.2em] uppercase">Control Suite</p>
+                </div>
+            </div>
+
+            <nav class="space-y-1">
+                <div class="text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">Main</div>
+                <a href="/admin/dashboard" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg active">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">Dashboard</span>
+                </a>
+                <a href="/admin/users" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">Users</span>
+                </a>
+                
+                <div class="pt-6 text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">Finance</div>
+                <a href="/admin/deposits" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
+                    <i data-lucide="arrow-down-to-line" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">Deposits</span>
+                    <span class="ml-auto bg-amber-500/20 text-amber-500 text-[10px] px-1.5 py-0.5 rounded-full border border-amber-500/20">8</span>
+                </a>
+                <a href="/admin/withdrawals" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
+                    <i data-lucide="arrow-up-from-line" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">Withdrawals</span>
+                </a>
+                <a href="/admin/investments" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
+                    <i data-lucide="gem" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">Investments</span>
+                </a>
+
+                <div class="pt-6 text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">Income Engines</div>
+                <a href="/admin/roi" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
+                    <i data-lucide="calendar-check" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">ROI Control</span>
+                </a>
+                <a href="/admin/level-income" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
+                    <i data-lucide="layers" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">Level Commissions</span>
+                </a>
+                
+                <div class="pt-6 text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">System</div>
+                <a href="/admin/packages" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
+                    <i data-lucide="package" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">Packages</span>
+                </a>
+                <a href="/admin/settings" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg">
+                    <i data-lucide="settings-2" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">Settings</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="lg:ml-64 flex-1 flex flex-col min-h-screen">
+        
+        <!-- Header -->
+        <header class="h-20 glass sticky top-0 z-40 border-b border-[#1f1f1f] px-4 lg:px-8 flex items-center justify-between">
+            <div class="flex items-center gap-4 lg:hidden">
+                <i data-lucide="menu" class="w-6 h-6 text-muted cursor-pointer"></i>
+                <h1 class="font-bold">CoreAdmin</h1>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-6">
+                <div class="relative group">
+                    <i data-lucide="search" class="w-4 h-4 text-muted absolute left-3 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" placeholder="Search orders, users..." class="bg-[#121212] border border-[#1f1f1f] rounded-full pl-10 pr-4 py-2 text-sm w-80 focus:outline-none focus:border-purple-600 transition-all text-muted">
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:flex flex-col items-end">
+                    <span class="text-sm font-semibold">Super Admin</span>
+                    <span class="text-[10px] text-green-500 font-bold uppercase tracking-wider flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                        Live Control
+                    </span>
+                </div>
+                <div class="w-10 h-10 rounded-xl glass flex items-center justify-center cursor-pointer border border-[#2d2d2d] group hover:border-purple-500 transition-all">
+                    <i data-lucide="bell" class="w-5 h-5 text-muted group-hover:text-white"></i>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center cursor-pointer shadow-lg shadow-purple-900/20">
+                    <span class="font-bold text-sm">SA</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Content -->
+        <div class="p-4 lg:p-8">
+            @yield('content')
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-auto p-4 lg:p-8 border-t border-[#1f1f1f] text-center">
+            <p class="text-xs text-muted">© 2026 CoreAdmin v2.1.0 — NexaNet Enterprise Suite. System Latency: 12ms.</p>
+        </footer>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, \Illuminate\Database\Eloquent\SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +22,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'role',
+        'referral_code',
+        'upline_id',
+        'status',
     ];
 
     /**
@@ -45,5 +50,50 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class);
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
+    public function upline()
+    {
+        return $this->belongsTo(User::class, 'upline_id');
+    }
+
+    public function referrals()
+    {
+        return $this->hasMany(User::class, 'upline_id');
+    }
+
+    public function investments()
+    {
+        return $this->hasMany(Investment::class);
+    }
+
+    public function deposits()
+    {
+        return $this->hasMany(Deposit::class);
+    }
+
+    public function withdrawls()
+    {
+        return $this->hasMany(Withdrawal::class);
+    }
+
+    public function clubQualification()
+    {
+        return $this->hasOne(ClubQualification::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(WalletTransaction::class);
     }
 }

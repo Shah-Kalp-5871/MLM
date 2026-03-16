@@ -1,23 +1,85 @@
-@extends('layouts.app')
+@extends('layouts.admin')
+
 @section('content')
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px">
-  <div>
-    <h2 style="font-size:1.8rem;color:var(--navy);font-weight:800;margin-bottom:8px">
-      <i class="fa-solid fa-chart-line" style="color:var(--green);margin-right:8px"></i> Distributed ROI
-    </h2>
-    <p style="color:var(--text-muted)">History of all ROI payouts across the network.</p>
-  </div>
-  <button class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Run ROI Script Menually</button>
-</div>
-<div class="card">
-  <div class="table-responsive">
-    <table>
-      <thead><tr><th>ID</th><th>User</th><th>Investment</th><th>ROI Amount</th><th>Week</th><th>Date</th></tr></thead>
-      <tbody>
-        <tr><td>1024</td><td>John Doe</td><td>$1,000</td><td>$25.00</td><td>Week 14</td><td>Oct 14, 2026</td></tr>
-        <tr><td>1025</td><td>Alice Smith</td><td>$500</td><td>$12.50</td><td>Week 14</td><td>Oct 14, 2026</td></tr>
-      </tbody>
-    </table>
-  </div>
+<div class="space-y-10">
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+            <h1 class="text-2xl font-bold tracking-tight">ROI Engine Control</h1>
+            <p class="text-slate-400 text-sm">Automate and monitor weekly profit distribution.</p>
+        </div>
+        <div class="flex items-center gap-3">
+             <form action="/admin/roi/run" method="POST">
+                @csrf
+                <button type="submit" class="btn-gradient px-8 py-3 rounded-2xl text-sm font-bold shadow-xl shadow-purple-600/20 flex items-center gap-2">
+                    <i data-lucide="play" class="w-4 h-4"></i> Execute ROI Distribution
+                </button>
+             </form>
+        </div>
+    </div>
+
+    <!-- ROI Metrics -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="glass p-6 rounded-2xl border-l-4 border-purple-600">
+            <h4 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Next Payout</h4>
+            <div class="flex items-end justify-between">
+                <span class="text-2xl font-bold">Mon, 23 Mar</span>
+                <span class="text-[10px] text-purple-400 font-bold">IN 4 DAYS</span>
+            </div>
+        </div>
+        <div class="glass p-6 rounded-2xl border-l-4 border-blue-600">
+            <h4 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Eligible Amount</h4>
+            <div class="flex items-end justify-between">
+                <span class="text-2xl font-bold">₹12,450.00</span>
+                <span class="text-[10px] text-blue-400 font-bold">84 INVESTMENTS</span>
+            </div>
+        </div>
+        <div class="glass p-6 rounded-2xl border-l-4 border-green-600">
+            <h4 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Engine Status</h4>
+            <div class="flex items-end justify-between">
+                <span class="text-2xl font-bold text-green-500">OPTIMAL</span>
+                <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Scheduler Live</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ROI History -->
+    <div class="glass rounded-3xl overflow-hidden">
+        <div class="p-6 border-b border-[#1f1f1f] flex items-center justify-between">
+            <h3 class="font-bold flex items-center gap-2">
+                <i data-lucide="history" class="w-4 h-4 text-slate-500"></i>
+                Distribution Logs
+            </h3>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-[#0c0c0c] text-slate-500 uppercase text-[10px] font-bold">
+                    <tr>
+                        <th class="px-6 py-4">Batch ID</th>
+                        <th class="px-6 py-4">Execution Date</th>
+                        <th class="px-6 py-4">Total Distributed</th>
+                        <th class="px-6 py-4">Accounts Paid</th>
+                        <th class="px-6 py-4">Level Commission Triggered</th>
+                        <th class="px-6 py-4">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-[#1f1f1f]">
+                    @forelse($incomes as $inc)
+                    <tr>
+                        <td class="px-6 py-4 font-mono text-xs text-purple-400">#ROI-{{ $inc->id }}</td>
+                        <td class="px-6 py-4 text-slate-400">{{ $inc->created_at->format('d M Y, h:i A') }}</td>
+                        <td class="px-6 py-4 font-bold text-green-400">₹{{ number_format($inc->amount, 2) }}</td>
+                        <td class="px-6 py-4">{{ $inc->user->name }}</td>
+                        <td class="px-6 py-4 text-blue-400 font-bold">{{ $inc->investment_id }}</td>
+                        <td class="px-6 py-4">
+                            <span class="badge-active text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">{{ $inc->status }}</span>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr><td colspan="6" class="px-6 py-12 text-center text-slate-500 italic">No ROI records found.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 @endsection

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="mb-8">
-    <h1 class="text-2xl font-bold text-white tracking-tight">Welcome, Kalp</h1>
+    <h1 class="text-2xl font-bold text-white tracking-tight">Welcome, {{ $user->name }}</h1>
     <p class="text-xs text-gray-400 font-medium uppercase tracking-widest mt-1">Build your network and earn passive income</p>
 </div>
 
@@ -12,28 +12,28 @@
         <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         <i data-lucide="wallet" class="w-8 h-8 text-emerald-400 mb-4 opacity-80"></i>
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Wallet Balance</p>
-        <h3 class="text-2xl font-black text-white">₹1,200.00</h3>
+        <h3 class="text-2xl font-black text-white">₹{{ number_format($stats['balance'], 2) }}</h3>
     </div>
 
     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
         <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         <i data-lucide="trending-up" class="w-8 h-8 text-purple-400 mb-4 opacity-80"></i>
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">ROI Income</p>
-        <h3 class="text-2xl font-black text-white">₹120.00</h3>
+        <h3 class="text-2xl font-black text-white">₹{{ number_format($stats['roi_earned'], 2) }}</h3>
     </div>
 
     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
         <div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         <i data-lucide="users" class="w-8 h-8 text-blue-400 mb-4 opacity-80"></i>
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Level Income</p>
-        <h3 class="text-2xl font-black text-white">₹85.00</h3>
+        <h3 class="text-2xl font-black text-white">₹{{ number_format($stats['commission_earned'], 2) }}</h3>
     </div>
 
     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group border-amber-500/20">
         <div class="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         <i data-lucide="award" class="w-8 h-8 text-amber-500 mb-4 opacity-80"></i>
-        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Club Rewards</p>
-        <h3 class="text-2xl font-black text-white">₹500 Voucher</h3>
+        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Recent Reward</p>
+        <h3 class="text-xl font-black text-white italic">Bronze Club</h3>
     </div>
 </div>
 
@@ -64,16 +64,22 @@
                 </tr>
             </thead>
             <tbody>
+                @forelse($recent_transactions as $tx)
                 <tr>
-                    <td class="font-medium text-white"><span class="px-2 py-1 rounded bg-purple-500/20 text-purple-400 text-[10px] uppercase font-bold mr-2">ROI</span> ROI Income</td>
-                    <td class="text-emerald-400 font-bold">+ ₹50.00</td>
-                    <td class="text-xs">12 Mar 2026</td>
+                    <td class="font-medium text-white">
+                        <span class="px-2 py-1 rounded bg-purple-500/20 text-purple-400 text-[10px] uppercase font-bold mr-2">{{ str_replace('_', ' ', $tx->type) }}</span> 
+                        {{ $tx->description }}
+                    </td>
+                    <td class="{{ $tx->direction == 'credit' ? 'text-emerald-400' : 'text-red-400' }} font-bold">
+                        {{ $tx->direction == 'credit' ? '+' : '-' }} ₹{{ number_format($tx->amount, 2) }}
+                    </td>
+                    <td class="text-xs text-gray-500">{{ $tx->created_at->format('d M Y') }}</td>
                 </tr>
+                @empty
                 <tr>
-                    <td class="font-medium text-white"><span class="px-2 py-1 rounded bg-blue-500/20 text-blue-400 text-[10px] uppercase font-bold mr-2">LVL</span> Level Income</td>
-                    <td class="text-emerald-400 font-bold">+ ₹20.00</td>
-                    <td class="text-xs">10 Mar 2026</td>
+                    <td colspan="3" class="text-center py-8 text-gray-500 italic">No transactions found.</td>
                 </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

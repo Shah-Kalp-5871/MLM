@@ -17,8 +17,15 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('role', 20)->default('user'); // admin, user
+            $table->unsignedBigInteger('upline_id')->nullable();
+            $table->string('referral_code', 50)->nullable()->unique();
+            $table->string('status', 20)->default('active'); // active, suspended
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
+            
+            $table->foreign('upline_id')->references('id')->on('users')->nullOnDelete();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
