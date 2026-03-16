@@ -50,8 +50,8 @@ class DashboardController extends Controller
         $registrations = User::latest()->limit(5)->get()->map(fn($i) => ['type' => 'Registration', 'user' => $i->name, 'amount' => null, 'time' => $i->created_at->diffForHumans()]);
         $roi = \App\Models\ROIIncome::with('user')->latest('distributed_at')->limit(5)->get()->map(fn($i) => ['type' => 'ROI', 'user' => $i->user->name ?? 'Guest', 'amount' => $i->roi_amount, 'time' => $i->distributed_at->diffForHumans()]);
 
-        $recent_activity = $deposits->concat($withdrawals)->concat($registrations)->concat($roi)->sortByDesc('time')->limit(10);
+        $recent_activity = $deposits->concat($withdrawals)->concat($registrations)->concat($roi)->sortByDesc('time')->take(10);
 
-        return view('admin.dashboard.index', compact('stats', 'recent_users', 'recent_deposits', 'recent_activity'));
+        return view('admin.dashboard.index', compact('stats', 'recent_users', 'recent_activity'));
     }
 }

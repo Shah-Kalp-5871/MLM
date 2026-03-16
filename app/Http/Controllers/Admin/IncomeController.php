@@ -13,7 +13,7 @@ class IncomeController extends Controller
 
     public function roiIndex()
     {
-        $incomes = ROIIncome::with(['user', 'investment'])->orderBy('created_at', 'desc')->paginate(20);
+        $incomes = ROIIncome::with(['user', 'investment'])->orderBy('distributed_at', 'desc')->paginate(20);
         return view('admin.roi.index', compact('incomes'));
     }
 

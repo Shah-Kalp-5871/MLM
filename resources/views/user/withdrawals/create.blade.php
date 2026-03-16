@@ -1,4 +1,4 @@
-﻿@extends('layouts.user')
+@extends('layouts.user')
 
 @section('content')
 <div class="mb-8 flex justify-between items-center text-white">
@@ -23,7 +23,7 @@
 
     <!-- Form -->
     <div class="glass-panel rounded-3xl p-10 border border-white/5 shadow-2xl relative overflow-hidden group">
-        <form class="space-y-8 relative z-10" action="{{ route('withdraw.store') }}" method="POST">
+        <form id="withdrawalForm" class="space-y-8 relative z-10" action="{{ route('withdraw.store') }}" method="POST" onsubmit="return confirmWithdrawal()">
             @csrf
             <div class="space-y-6">
                 <div>
@@ -59,4 +59,15 @@
         <p class="text-[11px] text-gray-400 leading-relaxed">Please ensure your destination details are correct. Settlements may take up to 24-48 business hours. <br> <span class="text-white font-bold underline">Vouchers cannot be withdrawn.</span></p>
     </div>
 </div>
+</div>
+
+<script>
+function confirmWithdrawal() {
+    const amount = document.querySelector('input[name="amount"]').value;
+    const method = document.querySelector('select[name="payment_method"]').value;
+    const address = document.querySelector('input[name="wallet_address"]').value;
+    
+    return confirm(`Are you sure you want to withdraw ${amount} to your ${method} account (${address})?\n\nThis action cannot be undone.`);
+}
+</script>
 @endsection

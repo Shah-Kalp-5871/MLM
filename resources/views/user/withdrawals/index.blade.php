@@ -1,4 +1,4 @@
-﻿@extends('layouts.user')
+@extends('layouts.user')
 
 @section('content')
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
@@ -9,16 +9,6 @@
     <a href="{{ route('withdraw.create') }}" class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-emerald-900/40 text-center">Request Withdrawal</a>
 </div>
 
-<!-- Special Note on Vouchers -->
-<div class="glass-panel p-4 rounded-xl mb-8 border border-amber-500/20 bg-amber-500/5 flex items-start gap-4">
-    <div class="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center flex-shrink-0">
-        <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-500"></i>
-    </div>
-    <div>
-        <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-1">Notice: Club Vouchers</h4>
-        <p class="text-[11px] text-gray-400">Club Milestone rewards are issued as vouchers for platform reinvestment and purchases. Unlike ROI or Level Income, <span class="text-amber-500 font-bold">vouchers cannot be withdrawn as cash.</span></p>
-    </div>
-</div>
 
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
     <div class="glass-panel p-6 rounded-2xl bg-[#0a0f18] border border-emerald-500/20">

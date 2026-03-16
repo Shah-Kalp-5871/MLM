@@ -8,7 +8,7 @@ return new class extends Migration {
         Schema::create('investments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('package_id')->constrained('packages');
+
             $table->decimal('amount', 15, 2);
             $table->decimal('daily_roi_percentage', 5, 2);
             $table->decimal('total_roi_earned', 15, 2)->default(0);

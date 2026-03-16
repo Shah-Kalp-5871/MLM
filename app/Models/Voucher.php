@@ -10,30 +10,20 @@ class Voucher extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'code',
-        'value',
-        'club_reward_id',
-        'status', // unused, assigned, redeemed, expired
-        'expires_at',
-        'created_by',
+        'amount',
+        'type',
+        'status',
+        'used_at',
     ];
 
     protected $casts = [
-        'expires_at' => 'datetime',
+        'used_at' => 'datetime',
     ];
 
     public function user()
     {
-        return $this->hasOneThrough(User::class, VoucherAssignment::class, 'voucher_id', 'id', 'id', 'user_id');
-    }
-
-    public function assignment()
-    {
-        return $this->hasOne(VoucherAssignment::class);
-    }
-
-    public function clubReward()
-    {
-        return $this->belongsTo(ClubReward::class);
+        return $this->belongsTo(User::class);
     }
 }

@@ -28,42 +28,49 @@ class WithdrawalController extends Controller
     public function store(Request $request)
     {
         $user = auth()->user();
-        $wallet = $user->wallet;
-
+        
         $request->validate([
-            'amount' => 'required|numeric|min:10', // Example min withdrawal
+            'amount' => 'required|numeric|min:10', 
             'payment_method' => 'required|string',
             'wallet_address' => 'required|string',
         ]);
 
-        if ($wallet->balance < $request->amount) {
-            return back()->with('error', 'Insufficient balance in wallet.');
+        try {
+            DB::transaction(function () use ($user, $request) {
+                // 1. Lock Wallet row for update
+                $wallet = Wallet::where('user_id', $user->id)->lockForUpdate()->firstOrFail();
+
+                if ($wallet->balance < $request->amount) {
+                    throw new \Exception('Insufficient balance in wallet.');
+                }
+
+                // 1. Create Withdrawal Record
+                Withdrawal::create([
+                    'user_id' => $user->id,
+                    'amount' => $request->amount,
+                    'method' => $request->payment_method,
+                    'status' => 'pending',
+                    'admin_note' => 'Withdrawal request to ' . $request->wallet_address,
+                ]);
+
+                // 2. Deduct from Wallet
+                $wallet->decrement('balance', $request->amount);
+                $wallet->increment('total_withdrawn', $request->amount);
+
+                // 3. Log Transaction
+                $user->transactions()->create([
+                    'amount' => $request->amount,
+                    'type' => 'withdrawal',
+                    'wallet' => 'cash',
+                    'direction' => 'debit',
+                    'balance_after' => $wallet->balance,
+                    'description' => "Withdrawal request of " . (\App\Models\Setting::where('key', 'platform_currency_symbol')->value('value') ?? '$') . number_format($request->amount, 2),
+                ]);
+            });
+
+            return redirect()->route('withdraw.create')->with('success', 'Withdrawal request submitted successfully.');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
-
-        DB::transaction(function () use ($user, $wallet, $request) {
-            // 1. Create Withdrawal Record
-            Withdrawal::create([
-                'user_id' => $user->id,
-                'amount' => $request->amount,
-                'method' => $request->payment_method,
-                'status' => 'pending',
-                'admin_note' => 'Withdrawal request to ' . $request->wallet_address,
-            ]);
-
-            // 2. Deduct from Wallet
-            $wallet->decrement('balance', $request->amount);
-            $wallet->increment('total_withdrawn', $request->amount);
-
-            // 3. Log Transaction
-            $user->transactions()->create([
-                'amount' => $request->amount,
-                'type' => 'withdrawal',
-                'direction' => 'debit',
-                'balance_after' => $wallet->balance,
-                'description' => "Withdrawal request of " . (\App\Models\Setting::where('key', 'platform_currency_symbol')->value('value') ?? '$') . number_format($request->amount, 2),
-            ]);
-        });
-
-        return redirect()->route('withdraw.create')->with('success', 'Withdrawal request submitted successfully.');
     }
 }

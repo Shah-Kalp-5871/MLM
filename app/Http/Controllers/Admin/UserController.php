@@ -37,10 +37,10 @@ class UserController extends Controller
         // Combined Earnings Table
         $earnings = collect();
         foreach($stats['roi_income_breakdown'] as $roi) {
-            $earnings->push(['type' => 'ROI', 'amount' => $roi->roi_amount, 'from' => 'System', 'id' => $roi->investment_id, 'date' => $roi->distributed_at]);
+            $earnings->push((object)['type' => 'ROI', 'amount' => $roi->roi_amount, 'from' => 'System', 'id' => $roi->investment_id, 'date' => $roi->distributed_at]);
         }
         foreach($stats['commission_breakdown'] as $com) {
-            $earnings->push(['type' => 'Level Commission', 'amount' => $com->commission_amount, 'from' => $com->fromUser->name ?? 'User', 'id' => null, 'date' => $com->created_at]);
+            $earnings->push((object)['type' => 'Level Commission', 'amount' => $com->commission_amount, 'from' => $com->fromUser->name ?? 'User', 'id' => null, 'date' => $com->created_at]);
         }
         $earnings = $earnings->sortByDesc('date');
 

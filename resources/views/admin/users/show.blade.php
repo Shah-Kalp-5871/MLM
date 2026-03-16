@@ -147,23 +147,23 @@
                     @forelse($earnings as $earn)
                     <tr class="hover:bg-white/[0.02] transition-colors">
                         <td class="px-8 py-5">
-                            <span class="font-black uppercase text-[10px] tracking-tighter px-3 py-1 rounded-lg {{ $earn['type'] == 'ROI' ? 'bg-amber-500/10 text-amber-500 border border-amber-500/20' : 'bg-purple-600/10 text-purple-400 border border-purple-600/20' }}">
-                                {{ $earn['type'] }}
+                            <span class="font-black uppercase text-[10px] tracking-tighter px-3 py-1 rounded-lg {{ $earn->type == 'ROI' ? 'bg-amber-500/10 text-amber-500 border border-amber-500/20' : 'bg-purple-600/10 text-purple-400 border border-purple-600/20' }}">
+                                {{ $earn->type }}
                             </span>
                         </td>
                         <td class="px-8 py-5 font-black text-slate-200">
-                            {{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($earn['amount'], 2) }}
+                            {{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($earn->amount, 2) }}
                         </td>
                         <td class="px-8 py-5">
-                            <span class="text-slate-400 font-medium italic">{{ $earn['from'] }}</span>
+                            <span class="text-slate-400 font-medium italic">{{ $earn->from }}</span>
                         </td>
                         <td class="px-8 py-5">
                             <span class="text-xs font-mono text-slate-500">
-                                {{ $earn['id'] ? '#INV-' . str_pad($earn['id'], 5, '0', STR_PAD_LEFT) : '—' }}
+                                {{ $earn->id ? '#INV-' . str_pad($earn->id, 5, '0', STR_PAD_LEFT) : '—' }}
                             </span>
                         </td>
                         <td class="px-8 py-5 text-right text-xs text-slate-500 font-bold uppercase">
-                            {{ $earn['date']->format('d M y • H:i') }}
+                            {{ $earn->date->format('d M y • H:i') }}
                         </td>
                     </tr>
                     @empty

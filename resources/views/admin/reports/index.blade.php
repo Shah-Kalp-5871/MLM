@@ -1,4 +1,4 @@
-﻿@extends('layouts.admin')
+@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-10">
@@ -76,16 +76,6 @@
                     <div class="bg-blue-500 h-full w-[{{ $stats['payouts']['level'] }}%]"></div>
                 </div>
 
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <div class="w-3 h-3 rounded-full bg-amber-500"></div>
-                        <span class="text-xs text-slate-300">Club Vouchers Issued</span>
-                    </div>
-                    <span class="text-xs font-bold text-slate-200">{{ $stats['payouts']['vouchers'] }}%</span>
-                </div>
-                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                    <div class="bg-amber-500 h-full w-[{{ $stats['payouts']['vouchers'] }}%]"></div>
-                </div>
             </div>
         </div>
 

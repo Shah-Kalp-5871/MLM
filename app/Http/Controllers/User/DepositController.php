@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\Package;
 use App\Models\Deposit;
 use App\Services\InvestmentService;
 use Illuminate\Http\Request;
@@ -21,14 +20,14 @@ class DepositController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'package_id' => 'required|exists:packages,id',
             'amount' => 'required|numeric|min:1',
             'payment_method' => 'required|string',
             'transaction_hash' => 'nullable|string',
             'payment_proof' => 'nullable|image|max:2048',
         ]);
 
-        $data = $request->only(['package_id', 'amount', 'payment_method', 'transaction_hash']);
+        $data = $request->only(['amount', 'payment_method', 'transaction_hash']);
+
 
         if ($request->hasFile('payment_proof')) {
             $path = $request->file('payment_proof')->store('deposits', 'public');

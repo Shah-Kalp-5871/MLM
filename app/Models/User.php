@@ -27,6 +27,8 @@ class User extends Authenticatable
         'referral_code',
         'upline_id',
         'status',
+        'direct_business',
+        'team_business',
     ];
 
     /**
@@ -82,14 +84,9 @@ class User extends Authenticatable
         return $this->hasMany(Deposit::class);
     }
 
-    public function withdrawls()
+    public function withdrawals()
     {
         return $this->hasMany(Withdrawal::class);
-    }
-
-    public function clubQualification()
-    {
-        return $this->hasOne(ClubQualification::class);
     }
 
     public function transactions()
@@ -99,6 +96,7 @@ class User extends Authenticatable
 
     public function vouchers()
     {
-        return $this->belongsToMany(Voucher::class, 'voucher_assignments', 'user_id', 'voucher_id');
+        return $this->hasMany(Voucher::class);
     }
 }
+

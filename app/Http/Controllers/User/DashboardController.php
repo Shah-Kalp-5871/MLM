@@ -36,6 +36,8 @@ class DashboardController extends Controller
             'weekly_roi'       => $weeklyRoi,
             'team_size'        => $teamSize,
             'direct_referrals' => $directReferrals,
+            'direct_business'  => $user->direct_business,
+            'team_business'    => $user->team_business,
         ];
 
         $recent_transactions = $user->transactions()->orderBy('created_at', 'desc')->limit(5)->get();

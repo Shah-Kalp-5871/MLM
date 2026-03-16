@@ -12,7 +12,6 @@ class Investment extends Model
 
     protected $fillable = [
         'user_id',
-        'package_id',
         'amount',
         'daily_roi_percentage',
         'total_roi_earned',
@@ -31,10 +30,7 @@ class Investment extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function package()
-    {
-        return $this->belongsTo(Package::class);
-    }
+
 
     public function roiIncomes()
     {

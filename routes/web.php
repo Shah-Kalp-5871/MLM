@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\DashboardController;
-use App\Http\Controllers\User\PackageController;
 use App\Http\Controllers\User\InvestmentController as UserInvestmentController;
 use App\Http\Controllers\User\DepositController;
 use App\Http\Controllers\User\WalletController;
@@ -11,7 +10,6 @@ use App\Http\Controllers\User\ReferralController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\LevelIncomeController;
 use App\Http\Controllers\User\ROIController;
-use App\Http\Controllers\User\ClubRewardController;
 use App\Http\Controllers\User\EarningsController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
@@ -20,7 +18,6 @@ use App\Http\Controllers\Admin\WithdrawalController as AdminWithdrawalController
 use App\Http\Controllers\Admin\InvestmentController as AdminInvestmentController;
 use App\Http\Controllers\Admin\ROIController as AdminROIController;
 use App\Http\Controllers\Admin\LevelCommissionController as AdminCommissionController;
-use App\Http\Controllers\Admin\ClubRewardController as AdminClubController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\NetworkController as AdminNetworkController;
 
@@ -40,7 +37,6 @@ Route::get('/test-mail', function () {
 // User Routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
     // Investments
     Route::get('/investments', [UserInvestmentController::class, 'index'])->name('investments.index');
     Route::get('/invest', [UserInvestmentController::class, 'create'])->name('invest.create');
@@ -58,10 +54,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/team', [ReferralController::class, 'team'])->name('team.index');
     Route::get('/level-income', [LevelIncomeController::class, 'index'])->name('level-income.index');
     Route::get('/roi', [ROIController::class, 'index'])->name('roi.index');
-    Route::get('/club-rewards', [ClubRewardController::class, 'index'])->name('club-rewards.index');
     Route::get('/earnings', [EarningsController::class, 'index'])->name('earnings.index');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    
+    // Club & Vouchers
+    Route::get('/club', [App\Http\Controllers\User\ClubController::class, 'index'])->name('club.index');
+    Route::get('/vouchers', [App\Http\Controllers\User\VoucherController::class, 'index'])->name('vouchers.index');
 });
 
 Route::get('/admin', function () {
@@ -78,7 +77,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 // Admin Routes (Protected)
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-    Route::resource('vouchers', \App\Http\Controllers\Admin\VoucherController::class);
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [AdminUserController::class, 'show'])->name('users.show');
     Route::get('/users/{id}/edit', [AdminUserController::class, 'edit'])->name('users.edit');
@@ -94,17 +92,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     
     Route::get('/investments', [AdminInvestmentController::class, 'index'])->name('investments.index');
     
-    Route::get('/roi', [AdminROIController::class, 'index'])->name('roi.index');
-    Route::post('/roi/run', [AdminROIController::class, 'run'])->name('roi.run');
+    Route::get('/roi', [\App\Http\Controllers\Admin\IncomeController::class, 'roiIndex'])->name('roi.index');
+    Route::post('/roi/run', [\App\Http\Controllers\Admin\IncomeController::class, 'runROI'])->name('roi.run');
     
-    Route::get('/commissions', [AdminCommissionController::class, 'index'])->name('commissions.index');
-    Route::get('/clubs', [AdminClubController::class, 'index'])->name('clubs.index');
+    Route::get('/commissions', [\App\Http\Controllers\Admin\IncomeController::class, 'levelIndex'])->name('commissions.index');
+    
     Route::get('/level-settings', [\App\Http\Controllers\Admin\LevelSettingController::class, 'index'])->name('level-settings.index');
     Route::post('/level-settings', [\App\Http\Controllers\Admin\LevelSettingController::class, 'update'])->name('level-settings.update');
-    Route::get('/club-milestones', [\App\Http\Controllers\Admin\ClubMilestoneController::class, 'index'])->name('club-milestones.index');
-    Route::post('/club-milestones', [\App\Http\Controllers\Admin\ClubMilestoneController::class, 'store'])->name('club-milestones.store');
-    Route::put('/club-milestones/{id}', [\App\Http\Controllers\Admin\ClubMilestoneController::class, 'update'])->name('club-milestones.update');
-    Route::get('/activity-logs', [\App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('activity-logs.index');
+    
     Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
     Route::get('/settings', [AdminSettingsController::class, 'settings'])->name('settings');
     Route::post('/settings', [AdminSettingsController::class, 'update'])->name('settings.update');

@@ -25,19 +25,18 @@ class ReportController extends Controller
                 ->where('created_at', '>=', Carbon::now()->subDays(30))
                 ->sum('amount') / 30,
             'retention_rate' => $total_users > 0 ? round((Investment::where('status', 'active')->distinct('user_id')->count() / $total_users) * 100, 1) : 0,
-            'total_payouts' => \App\Models\ROIIncome::sum('amount') + \App\Models\LevelCommission::sum('amount'),
+            'total_payouts' => \App\Models\ROIIncome::sum('roi_amount') + \App\Models\LevelCommission::sum('commission_amount'),
         ];
 
         // Payout Composition
-        $roi_total = \App\Models\ROIIncome::sum('amount') ?: 1;
-        $level_total = \App\Models\LevelCommission::sum('amount') ?: 0;
-        $voucher_total = \App\Models\Voucher::sum('value') ?: 0;
-        $grand_total = $roi_total + $level_total + $voucher_total;
+        $roi_total = \App\Models\ROIIncome::sum('roi_amount') ?: 1;
+        $level_total = \App\Models\LevelCommission::sum('commission_amount') ?: 0;
+        $grand_total = $roi_total + $level_total;
 
         $stats['payouts'] = [
             'roi' => round(($roi_total / $grand_total) * 100),
             'level' => round(($level_total / $grand_total) * 100),
-            'vouchers' => round(($voucher_total / $grand_total) * 100),
+            'vouchers' => 0,
         ];
 
         // Top leaders by team size (standard MLM metric)
