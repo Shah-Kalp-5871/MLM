@@ -12,35 +12,41 @@
         <p class="text-xs text-gray-500 font-medium uppercase tracking-widest mt-2">Create your account to start earning</p>
     </div>
 
-    <form action="/auth/login" class="relative z-10">
+    <form action="{{ route('register') }}" method="POST" class="relative z-10">
+        @csrf
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
             <div>
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Full Name</label>
-                <input type="text" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm" placeholder="John Doe">
+                <input type="text" name="name" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm" placeholder="John Doe" required value="{{ old('name') }}">
+                @error('name') <span class="text-rose-500 text-[10px] mt-1 ml-1">{{ $message }}</span> @enderror
             </div>
             <div>
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Phone Number</label>
-                <input type="text" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm" placeholder="+91 98765 43210">
+                <input type="text" name="phone" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm" placeholder="+91 98765 43210" required value="{{ old('phone') }}">
+                @error('phone') <span class="text-rose-500 text-[10px] mt-1 ml-1">{{ $message }}</span> @enderror
             </div>
         </div>
 
         <div class="space-y-5 mb-8">
             <div>
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Email Address</label>
-                <input type="email" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm" placeholder="name@company.com">
+                <input type="email" name="email" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm" placeholder="name@company.com" required value="{{ old('email') }}">
+                @error('email') <span class="text-rose-500 text-[10px] mt-1 ml-1">{{ $message }}</span> @enderror
             </div>
             <div>
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Referral Code (Optional)</label>
-                <input type="text" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm font-mono text-purple-300" placeholder="REF-XXXX-XXXX">
+                <input type="text" name="referral_code" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm font-mono text-purple-300" placeholder="REF-XXXX-XXXX" value="{{ old('referral_code') }}">
+                @error('referral_code') <span class="text-rose-500 text-[10px] mt-1 ml-1">{{ $message }}</span> @enderror
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Password</label>
-                    <input type="password" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm" placeholder="••••••••">
+                    <input type="password" name="password" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm" placeholder="••••••••" required>
+                    @error('password') <span class="text-rose-500 text-[10px] mt-1 ml-1">{{ $message }}</span> @enderror
                 </div>
                 <div>
                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Confirm</label>
-                    <input type="password" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm" placeholder="••••••••">
+                    <input type="password" name="password_confirmation" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm" placeholder="••••••••" required>
                 </div>
             </div>
         </div>

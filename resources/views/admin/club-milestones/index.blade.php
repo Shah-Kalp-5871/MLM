@@ -27,42 +27,45 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#1f1f1f]">
-                    <!-- Tier 1 -->
+                    @forelse($milestones as $m)
                     <tr class="hover:bg-amber-500/[0.03] transition-colors group">
-                        <td class="px-8 py-5">
-                            <span class="text-xs font-black text-slate-500">#01</span>
-                        </td>
-                        <td class="px-8 py-5">
-                            <input type="text" value="Bronze Club" class="bg-[#0c0c0c] border border-[#1f1f1f] rounded-xl px-4 py-2 text-sm font-black focus:border-amber-500 outline-none text-amber-500 uppercase italic tracking-tighter">
-                        </td>
-                        <td class="px-8 py-5">
-                             <div class="relative w-32">
-                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[10px] font-bold">₹</span>
-                                <input type="number" value="5000" class="w-full bg-[#0c0c0c] border border-[#1f1f1f] rounded-xl pl-6 pr-3 py-2 text-sm font-bold focus:border-amber-500 outline-none text-slate-200">
-                            </div>
-                        </td>
-                         <td class="px-8 py-5">
-                             <div class="relative w-32">
-                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[10px] font-bold">₹</span>
-                                <input type="number" value="15000" class="w-full bg-[#0c0c0c] border border-[#1f1f1f] rounded-xl pl-6 pr-3 py-2 text-sm font-bold focus:border-amber-500 outline-none text-slate-200">
-                            </div>
-                        </td>
-                        <td class="px-8 py-5">
-                            <div class="relative w-32">
-                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[10px] font-bold">₹</span>
-                                <input type="number" value="500" class="w-full bg-[#0c0c0c] border border-[#1f1f1f] rounded-xl pl-6 pr-3 py-2 text-sm font-bold focus:border-amber-500 outline-none text-green-500">
-                            </div>
-                        </td>
-                        <td class="px-8 py-5 text-right">
-                             <button class="text-slate-500 hover:text-white transition-all"><i data-lucide="save" class="w-4 h-4"></i></button>
-                        </td>
+                        <form action="{{ route('admin.club-milestones.update', $m->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <td class="px-8 py-5">
+                                <span class="text-xs font-black text-slate-500">#{{ str_pad($m->tier, 2, '0', STR_PAD_LEFT) }}</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <input type="text" name="name" value="{{ $m->name }}" class="bg-[#0c0c0c] border border-[#1f1f1f] rounded-xl px-4 py-2 text-sm font-black focus:border-amber-500 outline-none text-amber-500 uppercase italic tracking-tighter">
+                            </td>
+                            <td class="px-8 py-5">
+                                 <div class="relative w-32">
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[10px] font-bold">₹</span>
+                                    <input type="number" name="direct_business_target" value="{{ $m->direct_business_target }}" class="w-full bg-[#0c0c0c] border border-[#1f1f1f] rounded-xl pl-6 pr-3 py-2 text-sm font-bold focus:border-amber-500 outline-none text-slate-200">
+                                </div>
+                            </td>
+                             <td class="px-8 py-5">
+                                 <div class="relative w-32">
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[10px] font-bold">₹</span>
+                                    <input type="number" name="team_business_target" value="{{ $m->team_business_target }}" class="w-full bg-[#0c0c0c] border border-[#1f1f1f] rounded-xl pl-6 pr-3 py-2 text-sm font-bold focus:border-amber-500 outline-none text-slate-200">
+                                </div>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="relative w-32">
+                                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[10px] font-bold">₹</span>
+                                    <input type="number" name="voucher_value" value="{{ $m->voucher_value }}" class="w-full bg-[#0c0c0c] border border-[#1f1f1f] rounded-xl pl-6 pr-3 py-2 text-sm font-bold focus:border-amber-500 outline-none text-green-500">
+                                </div>
+                            </td>
+                            <td class="px-8 py-5 text-right">
+                                 <button type="submit" class="text-slate-500 hover:text-white transition-all"><i data-lucide="save" class="w-4 h-4"></i></button>
+                            </td>
+                        </form>
                     </tr>
-                    <!-- More tiers... -->
+                    @empty
                     <tr>
-                         <td colspan="6" class="px-8 py-4 text-center bg-[#0c0c0c]">
-                             <p class="text-[10px] text-slate-600 font-bold uppercase tracking-widest italic tracking-tighter">Tiers 2 to 7 (Silver → Crown) configured with progressive targets</p>
-                         </td>
+                        <td colspan="6" class="px-8 py-12 text-center text-slate-500 font-bold">No milestones configured yet.</td>
                     </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

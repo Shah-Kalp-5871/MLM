@@ -12,20 +12,24 @@
         <p class="text-xs text-gray-500 font-medium uppercase tracking-widest mt-2">Login to manage your earnings</p>
     </div>
 
-    <form action="/user/dashboard" class="relative z-10">
+    <form action="{{ route('login') }}" method="POST" class="relative z-10">
+        @csrf
         <div class="space-y-5 mb-8">
             <div>
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Email Address</label>
                 <div class="relative">
                     <i data-lucide="mail" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500"></i>
-                    <input type="email" class="auth-input w-full pl-12 pr-4 py-3.5 rounded-xl text-sm" placeholder="name@company.com" value="user@example.com">
+                    <input type="email" name="email" class="auth-input w-full pl-12 pr-4 py-3.5 rounded-xl text-sm" placeholder="name@company.com" required>
                 </div>
+                @error('email')
+                    <span class="text-rose-500 text-[10px] mt-1 ml-1">{{ $message }}</span>
+                @enderror
             </div>
             <div>
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Password</label>
                 <div class="relative">
                     <i data-lucide="lock" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500"></i>
-                    <input type="password" class="auth-input w-full pl-12 pr-4 py-3.5 rounded-xl text-sm" placeholder="••••••••" value="password">
+                    <input type="password" name="password" class="auth-input w-full pl-12 pr-4 py-3.5 rounded-xl text-sm" placeholder="••••••••" required>
                 </div>
             </div>
         </div>

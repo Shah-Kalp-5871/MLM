@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\DB;
 
 class WithdrawalController extends Controller
 {
+    public function index()
+    {
+        $user = auth()->user();
+        $wallet = $user->wallet;
+        $withdrawals = $user->withdrawls()->orderBy('created_at', 'desc')->paginate(15);
+        return view('user.withdrawals.index', compact('wallet', 'withdrawals'));
+    }
+
     public function create()
     {
         $wallet = auth()->user()->wallet;

@@ -11,25 +11,29 @@
     <div class="glass-panel rounded-2xl p-8 border hover:border-purple-500/30 transition-colors">
         <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2"><i data-lucide="user" class="w-4 h-4 text-purple-400"></i> Personal Information</h2>
         
-        <form class="flex flex-col gap-5">
+        <form action="{{ route('profile.update') }}" method="POST" class="flex flex-col gap-5">
+            @csrf
+            @method('PUT')
             <div>
                 <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Full Name</label>
-                <input type="text" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-purple-500 focus:outline-none transition-colors" value="Kalp Shah">
+                <input type="text" name="name" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-purple-500 focus:outline-none transition-colors" value="{{ old('name', $user->name) }}">
+                @error('name') <span class="text-rose-500 text-[10px] mt-1">{{ $message }}</span> @enderror
             </div>
             <div>
                 <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Email Address</label>
-                <input type="email" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-purple-500 focus:outline-none transition-colors" value="kalp@example.com" disabled>
+                <input type="email" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-purple-500 focus:outline-none transition-colors" value="{{ $user->email }}" disabled>
                 <p class="text-[10px] text-gray-500 mt-1">Contact support to change email.</p>
             </div>
             <div>
                 <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Phone Number</label>
-                <input type="text" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-purple-500 focus:outline-none transition-colors" value="+91 9876543210">
+                <input type="text" name="phone" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-purple-500 focus:outline-none transition-colors" value="{{ old('phone', $user->phone) }}">
+                @error('phone') <span class="text-rose-500 text-[10px] mt-1">{{ $message }}</span> @enderror
             </div>
             <div>
                 <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Withdrawal Wallet Address / UPI</label>
-                <input type="text" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-purple-300 font-mono text-xs focus:border-purple-500 focus:outline-none transition-colors" value="kalp@upi">
+                <input type="text" name="wallet_address" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-purple-300 font-mono text-xs focus:border-purple-500 focus:outline-none transition-colors" value="{{ old('wallet_address', $profile->wallet_address ?? '') }}">
             </div>
-            <button type="button" class="mt-4 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-900/40 self-start">Update Profile</button>
+            <button type="submit" class="mt-4 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-900/40 self-start">Update Profile</button>
         </form>
     </div>
 
@@ -37,20 +41,21 @@
     <div class="glass-panel rounded-2xl p-8 border hover:border-emerald-500/30 transition-colors self-start">
         <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4 text-emerald-400"></i> Password & Security</h2>
         
-        <form class="flex flex-col gap-5">
-            <div>
-                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Current Password</label>
-                <input type="password" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-emerald-500 focus:outline-none transition-colors" placeholder="••••••••">
-            </div>
+        <form action="{{ route('profile.update') }}" method="POST" class="flex flex-col gap-5">
+            @csrf
+            @method('PUT')
+            <!-- Hidden name/phone to satisfy validation if needed, or just rely on existing logic -->
+            <input type="hidden" name="name" value="{{ $user->name }}">
             <div>
                 <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">New Password</label>
-                <input type="password" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-emerald-500 focus:outline-none transition-colors" placeholder="••••••••">
+                <input type="password" name="password" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-emerald-500 focus:outline-none transition-colors" placeholder="••••••••">
+                @error('password') <span class="text-rose-500 text-[10px] mt-1">{{ $message }}</span> @enderror
             </div>
             <div>
                 <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Confirm New Password</label>
-                <input type="password" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-emerald-500 focus:outline-none transition-colors" placeholder="••••••••">
+                <input type="password" name="password_confirmation" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-emerald-500 focus:outline-none transition-colors" placeholder="••••••••">
             </div>
-            <button type="button" class="mt-4 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white text-xs font-bold uppercase tracking-wider transition-all self-start">Change Password</button>
+            <button type="submit" class="mt-4 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white text-xs font-bold uppercase tracking-wider transition-all self-start">Change Password</button>
         </form>
     </div>
 </div>

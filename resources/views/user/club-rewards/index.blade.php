@@ -30,19 +30,30 @@
 
 <!-- Qualification Progress -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+    @php
+        $directTarget = $nextMilestone->direct_business_target ?? 0;
+        $teamTarget = $nextMilestone->team_business_target ?? 0;
+        $directPercent = $directTarget > 0 ? min(100, ($directBusiness / $directTarget) * 100) : 100;
+        $teamPercent = $teamTarget > 0 ? min(100, ($teamBusiness / $teamTarget) * 100) : 100;
+    @endphp
+    
     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
         <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         <div class="flex justify-between items-end mb-4">
             <div>
                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Direct Business</p>
-                <h3 class="text-xl font-black text-white">₹7,000 / <span class="text-gray-500 text-sm">₹10,000</span></h3>
+                <h3 class="text-xl font-black text-white">₹{{ number_format($directBusiness, 2) }} / <span class="text-gray-500 text-sm">₹{{ number_format($directTarget, 2) }}</span></h3>
             </div>
-            <span class="text-xs font-bold text-emerald-400">70%</span>
+            <span class="text-xs font-bold text-emerald-400">{{ round($directPercent) }}%</span>
         </div>
         <div class="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-            <div class="h-full bg-gradient-to-r from-emerald-600 to-teal-400 w-[70%] rounded-full shadow-[0_0_10px_rgba(16,185,129,0.3)]"></div>
+            <div class="h-full bg-gradient-to-r from-emerald-600 to-teal-400 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.3)]" style="width: {{ $directPercent }}%"></div>
         </div>
-        <p class="text-[10px] text-gray-500 mt-3 font-medium italic">₹3,000 more needed from direct referrals</p>
+        @if($directTarget > $directBusiness)
+        <p class="text-[10px] text-gray-500 mt-3 font-medium italic">₹{{ number_format($directTarget - $directBusiness, 2) }} more needed from direct referrals</p>
+        @else
+        <p class="text-[10px] text-emerald-500 mt-3 font-medium italic">Target achieved for {{ $nextMilestone->name ?? 'next level' }}!</p>
+        @endif
     </div>
     
     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
@@ -50,14 +61,18 @@
         <div class="flex justify-between items-end mb-4">
             <div>
                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Team Business</p>
-                <h3 class="text-xl font-black text-white">₹20,000 / <span class="text-gray-500 text-sm">₹40,000</span></h3>
+                <h3 class="text-xl font-black text-white">₹{{ number_format($teamBusiness, 2) }} / <span class="text-gray-500 text-sm">₹{{ number_format($teamTarget, 2) }}</span></h3>
             </div>
-            <span class="text-xs font-bold text-purple-400">50%</span>
+            <span class="text-xs font-bold text-purple-400">{{ round($teamPercent) }}%</span>
         </div>
         <div class="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-            <div class="h-full bg-gradient-to-r from-purple-600 to-indigo-400 w-[50%] rounded-full shadow-[0_0_10px_rgba(147,51,234,0.3)]"></div>
+            <div class="h-full bg-gradient-to-r from-purple-600 to-indigo-400 rounded-full shadow-[0_0_10px_rgba(147,51,234,0.3)]" style="width: {{ $teamPercent }}%"></div>
         </div>
-        <p class="text-[10px] text-gray-500 mt-3 font-medium italic">₹20,000 more needed from your entire network</p>
+        @if($teamTarget > $teamBusiness)
+        <p class="text-[10px] text-gray-500 mt-3 font-medium italic">₹{{ number_format($teamTarget - $teamBusiness, 2) }} more needed from your entire network</p>
+        @else
+        <p class="text-[10px] text-purple-500 mt-3 font-medium italic">Target achieved for {{ $nextMilestone->name ?? 'next level' }}!</p>
+        @endif
     </div>
 </div>
 
@@ -77,21 +92,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="bg-white/[0.02]">
-                        <td class="font-bold text-white">Silver</td>
-                        <td class="text-xs text-gray-400">5k + 15k</td>
-                        <td class="font-bold text-amber-500 text-xs">₹500 Voucher</td>
+                    @foreach($milestones as $milestone)
+                    <tr class="{{ $directBusiness >= $milestone->direct_business_target && $teamBusiness >= $milestone->team_business_target ? 'bg-emerald-500/5' : '' }}">
+                        <td class="font-bold text-white">{{ $milestone->name }}</td>
+                        <td class="text-xs text-gray-400">₹{{ number_format($milestone->direct_business_target / 1000, 0) }}k + ₹{{ number_format($milestone->team_business_target / 1000, 0) }}k</td>
+                        <td class="font-bold text-amber-500 text-xs">₹{{ number_format($milestone->voucher_value) }} Voucher</td>
                     </tr>
-                    <tr>
-                        <td class="font-bold text-white">Gold</td>
-                        <td class="text-xs text-gray-400">10k + 40k</td>
-                        <td class="font-bold text-amber-500 text-xs">₹2,000 Voucher</td>
-                    </tr>
-                    <tr>
-                        <td class="font-bold text-white">Platinum</td>
-                        <td class="text-xs text-gray-400">20k + 100k</td>
-                        <td class="font-bold text-amber-500 text-xs">₹2,500 Voucher</td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -112,20 +119,28 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse($vouchers as $voucher)
                     <tr>
-                        <td class="font-bold text-white">Silver Badge</td>
-                        <td class="font-mono text-purple-400 text-xs bg-black/40 px-2 py-1 rounded inline-block">NX-SILV-9921</td>
-                        <td><span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase rounded">Unused</span></td>
+                        <td class="font-bold text-white">{{ $voucher->type == 'club_reward' ? 'Milestone Reward' : ucfirst($voucher->type) }}</td>
+                        <td class="font-mono text-purple-400 text-xs bg-black/40 px-2 py-1 rounded inline-block">{{ $voucher->code }}</td>
+                        <td>
+                            @if($voucher->is_used)
+                            <span class="px-2 py-1 bg-gray-500/20 text-gray-400 text-[10px] font-bold uppercase rounded">Used</span>
+                            @else
+                            <span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase rounded">Unused</span>
+                            @endif
+                        </td>
                     </tr>
+                    @empty
+                    <tr>
+                        <td colspan="3" class="text-center py-4 text-gray-500 italic text-xs">No vouchers earned yet.</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
         <div class="p-3 border-t border-white/5 flex justify-center bg-white/[0.01]">
-            <div class="pagination scale-90">
-                <a href="#">&laquo; Prev</a>
-                <a href="#" class="active">1</a>
-                <a href="#">Next &raquo;</a>
-            </div>
+            {{ $vouchers->links() }}
         </div>
     </div>
 </div>

@@ -6,7 +6,7 @@
         <h1 class="text-2xl font-bold text-white tracking-tight">Withdrawals</h1>
         <p class="text-xs text-gray-500 font-medium uppercase tracking-widest mt-1">Cash out your earnings</p>
     </div>
-    <a href="/user/withdrawals/create" class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-emerald-900/40 text-center">Request Withdrawal</a>
+    <a href="{{ route('withdraw.create') }}" class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-emerald-900/40 text-center">Request Withdrawal</a>
 </div>
 
 <!-- Special Note on Vouchers -->
@@ -23,15 +23,15 @@
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
     <div class="glass-panel p-6 rounded-2xl bg-[#0a0f18] border border-emerald-500/20">
         <p class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1">Available to Withdraw</p>
-        <h3 class="text-2xl font-black text-white">₹1,200.00</h3>
+        <h3 class="text-2xl font-black text-white">₹{{ number_format($wallet->balance, 2) }}</h3>
     </div>
     <div class="glass-panel p-6 rounded-2xl border-l-[3px] border-emerald-500">
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Total Withdrawn</p>
-        <h3 class="text-2xl font-black text-white">₹50.00</h3>
+        <h3 class="text-2xl font-black text-white">₹{{ number_format($wallet->total_withdrawn, 2) }}</h3>
     </div>
     <div class="glass-panel p-6 rounded-2xl border-l-[3px] border-amber-500">
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Pending Amount</p>
-        <h3 class="text-2xl font-black text-white">₹0.00</h3>
+        <h3 class="text-2xl font-black text-white">₹{{ number_format($withdrawals->where('status', 'pending')->sum('amount'), 2) }}</h3>
     </div>
 </div>
 
@@ -50,21 +50,31 @@
                 </tr>
             </thead>
             <tbody>
+                @forelse($withdrawals as $w)
                 <tr>
-                    <td class="font-bold text-white font-mono">₹50.00</td>
-                    <td>Bank Transfer (Ending 4512)</td>
-                    <td><span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase rounded-full">Completed</span></td>
-                    <td class="text-xs text-gray-500">08 Mar 2026</td>
+                    <td class="font-bold text-white font-mono">₹{{ number_format($w->amount, 2) }}</td>
+                    <td>{{ $w->method }}</td>
+                    <td>
+                        @if($w->status == 'approved')
+                            <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase rounded-full">Completed</span>
+                        @elseif($w->status == 'pending')
+                            <span class="px-3 py-1 bg-amber-500/20 text-amber-400 text-[10px] font-bold uppercase rounded-full">Pending</span>
+                        @else
+                            <span class="px-3 py-1 bg-red-500/20 text-red-400 text-[10px] font-bold uppercase rounded-full">{{ ucfirst($w->status) }}</span>
+                        @endif
+                    </td>
+                    <td class="text-xs text-gray-500">{{ $w->created_at->format('d M Y') }}</td>
                 </tr>
+                @empty
+                <tr>
+                    <td colspan="4" class="text-center py-4 text-gray-500 italic">No withdrawals found.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
     <div class="p-4 border-t border-white/5 flex justify-center bg-white/[0.01]">
-        <div class="pagination">
-            <a href="#">&laquo; Prev</a>
-            <a href="#" class="active">1</a>
-            <a href="#">Next &raquo;</a>
-        </div>
+        {{ $withdrawals->links() }}
     </div>
 </div>
 @endsection

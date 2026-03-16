@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.user')
 @section('content')
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px">
   <div>
@@ -13,7 +13,21 @@
   <div class="table-responsive">
     <table>
       <thead><tr><th>From User</th><th>Level</th><th>ROI Reference</th><th>Commission</th><th>Date</th></tr></thead>
-      <tbody><tr><td>Alice Smith</td><td>Level 1</td><td>Week 14 ROI</td><td>$2.50</td><td>Oct 14, 2026</td></tr><tr><td>Bob Miller</td><td>Level 2</td><td>Week 14 ROI</td><td>$1.25</td><td>Oct 14, 2026</td></tr></tbody>
+      <tbody>
+        @forelse($commissions as $c)
+        <tr>
+          <td>{{ $c->fromUser->name ?? 'System' }}</td>
+          <td>Level {{ $c->level }}</td>
+          <td>{{ $c->roiIncome->week_number ?? 'N/A' }}</td>
+          <td>₹{{ number_format($c->amount, 2) }}</td>
+          <td>{{ $c->created_at ? \Carbon\Carbon::parse($c->created_at)->format('M d, Y') : 'N/A' }}</td>
+        </tr>
+        @empty
+        <tr>
+          <td colspan="5" style="text-align:center;color:var(--text-muted)">No records found.</td>
+        </tr>
+        @endforelse
+      </tbody>
     </table>
   </div>
 </div>

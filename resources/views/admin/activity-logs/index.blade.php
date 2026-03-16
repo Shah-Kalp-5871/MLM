@@ -29,34 +29,30 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#1f1f1f]">
+                    @forelse($logs as $log)
                     <tr class="hover:bg-white/[0.02] transition-colors group">
-                        <td class="px-6 py-4 text-xs text-slate-500">16 Mar 2026, 18:12:04</td>
+                        <td class="px-6 py-4 text-xs text-slate-500">{{ $log->created_at->format('d M Y, H:i:s') }}</td>
                         <td class="px-6 py-4">
-                            <span class="font-bold text-purple-400">Super Admin</span>
+                            <span class="font-bold {{ $log->user && $log->user->role == 'admin' ? 'text-purple-400' : 'text-blue-400' }}">
+                                {{ $log->user->name ?? 'System' }}
+                            </span>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="text-xs bg-amber-500/10 text-amber-500 px-2 py-0.5 rounded border border-amber-500/20 font-bold uppercase">Update Config</span>
+                            <span class="text-xs {{ $log->direction == 'in' ? 'bg-green-500/10 text-green-500 border-green-500/20' : 'bg-amber-500/10 text-amber-500 border-amber-500/20' }} px-2 py-0.5 rounded border font-bold uppercase">
+                                {{ $log->type }}
+                            </span>
                         </td>
-                        <td class="px-6 py-4 text-slate-400">System settings modifed</td>
-                        <td class="px-6 py-4 font-mono text-[10px] text-slate-500">192.168.1.1</td>
+                        <td class="px-6 py-4 text-slate-400">{{ $log->description }}</td>
+                        <td class="px-6 py-4 font-mono text-[10px] text-slate-500">-</td>
                         <td class="px-6 py-4 text-right">
                              <button class="text-slate-500 hover:text-white transition-all"><i data-lucide="info" class="w-4 h-4"></i></button>
                         </td>
                     </tr>
-                    <tr class="hover:bg-white/[0.02] transition-colors group">
-                        <td class="px-6 py-4 text-xs text-slate-500">16 Mar 2026, 17:45:22</td>
-                        <td class="px-6 py-4">
-                            <span class="font-bold text-blue-400 italic">User #1284</span>
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="text-xs bg-green-500/10 text-green-500 px-2 py-0.5 rounded border border-green-500/20 font-bold uppercase">Withdrawal Req</span>
-                        </td>
-                        <td class="px-6 py-4 text-slate-400">Ref: WITH-293-A</td>
-                        <td class="px-6 py-4 font-mono text-[10px] text-slate-500">182.22.4.11</td>
-                        <td class="px-6 py-4 text-right">
-                             <button class="text-slate-500 hover:text-white transition-all"><i data-lucide="info" class="w-4 h-4"></i></button>
-                        </td>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="px-6 py-12 text-center text-slate-500 font-bold">No activity logs found.</td>
                     </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

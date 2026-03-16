@@ -28,19 +28,19 @@
     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
         <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         <p class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1">ROI Income</p>
-        <h3 class="text-3xl font-black text-white">₹800.00</h3>
+        <h3 class="text-3xl font-black text-white">₹{{ number_format($totalROI, 2) }}</h3>
         <p class="text-[10px] text-gray-500 mt-2">Returns from active investments</p>
     </div>
     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group border border-purple-500/30">
         <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         <p class="text-[10px] font-bold text-purple-400 uppercase tracking-widest mb-1">Level Income</p>
-        <h3 class="text-3xl font-black text-white">₹450.00</h3>
+        <h3 class="text-3xl font-black text-white">₹{{ number_format($totalLevelIncome, 2) }}</h3>
         <p class="text-[10px] text-gray-500 mt-2">Commissions from network ROI</p>
     </div>
     <div class="glass-panel p-6 rounded-2xl bg-[#0a0f18] border border-blue-500/20 shadow-[0_0_30px_rgba(59,130,246,0.1)]">
         <p class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1">Total Earnings</p>
-        <h3 class="text-3xl font-black text-white">₹1,250.00</h3>
-        <p class="text-[10px] text-gray-500 mt-2">Available in Wallet</p>
+        <h3 class="text-3xl font-black text-white">₹{{ number_format($totalEarnings, 2) }}</h3>
+        <p class="text-[10px] text-gray-500 mt-2">Historical Total</p>
     </div>
 </div>
 
@@ -61,27 +61,23 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse($roiRecords as $roi)
                     <tr>
-                        <td>Week 1</td>
-                        <td>3%</td>
-                        <td class="text-emerald-400 font-bold">+₹15.00</td>
-                        <td class="text-xs text-gray-400">12 Mar 2026</td>
+                        <td>Week {{ $roi->week_number }}</td>
+                        <td>{{ $roi->roi_percentage }}%</td>
+                        <td class="text-emerald-400 font-bold">+₹{{ number_format($roi->roi_amount, 2) }}</td>
+                        <td class="text-xs text-gray-400">{{ $roi->distributed_at ? $roi->distributed_at->format('d M Y') : 'N/A' }}</td>
                     </tr>
+                    @empty
                     <tr>
-                        <td>Week 2</td>
-                        <td>3%</td>
-                        <td class="text-emerald-400 font-bold">+₹15.00</td>
-                        <td class="text-xs text-gray-400">19 Mar 2026</td>
+                        <td colspan="4" class="text-center py-4 text-gray-500 italic text-xs">No ROI records yet.</td>
                     </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
         <div class="p-3 border-t border-white/5 flex justify-center bg-white/[0.01]">
-            <div class="pagination scale-90">
-                <a href="#">&laquo; Prev</a>
-                <a href="#" class="active">1</a>
-                <a href="#">Next &raquo;</a>
-            </div>
+            {{ $roiRecords->links() }}
         </div>
     </div>
 
@@ -101,21 +97,23 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse($levelCommissions as $commission)
                     <tr>
-                        <td class="font-bold text-white">Rahul</td>
-                        <td><span class="px-2 py-1 bg-white/10 rounded text-[10px] font-bold uppercase text-purple-400">Level 1 (20%)</span></td>
-                        <td class="text-emerald-400 font-bold">+₹3.00</td>
-                        <td class="text-xs text-gray-400">10 Mar 2026</td>
+                        <td class="font-bold text-white">{{ $commission->fromUser->name ?? 'System' }}</td>
+                        <td><span class="px-2 py-1 bg-white/10 rounded text-[10px] font-bold uppercase text-purple-400">Level {{ $commission->level }}</span></td>
+                        <td class="text-emerald-400 font-bold">+₹{{ number_format($commission->amount, 2) }}</td>
+                        <td class="text-xs text-gray-400">{{ $commission->created_at ? \Carbon\Carbon::parse($commission->created_at)->format('d M Y') : 'N/A' }}</td>
                     </tr>
+                    @empty
+                    <tr>
+                        <td colspan="4" class="text-center py-4 text-gray-500 italic text-xs">No commissions yet.</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
         <div class="p-3 border-t border-white/5 flex justify-center bg-white/[0.01]">
-            <div class="pagination scale-90">
-                <a href="#">&laquo; Prev</a>
-                <a href="#" class="active">1</a>
-                <a href="#">Next &raquo;</a>
-            </div>
+            {{ $levelCommissions->links() }}
         </div>
     </div>
 </div>

@@ -18,13 +18,24 @@ class ReferralController extends Controller
     public function team()
     {
         $user = auth()->user();
+        
+        // Stats
+        $direct_referrals_count = $user->referrals()->count();
+        $total_team_count = MLMTree::where('ancestor_id', $user->id)->where('distance', '>', 0)->count();
+        
+        // Total team investment volume
+        $team_ids = MLMTree::where('ancestor_id', $user->id)->where('distance', '>', 0)->pluck('descendant_id');
+        $team_investment_volume = \App\Models\Investment::whereIn('user_id', $team_ids)->where('status', 'active')->sum('amount');
+
         // Get downline tree using closure table
         $team = MLMTree::where('ancestor_id', $user->id)
             ->where('distance', '>', 0)
-            ->with('descendant.wallet', 'descendant.investments')
+            ->with(['descendant.wallet', 'descendant.investments' => function($q) {
+                $q->where('status', 'active');
+            }])
             ->orderBy('distance', 'asc')
             ->paginate(20);
 
-        return view('user.network.index', compact('team'));
+        return view('user.network.index', compact('team', 'direct_referrals_count', 'total_team_count', 'team_investment_volume'));
     }
 }

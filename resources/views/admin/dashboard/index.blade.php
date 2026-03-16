@@ -42,7 +42,7 @@
                 </div>
             </div>
             <h3 class="text-slate-400 text-sm font-medium">Total Approved Deposits</h3>
-            <p class="text-2xl font-bold mt-1">₹{{ number_format($stats['total_deposits'], 2) }}</p>
+            <p class="text-2xl font-bold mt-1">₹{{ number_format($stats['total_business'], 2) }}</p>
         </div>
 
         <!-- Card 3 -->
@@ -53,8 +53,8 @@
                     <i data-lucide="database" class="w-6 h-6"></i>
                 </div>
             </div>
-            <h3 class="text-slate-400 text-sm font-medium">Total Paid ROI</h3>
-            <p class="text-2xl font-bold mt-1">₹{{ number_format($stats['total_roi_paid'], 2) }}</p>
+            <h3 class="text-slate-400 text-sm font-medium">Active Investments</h3>
+            <p class="text-2xl font-bold mt-1">₹{{ number_format($stats['active_investments'], 2) }}</p>
         </div>
 
         <!-- Card 4 -->
@@ -66,7 +66,7 @@
                 </div>
             </div>
             <h3 class="text-slate-400 text-sm font-medium">Pending Approvals</h3>
-            <p class="text-2xl font-bold mt-1">{{ $stats['pending_deposits'] + $stats['pending_withdrawals'] }}</p>
+            <p class="text-2xl font-bold mt-1">{{ $stats['pending_deposits'] + $stats['withdrawals_pending'] }}</p>
         </div>
     </div>
 
