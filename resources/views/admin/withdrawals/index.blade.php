@@ -39,10 +39,10 @@
                                 <span class="font-medium text-slate-200">{{ $withdrawal->user->name ?? 'Deleted User' }}</span>
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-slate-400">$settings['platform_currency_symbol']{{ number_format($withdrawal->user?->wallet?->balance ?? 0, 2) }}</td>
-                        <td class="px-6 py-4 font-bold">$settings['platform_currency_symbol']{{ number_format($withdrawal->amount, 2) }}</td>
-                        <td class="px-6 py-4 text-red-500/70">$settings['platform_currency_symbol']{{ number_format($withdrawal->amount * 0.05, 2) }}</td>
-                        <td class="px-6 py-4 text-green-400">$settings['platform_currency_symbol']{{ number_format($withdrawal->amount * 0.95, 2) }}</td>
+                        <td class="px-6 py-4 text-slate-400">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($withdrawal->user?->wallet?->balance ?? 0, 2) }}</td>
+                        <td class="px-6 py-4 font-bold">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($withdrawal->amount, 2) }}</td>
+                        <td class="px-6 py-4 text-red-500/70">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($withdrawal->amount * 0.05, 2) }}</td>
+                        <td class="px-6 py-4 text-green-400">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($withdrawal->amount * 0.95, 2) }}</td>
                         <td class="px-6 py-4">
                             <span class="text-xs text-slate-500 bg-slate-800/10 px-2 py-1 rounded border border-[#1f1f1f]">{{ $withdrawal->method }}</span>
                         </td>

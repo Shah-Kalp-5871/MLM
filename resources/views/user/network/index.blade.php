@@ -20,7 +20,7 @@
     <div class="glass-panel p-6 rounded-2xl">
         <i data-lucide="dollar-sign" class="w-6 h-6 text-emerald-400 mb-3"></i>
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Team Investment Volume</p>
-        <h3 class="text-xl font-black text-white">$settings['platform_currency_symbol']{{ number_format($team_investment_volume, 2) }}</h3>
+        <h3 class="text-xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($team_investment_volume, 2) }}</h3>
     </div>
 </div>
 
@@ -64,7 +64,7 @@
                 <div class="text-white relative">
                     <span class="absolute -left-5 top-4 w-4 border-t border-white/10"></span> 
                     {{ $loop->last ? '└' : '├' }} {{ $child->name }} 
-                    <span class="text-emerald-400 text-[10px]">($settings['platform_currency_symbol']{{ number_format($child->investments->sum('amount'), 2) }})</span> 
+                    <span class="text-emerald-400 text-[10px]">({{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($child->investments->sum('amount'), 2) }})</span> 
                     <span class="text-gray-500 text-[10px]">Direct</span>
                 </div>
                 @if($child->referrals->count() > 0)
@@ -73,7 +73,7 @@
                     <div class="text-gray-400 relative">
                         <span class="absolute -left-5 top-4 w-4 border-t border-white/10"></span> 
                         {{ $loop->last ? '└' : '├' }} {{ $grandchild->name }} 
-                        <span class="text-emerald-400 text-[10px]">($settings['platform_currency_symbol']{{ number_format($grandchild->investments->sum('amount'), 2) }})</span> 
+                        <span class="text-emerald-400 text-[10px]">({{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($grandchild->investments->sum('amount'), 2) }})</span> 
                         <span class="text-gray-500 text-[10px]">Level 2</span>
                     </div>
                     @endforeach
@@ -112,7 +112,7 @@
                     </td>
                     <td><span class="px-2 py-1 bg-white/10 rounded text-[10px] font-bold uppercase">Level {{ $node->distance }}</span></td>
                     <td class="text-xs">{{ $node->descendant->created_at->format('d M Y') }}</td>
-                    <td class="font-mono text-emerald-400">$settings['platform_currency_symbol']{{ number_format($node->descendant->investments->sum('amount'), 2) }}</td>
+                    <td class="font-mono text-emerald-400">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($node->descendant->investments->sum('amount'), 2) }}</td>
                 </tr>
                 @empty
                 <tr>

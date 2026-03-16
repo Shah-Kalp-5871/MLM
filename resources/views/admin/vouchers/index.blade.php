@@ -34,7 +34,7 @@
                         @foreach($vouchers as $voucher)
                         <tr>
                             <td class="px-6 py-4 font-mono text-purple-400 font-bold">{{ $voucher->code }}</td>
-                            <td class="px-6 py-4 font-bold text-slate-200">$settings['platform_currency_symbol']{{ number_format($voucher->value, 2) }}</td>
+                            <td class="px-6 py-4 font-bold text-slate-200">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($voucher->value, 2) }}</td>
                             <td class="px-6 py-4 text-slate-400">{{ $voucher->assignedUser->name ?? 'Unassigned' }}</td>
                             <td class="px-6 py-4"><span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{{ $voucher->type }}</span></td>
                             <td class="px-6 py-4">

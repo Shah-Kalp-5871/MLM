@@ -43,7 +43,7 @@
                                 {{ optional($dep->package)->name ?? 'Manual' }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 font-bold text-green-400">$settings['platform_currency_symbol']{{ number_format($dep->amount, 2) }}</td>
+                        <td class="px-6 py-4 font-bold text-green-400">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($dep->amount, 2) }}</td>
                         <td class="px-6 py-4">
                             <div class="flex flex-col">
                                 <span class="text-xs text-slate-300">{{ $dep->payment_method }}</span>

@@ -10,16 +10,16 @@
     <div class="glass-panel p-8 rounded-2xl relative overflow-hidden group border-l-[6px] border-l-emerald-500">
         <div class="absolute right-0 top-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-[40px] pointer-events-none"></div>
         <p class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-2">Available Balance</p>
-        <h3 class="text-4xl font-black text-white">$settings['platform_currency_symbol']{{ number_format($wallet->balance ?? 0, 2) }}</h3>
+        <h3 class="text-4xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($wallet->balance ?? 0, 2) }}</h3>
         <p class="text-[10px] text-gray-500 mt-2 font-medium uppercase tracking-widest">Withdrawal Profit (ROI + Level)</p>
     </div>
     <div class="glass-panel p-8 rounded-2xl">
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Total Earnings</p>
-        <h3 class="text-3xl font-bold text-gray-300">$settings['platform_currency_symbol']{{ number_format(($wallet->total_roi_earned ?? 0) + ($wallet->total_level_earned ?? 0), 2) }}</h3>
+        <h3 class="text-3xl font-bold text-gray-300">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format(($wallet->total_roi_earned ?? 0) + ($wallet->total_level_earned ?? 0), 2) }}</h3>
     </div>
     <div class="glass-panel p-8 rounded-2xl">
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Total Withdrawn</p>
-        <h3 class="text-3xl font-bold text-gray-300">$settings['platform_currency_symbol']{{ number_format($wallet->total_withdrawn ?? 0, 2) }}</h3>
+        <h3 class="text-3xl font-bold text-gray-300">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($wallet->total_withdrawn ?? 0, 2) }}</h3>
     </div>
 </div>
 
@@ -56,7 +56,7 @@
                         </span>
                     </td>
                     <td class="{{ $tx->direction === 'credit' ? 'text-emerald-400' : 'text-rose-400' }} font-bold font-mono">
-                        {{ $tx->direction === 'credit' ? '+' : '-' }} $settings['platform_currency_symbol']{{ number_format($tx->amount, 2) }}
+                        {{ $tx->direction === 'credit' ? '+' : '-' }} {{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($tx->amount, 2) }}
                     </td>
                     <td class="text-white">{{ $tx->description }}</td>
                     <td class="text-xs text-gray-500">{{ $tx->created_at?->format('d M Y') }}</td>

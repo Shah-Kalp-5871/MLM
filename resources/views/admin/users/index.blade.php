@@ -58,7 +58,7 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex flex-col">
-                                <span class="font-bold">$settings['platform_currency_symbol']{{ number_format($user->wallet->balance ?? 0, 2) }}</span>
+                                <span class="font-bold">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($user->wallet->balance ?? 0, 2) }}</span>
                                 <span class="text-[10px] text-slate-500">Balance</span>
                             </div>
                         </td>

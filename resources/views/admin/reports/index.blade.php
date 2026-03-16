@@ -24,7 +24,7 @@
         <div class="glass p-6 rounded-3xl border-b-4 border-blue-500">
             <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Revenue Velocity</h4>
             <div class="flex items-center justify-between">
-                <span class="text-2xl font-black">$settings['platform_currency_symbol']{{ number_format($stats['daily_avg_revenue'], 2) }}</span>
+                <span class="text-2xl font-black">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['daily_avg_revenue'], 2) }}</span>
                 <span class="text-xs text-blue-500 font-bold uppercase">Average/Day</span>
             </div>
             <div class="w-full bg-slate-800 h-1 mt-4 rounded-full overflow-hidden">
@@ -117,7 +117,7 @@
                                     <span class="font-bold text-slate-300">{{ $leader->name }}</span>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 font-black">$settings['platform_currency_symbol']{{ number_format($leader->direct_bv, 2) }}</td>
+                            <td class="px-6 py-4 font-black">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($leader->direct_bv, 2) }}</td>
                             <td class="px-6 py-4 text-right font-bold text-purple-400">{{ $leader->referrals_count }}</td>
                         </tr>
                         @empty

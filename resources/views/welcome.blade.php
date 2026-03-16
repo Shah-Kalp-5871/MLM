@@ -78,7 +78,7 @@
                         <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mt-1">Investors</p>
                     </div>
                     <div>
-                        <p class="text-2xl font-black text-white">$settings['platform_currency_symbol']{{ number_format($stats['total_payouts'] ?? 1000000) }}+</p>
+                        <p class="text-2xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['total_payouts'] ?? 1000000) }}+</p>
                         <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mt-1">Distributed</p>
                     </div>
                     <div>
@@ -100,7 +100,7 @@
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="p-6 rounded-2xl bg-white/5 border border-white/5">
                                     <p class="text-[10px] text-gray-500 uppercase mb-1">ROI Income</p>
-                                    <h4 class="text-xl font-black text-white">$settings['platform_currency_symbol']12,450</h4>
+                                    <h4 class="text-xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}12,450</h4>
                                 </div>
                                 <div class="p-6 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
                                     <p class="text-[10px] text-emerald-500 uppercase mb-1">Growth</p>
@@ -215,7 +215,7 @@
                         <div class="p-6 rounded-3xl bg-black/40 border border-white/5 space-y-4">
                             <div class="flex justify-between text-xs text-gray-500 uppercase font-black tracking-widest">
                                 <span>Total Commissions</span>
-                                <span class="text-emerald-400">+$settings['platform_currency_symbol']45,200</span>
+                                <span class="text-emerald-400">+{{ $settings['platform_currency_symbol'] ?? '$' }}45,200</span>
                             </div>
                             <div class="w-full h-3 rounded-full bg-white/5 overflow-hidden">
                                 <div class="w-3/4 h-full bg-gradient-to-r from-purple-600 to-indigo-500 rounded-full"></div>

@@ -38,8 +38,8 @@
                         <td class="px-6 py-4 text-center">
                             <span class="bg-purple-600/10 text-purple-400 px-3 py-1 rounded-full text-[10px] font-bold border border-purple-600/20">L{{ $comm->level }}</span>
                         </td>
-                        <td class="px-6 py-4 text-slate-500 text-xs font-mono">$settings['platform_currency_symbol']{{ number_format($comm->roi_amount ?? 0, 2) }}</td>
-                        <td class="px-6 py-4 font-bold text-emerald-400">$settings['platform_currency_symbol']{{ number_format($comm->commission_amount, 2) }}</td>
+                        <td class="px-6 py-4 text-slate-500 text-xs font-mono">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($comm->roi_amount ?? 0, 2) }}</td>
+                        <td class="px-6 py-4 font-bold text-emerald-400">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($comm->commission_amount, 2) }}</td>
                         <td class="px-6 py-4">
                             <div class="text-xs text-slate-400">{{ $comm->created_at ? $comm->created_at->format('d M Y') : 'N/A' }}</div>
                             <div class="text-[9px] text-slate-600 uppercase">{{ $comm->created_at ? $comm->created_at->diffForHumans() : '' }}</div>

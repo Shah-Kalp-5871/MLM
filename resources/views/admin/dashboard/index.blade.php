@@ -42,7 +42,7 @@
                 </div>
             </div>
             <h3 class="text-slate-400 text-sm font-medium">Total Approved Deposits</h3>
-            <p class="text-2xl font-bold mt-1">$settings['platform_currency_symbol']{{ number_format($stats['total_business'], 2) }}</p>
+            <p class="text-2xl font-bold mt-1">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['total_business'], 2) }}</p>
         </div>
 
         <!-- Card 3 -->
@@ -54,7 +54,7 @@
                 </div>
             </div>
             <h3 class="text-slate-400 text-sm font-medium">Active Investments</h3>
-            <p class="text-2xl font-bold mt-1">$settings['platform_currency_symbol']{{ number_format($stats['active_investments'], 2) }}</p>
+            <p class="text-2xl font-bold mt-1">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['active_investments'], 2) }}</p>
         </div>
 
         <!-- Card 4 -->
@@ -104,7 +104,7 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4"><span class="text-slate-400">{{ $dep->method }}</span></td>
-                            <td class="px-6 py-4 font-bold">$settings['platform_currency_symbol']{{ number_format($dep->amount, 2) }}</td>
+                            <td class="px-6 py-4 font-bold">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($dep->amount, 2) }}</td>
                             <td class="px-6 py-4">
                                 <a href="{{ route('admin.deposits.index') }}" class="text-purple-500 hover:text-purple-400 font-bold text-xs uppercase tracking-wider underline">Review</a>
                             </td>

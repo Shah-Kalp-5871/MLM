@@ -17,9 +17,9 @@
         @forelse($roi_records as $roi)
         <tr>
           <td>Week {{ $roi->week_number }}</td>
-          <td>{{ $roi->investment->package->name ?? 'N/A' }} ($settings['platform_currency_symbol']{{ number_format($roi->investment->amount ?? 0, 2) }})</td>
+          <td>{{ $roi->investment->package->name ?? 'N/A' }} ({{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($roi->investment->amount ?? 0, 2) }})</td>
           <td>{{ $roi->roi_percentage }}%</td>
-          <td>$settings['platform_currency_symbol']{{ number_format($roi->roi_amount, 2) }}</td>
+          <td>{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($roi->roi_amount, 2) }}</td>
           <td>{{ $roi->distributed_at ? \Carbon\Carbon::parse($roi->distributed_at)->format('M d, Y') : 'N/A' }}</td>
         </tr>
         @empty

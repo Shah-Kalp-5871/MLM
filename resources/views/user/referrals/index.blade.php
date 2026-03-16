@@ -63,7 +63,7 @@
                     <td class="font-bold text-white">{{ $ref->name }}</td>
                     <td class="text-gray-400 text-xs">{{ $ref->email }}</td>
                     <td class="text-xs text-gray-500">{{ $ref->created_at?->format('d M Y') }}</td>
-                    <td class="font-mono text-emerald-400">$settings['platform_currency_symbol']{{ number_format($ref->wallet->total_deposited ?? 0, 2) }}</td>
+                    <td class="font-mono text-emerald-400">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($ref->wallet->total_deposited ?? 0, 2) }}</td>
                 </tr>
                 @empty
                 <tr>

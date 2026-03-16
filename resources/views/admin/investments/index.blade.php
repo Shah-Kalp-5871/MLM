@@ -45,7 +45,7 @@
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="font-mono font-bold text-emerald-400">$settings['platform_currency_symbol']{{ number_format($inv->amount, 2) }}</span>
+                            <span class="font-mono font-bold text-emerald-400">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($inv->amount, 2) }}</span>
                         </td>
                         <td class="px-6 py-4">
                             <span class="badge-{{ $inv->status == 'active' ? 'active' : 'pending' }} text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">

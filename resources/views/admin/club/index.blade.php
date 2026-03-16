@@ -30,8 +30,8 @@
                     @forelse($qualifications as $qual)
                     <tr>
                         <td class="px-6 py-4 font-bold text-slate-200">{{ $qual->user->name ?? 'Deleted User' }}</td>
-                        <td class="px-6 py-4 font-bold text-blue-400">$settings['platform_currency_symbol']{{ number_format($qual->user->direct_business ?? 0, 2) }}</td>
-                        <td class="px-6 py-4 font-bold text-indigo-400">$settings['platform_currency_symbol']{{ number_format($qual->user->total_business ?? 0, 2) }}</td>
+                        <td class="px-6 py-4 font-bold text-blue-400">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($qual->user->direct_business ?? 0, 2) }}</td>
+                        <td class="px-6 py-4 font-bold text-indigo-400">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($qual->user->total_business ?? 0, 2) }}</td>
                         <td class="px-6 py-4 font-bold text-purple-400 italic">
                             {{ $qual->milestone->name ?? 'None' }}
                         </td>

@@ -12,21 +12,21 @@
         <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         <i data-lucide="wallet" class="w-8 h-8 text-emerald-400 mb-4 opacity-80"></i>
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Wallet Balance</p>
-        <h3 class="text-2xl font-black text-white">$settings['platform_currency_symbol']{{ number_format($stats['wallet_balance'], 2) }}</h3>
+        <h3 class="text-2xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['wallet_balance'], 2) }}</h3>
     </div>
 
     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
         <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         <i data-lucide="trending-up" class="w-8 h-8 text-purple-400 mb-4 opacity-80"></i>
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Weekly ROI</p>
-        <h3 class="text-2xl font-black text-white">$settings['platform_currency_symbol']{{ number_format($stats['weekly_roi'], 2) }}</h3>
+        <h3 class="text-2xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['weekly_roi'], 2) }}</h3>
     </div>
 
     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
         <div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         <i data-lucide="users" class="w-8 h-8 text-blue-400 mb-4 opacity-80"></i>
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Total Investment</p>
-        <h3 class="text-2xl font-black text-white">$settings['platform_currency_symbol']{{ number_format($stats['total_investment'], 2) }}</h3>
+        <h3 class="text-2xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['total_investment'], 2) }}</h3>
     </div>
 
     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group border-amber-500/20">
@@ -71,7 +71,7 @@
                         {{ $tx->description }}
                     </td>
                     <td class="{{ $tx->direction == 'credit' ? 'text-emerald-400' : 'text-red-400' }} font-bold">
-                        {{ $tx->direction == 'credit' ? '+' : '-' }} $settings['platform_currency_symbol']{{ number_format($tx->amount, 2) }}
+                        {{ $tx->direction == 'credit' ? '+' : '-' }} {{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($tx->amount, 2) }}
                     </td>
                     <td class="text-xs text-gray-500">{{ $tx->created_at->format('d M Y') }}</td>
                 </tr>

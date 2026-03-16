@@ -26,7 +26,7 @@
         @forelse($deposits as $d)
         <tr>
           <td class="font-bold">#DP-{{ $d->id }}</td>
-          <td class="font-mono text-emerald-600">$settings['platform_currency_symbol']{{ number_format($d->amount, 2) }}</td>
+          <td class="font-mono text-emerald-600">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($d->amount, 2) }}</td>
           <td>{{ ucfirst($d->method) }}</td>
           <td>
             @if($d->status == 'approved')
