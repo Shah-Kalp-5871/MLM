@@ -60,7 +60,7 @@ class WithdrawalController extends Controller
                 'type' => 'withdrawal',
                 'direction' => 'debit',
                 'balance_after' => $wallet->balance,
-                'description' => "Withdrawal request of ₹" . number_format($request->amount, 2),
+                'description' => "Withdrawal request of " . ($settings['platform_currency_symbol'] ?? '$') . number_format($request->amount, 2),
             ]);
         });
 

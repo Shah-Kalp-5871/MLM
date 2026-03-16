@@ -64,6 +64,10 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
+Route::get('/admin', function () {
+    return redirect()->route('admin.dashboard');
+});
+
 // Admin Authentication Routes
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/login', [\App\Http\Controllers\Admin\LoginController::class, 'showLoginForm'])->name('login');
