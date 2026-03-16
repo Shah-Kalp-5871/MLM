@@ -10,16 +10,16 @@
     <div class="glass-panel p-8 rounded-2xl relative overflow-hidden group border-l-[6px] border-l-emerald-500">
         <div class="absolute right-0 top-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-[40px] pointer-events-none"></div>
         <p class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-2">Available Balance</p>
-        <h3 class="text-4xl font-black text-white">₹1,200.00</h3>
+        <h3 class="text-4xl font-black text-white">₹{{ number_format($wallet->balance ?? 0, 2) }}</h3>
         <p class="text-[10px] text-gray-500 mt-2 font-medium uppercase tracking-widest">Withdrawal Profit (ROI + Level)</p>
     </div>
     <div class="glass-panel p-8 rounded-2xl">
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Total Earnings</p>
-        <h3 class="text-3xl font-bold text-gray-300">₹1,250.00</h3>
+        <h3 class="text-3xl font-bold text-gray-300">₹{{ number_format(($wallet->total_roi_earned ?? 0) + ($wallet->total_level_earned ?? 0), 2) }}</h3>
     </div>
     <div class="glass-panel p-8 rounded-2xl">
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Total Withdrawn</p>
-        <h3 class="text-3xl font-bold text-gray-300">₹50.00</h3>
+        <h3 class="text-3xl font-bold text-gray-300">₹{{ number_format($wallet->total_withdrawn ?? 0, 2) }}</h3>
     </div>
 </div>
 
@@ -48,35 +48,29 @@
                 </tr>
             </thead>
             <tbody>
+                @forelse($transactions as $tx)
                 <tr>
-                    <td><span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase rounded-full">ROI</span></td>
-                    <td class="text-emerald-400 font-bold font-mono">+ ₹50.00</td>
-                    <td class="text-white">Weekly ROI (3%)</td>
-                    <td class="text-xs text-gray-500">12 Mar 2026</td>
+                    <td>
+                        <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase rounded-full">
+                            {{ str_replace('_', ' ', $tx->type) }}
+                        </span>
+                    </td>
+                    <td class="{{ $tx->direction === 'credit' ? 'text-emerald-400' : 'text-rose-400' }} font-bold font-mono">
+                        {{ $tx->direction === 'credit' ? '+' : '-' }} ₹{{ number_format($tx->amount, 2) }}
+                    </td>
+                    <td class="text-white">{{ $tx->description }}</td>
+                    <td class="text-xs text-gray-500">{{ $tx->created_at?->format('d M Y') }}</td>
                 </tr>
+                @empty
                 <tr>
-                    <td><span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-[10px] font-bold uppercase rounded-full">Level</span></td>
-                    <td class="text-emerald-400 font-bold font-mono">+ ₹20.00</td>
-                    <td class="text-white">Level 1 Commission</td>
-                    <td class="text-xs text-gray-500">10 Mar 2026</td>
+                    <td colspan="4" class="text-center py-8 text-gray-500 italic">No transactions found.</td>
                 </tr>
-                <tr>
-                    <td><span class="px-3 py-1 bg-rose-500/20 text-rose-400 text-[10px] font-bold uppercase rounded-full">Withdrawal</span></td>
-                    <td class="text-rose-400 font-bold font-mono">- ₹50.00</td>
-                    <td class="text-white">Bank Transfer (Completed)</td>
-                    <td class="text-xs text-gray-500">08 Mar 2026</td>
-                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
     <div class="p-4 border-t border-white/5 flex justify-center bg-white/[0.01]">
-        <div class="pagination">
-            <a href="#">&laquo; Prev</a>
-            <a href="#" class="active">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">Next &raquo;</a>
-        </div>
+        {{ $transactions->links() }}
     </div>
 </div>
 

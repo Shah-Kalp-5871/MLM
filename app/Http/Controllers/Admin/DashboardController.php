@@ -14,16 +14,18 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $totalUsers = User::count();
+        $pendingDeposits = Deposit::where('status', 'pending')->sum('amount');
+        $activeInvestments = Investment::where('status', 'active')->sum('amount');
+        $withdrawalsPending = Withdrawal::where('status', 'pending')->sum('amount');
+        $totalBusiness = Deposit::where('status', 'approved')->sum('amount');
+
         $stats = [
-            'total_users' => User::count(),
-            'active_users' => User::where('status', 'active')->count(),
-            'blocked_users' => User::where('status', 'blocked')->count(),
-            'total_deposits' => Deposit::where('status', 'approved')->sum('amount'),
-            'total_withdrawals' => Withdrawal::where('status', 'approved')->sum('amount'),
-            'total_roi_paid' => Investment::sum('total_roi_earned'),
-            'pending_deposits' => Deposit::where('status', 'pending')->count(),
-            'pending_withdrawals' => Withdrawal::where('status', 'pending')->count(),
-            'wallet_balances' => Wallet::sum('balance'),
+            'total_users' => $totalUsers,
+            'pending_deposits' => $pendingDeposits,
+            'active_investments' => $activeInvestments,
+            'withdrawals_pending' => $withdrawalsPending,
+            'total_business' => $totalBusiness,
         ];
 
         $recent_users = User::orderBy('created_at', 'desc')->limit(5)->get();

@@ -13,22 +13,25 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // For static demo purpose if Auth is not fully set up yet
-        $user = Auth::user() ?? User::first(); 
-        
+        $user = Auth::user();
+
         if (!$user) {
             return redirect('/auth/login');
         }
 
         $wallet = $user->wallet ?: $user->wallet()->create(['balance' => 0]);
-        
+
+        $totalInvestment = $user->investments()->where('status', 'active')->sum('amount');
+        $weeklyRoi = $wallet->total_roi_earned; // can be refined to last 7 days if needed
+        $teamSize = $user->mlmDescendants()->count() ?? 0; // assumes a descendants relation or returns 0
+        $directReferrals = $user->referrals()->count();
+
         $stats = [
-            'balance' => $wallet->balance,
-            'roi_earned' => $wallet->total_roi_earned,
-            'commission_earned' => $wallet->total_level_earned,
-            'total_investment' => $user->investments()->where('status', 'active')->sum('amount'),
-            'referral_count' => $user->referrals()->count(),
-            'active_investments' => $user->investments()->where('status', 'active')->count(),
+            'wallet_balance' => $wallet->balance,
+            'total_investment' => $totalInvestment,
+            'weekly_roi' => $weeklyRoi,
+            'team_size' => $teamSize,
+            'direct_referrals' => $directReferrals,
         ];
 
         $recent_transactions = $user->transactions()->orderBy('created_at', 'desc')->limit(5)->get();
