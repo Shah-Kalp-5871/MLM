@@ -4,7 +4,6 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Investment;
-use App\Models\MLMTree;
 use App\Models\Wallet;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -35,8 +34,8 @@ class DashboardController extends Controller
             }
         }
 
-        // Count all descendants in the MLM tree (distance > 0 excludes self)
-        $teamSize = MLMTree::where('ancestor_id', $user->id)->where('distance', '>', 0)->count();
+        // Calculate recursive team size instead of using closure table
+        $teamSize = $user->calculateTeamSize();
 
         $directReferrals = $user->referrals()->count();
 
@@ -56,13 +55,14 @@ class DashboardController extends Controller
             'direct_referrals'   => $directReferrals,
             'direct_business'    => $user->direct_business,
             'team_business'      => $user->team_business,
-            'roi_percentage'     => \App\Models\Setting::get('weekly_roi_percentage', 3),
+            'roi_percentage'     => \App\Models\Setting::get('weekly_roi_percentage'),
             'total_level_income' => $totalLevelIncome,
             'level_income_today' => $levelIncomeToday,
         ];
 
         $recent_transactions = $user->transactions()->orderBy('created_at', 'desc')->limit(5)->get();
+        $clubLevels = \App\Models\ClubLevel::orderBy('level')->get();
 
-        return view('user.dashboard', compact('stats', 'recent_transactions', 'user'));
+        return view('user.dashboard', compact('stats', 'recent_transactions', 'user', 'clubLevels'));
     }
 }

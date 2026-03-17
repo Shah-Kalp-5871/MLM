@@ -14,6 +14,7 @@ class SettingsSeeder extends Seeder
             // ROI Config
             ['key' => 'roi_min_percentage',     'value' => '3.00',      'type' => 'decimal',  'group' => 'roi',        'label' => 'Minimum Weekly ROI %',          'is_public' => true],
             ['key' => 'roi_max_percentage',     'value' => '3.50',      'type' => 'decimal',  'group' => 'roi',        'label' => 'Maximum Weekly ROI %',          'is_public' => true],
+            ['key' => 'weekly_roi_percentage',  'value' => '3.00',      'type' => 'decimal',  'group' => 'roi',        'label' => 'Weekly ROI % (Applied to new investments)', 'is_public' => true],
 
             // Withdrawal Config
             ['key' => 'min_withdrawal_amount',  'value' => '50.00',     'type' => 'decimal',  'group' => 'withdrawal', 'label' => 'Minimum Withdrawal Amount',     'is_public' => true],
@@ -37,7 +38,12 @@ class SettingsSeeder extends Seeder
             $s['updated_at'] = now();
         }
 
-        DB::table('settings')->insert($settings);
+        foreach ($settings as $s) {
+            DB::table('settings')->updateOrInsert(
+                ['key' => $s['key']],
+                $s
+            );
+        }
         $this->command->info('✓ Platform settings seeded (ROI, Withdrawal, General)');
     }
 }
