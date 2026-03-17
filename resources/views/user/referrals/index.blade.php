@@ -1,4 +1,4 @@
-﻿@extends('layouts.user')
+@extends('layouts.user')
 
 @section('content')
 <div class="mb-8">
@@ -8,19 +8,18 @@
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
     <div class="lg:col-span-2 glass-panel p-8 rounded-2xl border border-purple-500/30 flex flex-col justify-center">
-        <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-2">Your Invite Link</h2>
-        <p class="text-xs text-gray-400 mb-6">Share this link to invite users. You earn level commissions on their ROI.</p>
+        <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-2">Your Invite Code</h2>
+        <p class="text-xs text-gray-400 mb-6">Share this code with your friends. They can enter it during signup.</p>
         
         <div class="flex items-center gap-3">
             @php
                 $refCode = auth()->user()->referral_code;
-                $refLink = route('register', ['ref' => $refCode]);
             @endphp
-            <div class="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-3 font-mono text-sm text-purple-400 select-all">
-                {{ $refLink }}
+            <div class="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-3 font-mono text-2xl tracking-[0.2em] text-center text-purple-400 select-all">
+                {{ $refCode }}
             </div>
-            <button type="button" class="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-900/40 flex items-center gap-2" onclick="navigator.clipboard.writeText('{{ $refLink }}')">
-                <i data-lucide="copy" class="w-4 h-4"></i> Copy
+            <button type="button" class="px-6 py-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-900/40 flex items-center gap-2" onclick="navigator.clipboard.writeText('{{ $refCode }}')">
+                <i data-lucide="copy" class="w-4 h-4"></i> Copy Code
             </button>
         </div>
     </div>

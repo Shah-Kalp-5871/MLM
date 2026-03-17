@@ -1,9 +1,14 @@
-﻿@extends('layouts.user')
+@extends('layouts.user')
 
 @section('content')
-<div class="mb-8">
-    <h1 class="text-2xl font-bold text-white tracking-tight">My Earnings</h1>
-    <p class="text-xs text-gray-500 font-medium uppercase tracking-widest mt-1">ROI and Referral Income</p>
+<div class="mb-8 flex justify-between items-center">
+    <div>
+        <h1 class="text-2xl font-bold text-white tracking-tight">My Earnings</h1>
+        <p class="text-xs text-gray-500 font-medium uppercase tracking-widest mt-1">ROI and Referral Income</p>
+    </div>
+    <a href="{{ route('invest.create') }}" class="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-900/40 flex items-center gap-2 animate-pulse hover:animate-none border border-purple-400/30">
+        <i data-lucide="plus-circle" class="w-4 h-4"></i> Invest Now
+    </a>
 </div>
 
 <!-- Earning Concepts -->

@@ -10,7 +10,7 @@ class LoginController extends Controller
 {
     public function showLoginForm()
     {
-        if (Auth::check() && Auth::user()->role === 'admin') {
+        if (Auth::guard('admin')->check()) {
             return redirect()->route('admin.dashboard');
         }
         return view('admin.auth.login');
@@ -23,14 +23,7 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) {
-            if (Auth::user()->role !== 'admin') {
-                Auth::logout();
-                return back()->withErrors([
-                    'email' => 'Access denied. This area is for administrators only.',
-                ]);
-            }
-
+        if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended(route('admin.dashboard'));
         }
@@ -42,7 +35,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('admin.login');

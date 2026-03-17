@@ -6,6 +6,7 @@
     <title>Core Admin - NexaNet</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -120,6 +121,10 @@
                 <a href="{{ route('admin.withdrawals.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.withdrawals.*') ? 'active' : '' }}">
                     <i data-lucide="arrow-up-from-line" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Withdrawal Requests</span>
+                </a>
+                <a href="{{ route('admin.payment-methods.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.payment-methods.*') ? 'active' : '' }}">
+                    <i data-lucide="qr-code" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">Payment Gateways</span>
                 </a>
                 <a href="{{ route('admin.investments.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.investments.*') ? 'active' : '' }}">
                     <i data-lucide="gem" class="w-5 h-5"></i>

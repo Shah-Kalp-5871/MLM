@@ -39,6 +39,14 @@
                         <input type="text" name="withdrawal_fee" value="{{ $settings['withdrawal_fee'] ?? '5' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
                     </div>
                     <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Weekly ROI (%)</label>
+                        <input type="text" name="weekly_roi_percentage" value="{{ $settings['weekly_roi_percentage'] ?? '3' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
+                    </div>
+                    <div class="space-y-2 text-right">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest block opacity-0">spacer</label>
+                        <span class="text-[10px] text-gray-400 italic">This % applies to all new investments.</span>
+                    </div>
+                    <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Deposit Minimum</label>
                         <input type="text" name="min_deposit" value="{{ $settings['min_deposit'] ?? '500' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
                     </div>

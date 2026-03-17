@@ -25,9 +25,29 @@ class WithdrawalController extends Controller
                 throw new \Exception("Withdrawal is already processed.");
             }
 
+            $wallet = Wallet::where('user_id', $withdrawal->user_id)->lockForUpdate()->firstOrFail();
+
+            if ($wallet->balance < $withdrawal->amount) {
+                throw new \Exception("User does not have enough balance to process this withdrawal.");
+            }
+
+            // Deduct balance
+            $wallet->decrement('balance', $withdrawal->amount);
+            $wallet->increment('total_withdrawn', $withdrawal->amount);
+
+            // Log Transaction now that it's approved
+            $withdrawal->user->transactions()->create([
+                'amount' => $withdrawal->amount,
+                'type' => 'withdrawal',
+                'wallet' => 'cash',
+                'direction' => 'debit',
+                'balance_after' => $wallet->balance,
+                'description' => "Approved withdrawal of " . (\App\Models\Setting::where('key', 'platform_currency_symbol')->value('value') ?? '$') . number_format($withdrawal->amount, 2),
+            ]);
+
             $withdrawal->update(['status' => 'approved']);
             
-            return back()->with('success', 'Withdrawal approved.');
+            return back()->with('success', 'Withdrawal approved and funds deducted.');
         });
     }
 
@@ -39,16 +59,13 @@ class WithdrawalController extends Controller
                 throw new \Exception("Withdrawal is already processed.");
             }
 
-            // Refund user wallet
-            $wallet = Wallet::where('user_id', $withdrawal->user_id)->first();
-            $wallet->increment('balance', $withdrawal->amount);
-
+            // No refund needed, because balance was never deducted in store()
             $withdrawal->update([
                 'status' => 'rejected',
                 'admin_note' => $request->input('note'),
             ]);
 
-            return back()->with('success', 'Withdrawal rejected and funds refunded.');
+            return back()->with('success', 'Withdrawal rejected.');
         });
     }
 }

@@ -17,11 +17,11 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::withTrashed()->with(['wallet', 'investments', 'deposits', 'withdrawls', 'profile', 'upline', 'referrals'])->findOrFail($id);
+        $user = User::withTrashed()->with(['wallet', 'investments', 'deposits', 'withdrawals', 'profile', 'upline', 'referrals'])->findOrFail($id);
         
         $stats = [
             'total_deposited' => $user->deposits()->where('status', 'approved')->sum('amount'),
-            'total_withdrawn' => $user->withdrawls()->where('status', 'approved')->sum('amount'),
+            'total_withdrawn' => $user->withdrawals()->where('status', 'approved')->sum('amount'),
             'total_roi_earned' => \App\Models\ROIIncome::where('user_id', $user->id)->sum('roi_amount'),
             'total_commission_earned' => \App\Models\LevelCommission::where('user_id', $user->id)->sum('commission_amount'),
             'total_investments' => $user->investments()->count(),

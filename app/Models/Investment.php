@@ -14,6 +14,7 @@ class Investment extends Model
         'user_id',
         'amount',
         'daily_roi_percentage',
+        'weekly_roi_percentage',
         'total_roi_earned',
         'next_payout_at',
         'matures_at',

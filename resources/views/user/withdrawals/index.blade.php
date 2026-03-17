@@ -36,7 +36,7 @@
                     <th>Amount</th>
                     <th>Method</th>
                     <th>Status</th>
-                    <th>Date</th>
+                    <th class="text-right">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,6 +54,11 @@
                         @endif
                     </td>
                     <td class="text-xs text-gray-500">{{ $w->created_at->format('d M Y') }}</td>
+                    <td class="text-right">
+                        <a href="{{ route('withdrawals.receipt', $w->id) }}" target="_blank" class="px-3 py-1.5 rounded-lg bg-white/5 text-xs text-gray-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-all flex items-center gap-2 justify-end" title="Download Receipt">
+                            <span class="hidden sm:inline">Receipt</span> <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </td>
                 </tr>
                 @empty
                 <tr>

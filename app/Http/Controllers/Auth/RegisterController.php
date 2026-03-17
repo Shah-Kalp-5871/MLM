@@ -99,8 +99,8 @@ class RegisterController extends Controller
             'email'         => $pending['email'],
             'phone'         => $pending['phone'],
             'password'      => $pending['password'],
-            'role'          => 'user',
-            'referral_code' => 'NEXA' . rand(1000, 9999),
+
+            'referral_code' => $this->generateUniqueReferralCode(),
             'upline_id'     => $upline ? $upline->id : null,
             'status'        => 'active',
         ]);
@@ -149,5 +149,20 @@ class RegisterController extends Controller
         }
 
         return back()->with('resent', 'A new OTP has been sent to your email.');
+    }
+
+    // ─── Generate Unique Referral Code ─────────────────────────────────────────
+    private function generateUniqueReferralCode(): string
+    {
+        do {
+            // Generate a 5-digit code for 90,000 possible combinations per prefix
+            $code = 'NEXA' . rand(10000, 99999);
+            
+            // Query the database to see if this code already exists
+            $exists = User::where('referral_code', $code)->exists();
+            
+        } while ($exists);
+
+        return $code;
     }
 }

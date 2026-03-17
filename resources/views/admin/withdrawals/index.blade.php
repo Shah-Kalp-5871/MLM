@@ -1,4 +1,4 @@
-﻿@extends('layouts.admin')
+@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-6">
@@ -58,9 +58,9 @@
                         <td class="px-6 py-4 text-right">
                             @if($withdrawal->status == 'pending')
                             <div class="flex justify-end gap-2">
-                                <form action="{{ route('admin.withdrawals.approve', $withdrawal->id) }}" method="POST">
+                                <form action="{{ route('admin.withdrawals.approve', $withdrawal->id) }}" method="POST" id="approve-withdrawal-{{ $withdrawal->id }}">
                                     @csrf
-                                    <button type="submit" class="text-purple-500 hover:text-purple-400 font-bold text-xs uppercase tracking-wider underline">Mark as Paid</button>
+                                    <button type="button" onclick="confirmWithdrawal({{ $withdrawal->id }})" class="text-purple-500 hover:text-purple-400 font-bold text-xs uppercase tracking-wider underline">Mark as Paid</button>
                                 </form>
                             </div>
                             @endif
@@ -77,4 +77,44 @@
         </div>
     </div>
 </div>
+<script>
+    function confirmWithdrawal(id) {
+        Swal.fire({
+            title: 'Confirm Payment?',
+            text: "Mark this withdrawal as paid. Ensure you have transferred the funds to the user's address.",
+            icon: 'info',
+            showCancelButton: true,
+            background: '#0f0f0f',
+            color: '#fff',
+            confirmButtonColor: '#8b5cf6',
+            cancelButtonColor: '#374151',
+            confirmButtonText: 'Yes, Paid!',
+            customClass: {
+                popup: 'glass rounded-3xl border border-white/10 shadow-2xl',
+                confirmButton: 'rounded-xl px-6 py-3 font-bold text-xs uppercase',
+                cancelButton: 'rounded-xl px-6 py-3 font-bold text-xs uppercase'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`approve-withdrawal-${id}`).submit();
+            }
+        })
+    }
+
+    // Success Message Handling
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Processed!',
+            text: "{{ session('success') }}",
+            background: '#0f0f0f',
+            color: '#fff',
+            timer: 3000,
+            showConfirmButton: false,
+            customClass: {
+                popup: 'glass rounded-3xl border border-white/10'
+            }
+        });
+    @endif
+</script>
 @endsection

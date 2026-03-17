@@ -9,6 +9,11 @@ use App\Models\Wallet;
 use App\Models\MLMTree;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\ROIIncome;
+use App\Models\LevelSetting;
+use App\Models\LevelCommission;
+use App\Models\WalletTransaction;
+
 class InvestmentService
 {
     /**
@@ -39,14 +44,22 @@ class InvestmentService
             }
 
             // 1. Update Deposit Status
-            $deposit->update(['status' => 'approved']);
+            $deposit->update(['status' => 'approved', 'approved_at' => now(), 'approved_by' => auth()->id()]);
+
+            // 2. Add Funds to Wallet (if not internal transfer)
+            if ($deposit->payment_method !== 'internal_wallet') {
+                $this->addToWallet($deposit->user_id, $deposit->amount, $deposit->payment_method);
+            }
+
+            $weeklyROI = \App\Models\Setting::get('weekly_roi_percentage', 3);
 
             $investment = Investment::create([
                 'user_id' => $deposit->user_id,
                 'amount' => $deposit->amount,
-                'daily_roi_percentage' => 1.0, 
+                'daily_roi_percentage' => $weeklyROI / 7, // Kept for legacy if needed
+                'weekly_roi_percentage' => $weeklyROI,
                 'status' => 'active',
-                'next_payout_at' => now()->addDays(1),
+                'next_payout_at' => now()->addDays(7),
                 'matures_at' => now()->addDays(365),
             ]);
 
@@ -121,6 +134,59 @@ class InvestmentService
                     ]);
                 }
             }
+        }
+    }
+
+    /**
+     * Distribute commissions to uplines when a downline receives ROI.
+     */
+    public function distributeROICommissions(ROIIncome $roiIncome)
+    {
+        $user = $roiIncome->user;
+        $uplineId = $user->upline_id;
+        $level = 1;
+
+        while ($uplineId && $level <= 15) {
+            $upline = User::find($uplineId);
+            if (!$upline) break;
+
+            // Get commission percentage for this level
+            $levelSetting = LevelSetting::where('level', $level)->where('is_active', true)->first();
+            
+            if ($levelSetting) {
+                $commissionAmount = $roiIncome->roi_amount * ($levelSetting->percentage / 100);
+
+                if ($commissionAmount > 0) {
+                    // 1. Credit Upline Wallet
+                    $wallet = Wallet::firstOrCreate(['user_id' => $upline->id]);
+                    $wallet->increment('balance', $commissionAmount);
+
+                    // 2. Create Level Commission Record
+                    LevelCommission::create([
+                        'receiver_id' => $upline->id,
+                        'from_user_id' => $user->id,
+                        'roi_income_id' => $roiIncome->id,
+                        'level' => $level,
+                        'roi_amount' => $roiIncome->roi_amount,
+                        'commission_percentage' => $levelSetting->percentage,
+                        'commission_amount' => $commissionAmount,
+                        'created_at' => now(),
+                    ]);
+
+                    // 3. Log Transaction
+                    $upline->transactions()->create([
+                        'amount' => $commissionAmount,
+                        'type' => 'level_income',
+                        'wallet' => 'cash',
+                        'direction' => 'credit',
+                        'balance_after' => $wallet->balance,
+                        'description' => "Level {$level} ROI commission from {$user->name}",
+                    ]);
+                }
+            }
+
+            $uplineId = $upline->upline_id;
+            $level++;
         }
     }
 

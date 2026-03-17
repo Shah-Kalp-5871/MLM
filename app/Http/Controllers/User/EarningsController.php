@@ -18,7 +18,7 @@ class EarningsController extends Controller
         $totalEarnings = $totalROI + $totalLevelIncome;
         
         $roiRecords = ROIIncome::where('user_id', $user->id)
-            ->with('investment.package')
+            ->with('investment')
             ->orderBy('distributed_at', 'desc')
             ->paginate(5, ['*'], 'roi_page');
             

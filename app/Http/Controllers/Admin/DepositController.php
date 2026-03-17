@@ -33,7 +33,7 @@ class DepositController extends Controller
         $deposit = Deposit::findOrFail($id);
         $deposit->update([
             'status' => 'rejected',
-            'admin_note' => $request->input('note'),
+            'rejection_reason' => $request->input('reason'),
         ]);
 
         return back()->with('success', 'Deposit rejected.');

@@ -10,7 +10,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('role', ['super_admin', 'staff'])->default('staff');
+
             $table->boolean('status')->default(true);
             $table->timestamp('last_login_at')->nullable();
             $table->rememberToken();

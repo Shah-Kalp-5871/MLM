@@ -23,7 +23,7 @@
 
     <!-- Form -->
     <div class="glass-panel rounded-3xl p-10 border border-white/5 shadow-2xl relative overflow-hidden group">
-        <form id="withdrawalForm" class="space-y-8 relative z-10" action="{{ route('withdraw.store') }}" method="POST" onsubmit="return confirmWithdrawal()">
+        <form id="withdrawalForm" class="space-y-8 relative z-10" action="{{ route('withdraw.store') }}" method="POST">
             @csrf
             <div class="space-y-6">
                 <div>
@@ -58,16 +58,122 @@
         <i data-lucide="alert-circle" class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5"></i>
         <p class="text-[11px] text-gray-400 leading-relaxed">Please ensure your destination details are correct. Settlements may take up to 24-48 business hours. <br> <span class="text-white font-bold underline">Vouchers cannot be withdrawn.</span></p>
     </div>
+
+    <!-- Recent Withdrawals -->
+    <div class="glass-panel rounded-2xl overflow-hidden border border-white/5">
+        <div class="p-6 border-b border-white/5 bg-white/[0.02] flex justify-between items-center">
+            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Recent Withdrawals</h2>
+            <a href="{{ route('withdrawals.index') }}" class="text-[10px] text-emerald-400 font-bold uppercase hover:underline">View All</a>
+        </div>
+        <div class="table-wrapper p-4">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="text-[10px] font-bold text-gray-500 uppercase tracking-widest border-b border-white/5">
+                        <th class="pb-4 pl-2">Amount</th>
+                        <th class="pb-4">Status</th>
+                        <th class="pb-4">Date</th>
+                        <th class="pb-4 text-right pr-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="text-xs">
+                    @forelse($withdrawals as $w)
+                    <tr class="border-b border-white/5 last:border-0 group">
+                        <td class="py-4 pl-2">
+                            <span class="font-bold text-white font-mono">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($w->amount, 2) }}</span>
+                            <p class="text-[9px] text-gray-500 mt-0.5 uppercase tracking-tighter">{{ $w->method }}</p>
+                        </td>
+                        <td class="py-4">
+                            @if($w->status == 'approved')
+                                <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[9px] font-bold uppercase rounded-full">Completed</span>
+                            @elseif($w->status == 'pending')
+                                <span class="px-2 py-0.5 bg-amber-500/20 text-amber-400 text-[9px] font-bold uppercase rounded-full">Pending</span>
+                            @else
+                                <span class="px-2 py-0.5 bg-red-500/20 text-red-400 text-[9px] font-bold uppercase rounded-full">{{ ucfirst($w->status) }}</span>
+                            @endif
+                        </td>
+                        <td class="py-4 text-gray-400">{{ $w->created_at->format('d M') }}</td>
+                        <td class="py-4 text-right pr-2">
+                            <a href="{{ route('withdrawals.receipt', $w->id) }}" target="_blank" class="p-2 rounded-lg bg-white/5 text-gray-400 hover:text-emerald-400 transition-all inline-block" title="Download Receipt">
+                                <i data-lucide="file-text" class="w-4 h-4"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="4" class="text-center py-8 text-gray-500 italic">No recent withdrawals.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 </div>
 
 <script>
-function confirmWithdrawal() {
-    const amount = document.querySelector('input[name="amount"]').value;
+    const availableBalance = {{ $wallet->balance ?? 0 }};
+    const hasPendingWithdrawal = {{ $withdrawals->where('status', 'pending')->count() > 0 ? 'true' : 'false' }};
+
+document.getElementById('withdrawalForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    if (hasPendingWithdrawal) {
+        Swal.fire({
+            title: 'Action Not Allowed',
+            text: 'You already have a pending withdrawal request. Please wait for admin approval.',
+            icon: 'error',
+            background: '#0a0b14',
+            color: '#fff',
+            confirmButtonColor: '#ef4444',
+            customClass: {
+                title: 'text-xl font-bold',
+                popup: 'border border-rose-500/20 rounded-2xl',
+            }
+        });
+        return;
+    }
+
+    const amount = parseFloat(document.querySelector('input[name="amount"]').value);
     const method = document.querySelector('select[name="payment_method"]').value;
     const address = document.querySelector('input[name="wallet_address"]').value;
     
-    return confirm(`Are you sure you want to withdraw ${amount} to your ${method} account (${address})?\n\nThis action cannot be undone.`);
-}
+    if(!amount || !address) return; // Let HTML5 validation handle empty fields first
+    
+    if (amount > availableBalance) {
+        Swal.fire({
+            title: 'Insufficient Balance',
+            text: 'You cannot withdraw more than your available balance.',
+            icon: 'error',
+            background: '#0a0b14',
+            color: '#fff',
+            confirmButtonColor: '#ef4444',
+            customClass: {
+                title: 'text-xl font-bold',
+                popup: 'border border-rose-500/20 rounded-2xl',
+            }
+        });
+        return;
+    }
+    
+    Swal.fire({
+        title: 'Confirm Withdrawal',
+        html: `Are you sure you want to withdraw <strong class="text-emerald-400">${amount}</strong> to your <strong class="text-white">${method}</strong> account (<span class="font-mono text-xs text-gray-400">${address}</span>)?<br><br><span class="text-xs text-rose-400">This action cannot be undone.</span>`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#10b981',
+        cancelButtonColor: '#3f3f46',
+        confirmButtonText: 'Yes, Process It',
+        background: '#0a0b14',
+        color: '#fff',
+        customClass: {
+            title: 'text-xl font-bold',
+            popup: 'border border-white/10 rounded-2xl',
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            this.submit();
+        }
+    });
+});
 </script>
 @endsection

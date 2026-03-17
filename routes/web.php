@@ -49,6 +49,8 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/withdraw', [WithdrawalController::class, 'create'])->name('withdraw.create');
     Route::post('/withdraw', [WithdrawalController::class, 'store'])->name('withdraw.store');
+    Route::get('/withdrawals', [WithdrawalController::class, 'index'])->name('withdrawals.index');
+    Route::get('/withdrawals/{id}/receipt', [WithdrawalController::class, 'receipt'])->name('withdrawals.receipt');
     
     Route::get('/referrals', [ReferralController::class, 'index'])->name('referrals.index');
     Route::get('/team', [ReferralController::class, 'team'])->name('team.index');
@@ -75,7 +77,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 });
 
 // Admin Routes (Protected)
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']], function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [AdminUserController::class, 'show'])->name('users.show');
@@ -104,6 +106,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::get('/settings', [AdminSettingsController::class, 'settings'])->name('settings');
     Route::post('/settings', [AdminSettingsController::class, 'update'])->name('settings.update');
     Route::get('/network', [AdminNetworkController::class, 'index'])->name('network.index');
+
+    // Payment Methods CRUD
+    Route::get('/payment-methods', [\App\Http\Controllers\Admin\PaymentMethodController::class, 'index'])->name('payment-methods.index');
+    Route::post('/payment-methods', [\App\Http\Controllers\Admin\PaymentMethodController::class, 'store'])->name('payment-methods.store');
+    Route::put('/payment-methods/{id}', [\App\Http\Controllers\Admin\PaymentMethodController::class, 'update'])->name('payment-methods.update');
+    Route::delete('/payment-methods/{id}', [\App\Http\Controllers\Admin\PaymentMethodController::class, 'destroy'])->name('payment-methods.destroy');
 });
 
 // Auth Routes
