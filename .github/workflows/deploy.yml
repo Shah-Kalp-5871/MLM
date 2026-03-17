@@ -1,86 +1,45 @@
-name: Deploy to Production
+- name: Deploy to Server
+  uses: appleboy/ssh-action@v1.0.3
 
-on:
-  push:
-    branches:
-      - main
+  env:
+    DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  with:
+    host: ${{ secrets.SERVER_IP }}
+    username: ${{ secrets.SERVER_USER }}
+    key: ${{ secrets.SSH_PRIVATE_KEY }}
+    script: |
+      set -e
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      echo "🚀 Starting Deployment"
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          extensions: mbstring, xml, bcmath, curl, zip, pdo_mysql
-          coverage: none
+      if [ -z "$DEPLOY_PATH" ]; then
+        echo "❌ DEPLOY_PATH missing"
+        exit 1
+      fi
 
-      - name: Install Composer dependencies
-        run: composer install --no-dev --optimize-autoloader --no-progress --no-interaction
+      cd $DEPLOY_PATH
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+      echo "📥 Pulling code"
+      git pull origin main
 
-      - name: Install NPM dependencies and build assets
-        run: |
-          npm install
-          npm run build
+      echo "📦 Installing PHP dependencies"
+      composer install --no-dev --optimize-autoloader
 
-      - name: Deploy to Server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            set -e
-            echo "--- Starting Deployment Script ---"
-            
-            if [ -z "${{ secrets.DEPLOY_PATH }}" ]; then
-              echo "ERROR: DEPLOY_PATH secret is not set in GitHub."
-              exit 1
-            fi
-            
-            echo "Checking directory: ${{ secrets.DEPLOY_PATH }}"
-            if [ ! -d "${{ secrets.DEPLOY_PATH }}" ]; then
-              echo "ERROR: Deployment directory does not exist on the server."
-              exit 1
-            fi
-            
-            cd ${{ secrets.DEPLOY_PATH }}
-            
-            echo "Pulling latest changes..."
-            git pull origin main
-            
-            echo "Installing dependencies..."
-            composer install --no-dev --optimize-autoloader
-            
-            echo "Checking for .env file..."
-            if [ ! -f .env ]; then
-              echo "WARNING: .env file missing. Copying .env.example..."
-              cp .env.example .env
-              php artisan key:generate
-            fi
-            
-            echo "Running migrations..."
-            php artisan migrate --force
-            
-            echo "Optimizing Laravel..."
-            php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache
-            
-            echo "Building frontend assets..."
-            if [ -f package.json ]; then
-              npm install
-              npm run build
-            fi
-            
-            echo "--- Deployment Successful ---"
+      echo "🔐 Fixing permissions"
+      chmod -R 775 storage bootstrap/cache
+
+      echo "⚙️ Running migrations"
+      php artisan migrate --force
+
+      echo "🧹 Clearing cache"
+      php artisan config:clear
+      php artisan cache:clear
+      php artisan view:clear
+
+      echo "⚡ Optimizing"
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+
+      echo "✅ Deployment Done"
