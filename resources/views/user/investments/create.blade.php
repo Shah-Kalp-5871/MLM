@@ -48,9 +48,21 @@
                         <span class="absolute left-6 top-1/2 -translate-y-1/2 text-2xl font-bold text-purple-500">
                             {{ $settings['platform_currency_symbol'] ?? '$' }}
                         </span>
-                        <input type="number" name="amount" min="1" step="0.01" value="100.00" 
+                        <input type="number" name="amount" id="investment-amount" min="{{ $settings['min_deposit'] ?? 500 }}" step="0.01" value="{{ $settings['min_deposit'] ?? 500 }}" 
                             class="w-full bg-black/40 border-2 border-white/5 focus:border-purple-600/50 rounded-2xl pl-12 pr-8 py-5 text-3xl font-black text-white focus:outline-none transition-all placeholder:text-gray-800"
                             placeholder="0.00" required>
+                    </div>
+                </div>
+
+                <!-- ROI Calculator Preview -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-6 rounded-2xl bg-purple-500/5 border border-purple-500/10">
+                        <p class="text-[10px] font-bold text-purple-400 uppercase tracking-widest mb-1">Weekly Earnings ({{ $settings['weekly_roi_percentage'] ?? 3 }}%)</p>
+                        <h4 class="text-xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}<span id="weekly-preview">0.00</span></h4>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-blue-500/5 border border-blue-500/10">
+                        <p class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1">Monthly Earnings (Est.)</p>
+                        <h4 class="text-xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}<span id="monthly-preview">0.00</span></h4>
                     </div>
                 </div>
 
@@ -74,6 +86,20 @@
                             </div>
                         </label>
                         @endforeach
+                    </div>
+                </div>
+
+                <!-- Voucher Code Input -->
+                <div class="mt-6 pt-6 border-t border-white/5">
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Reward Voucher Code (Optional)</label>
+                    <div class="relative">
+                        <span class="absolute left-6 top-1/2 -translate-y-1/2 text-purple-500">
+                            <i data-lucide="ticket" class="w-5 h-5"></i>
+                        </span>
+                        <input type="text" name="voucher_code" 
+                            class="w-full bg-black/40 border-2 border-white/5 focus:border-emerald-500/50 rounded-2xl pl-14 pr-8 py-4 text-lg font-bold text-white focus:outline-none transition-all placeholder:text-gray-700 uppercase"
+                            placeholder="Enter Code (e.g., CLUB-XXXX)">
+                        <p class="text-[10px] text-gray-500 mt-2 ml-2 italic">Applied as a discount on your required deposit amount.</p>
                     </div>
                 </div>
             </div>
@@ -142,6 +168,23 @@
 </div>
 
 <script>
+    const roiPercent = {{ $settings['weekly_roi_percentage'] ?? 3 }};
+    const amountInput = document.getElementById('investment-amount');
+    const weeklySpan = document.getElementById('weekly-preview');
+    const monthlySpan = document.getElementById('monthly-preview');
+
+    function calculateROI() {
+        const val = parseFloat(amountInput.value) || 0;
+        const weekly = val * (roiPercent / 100);
+        const monthly = weekly * 4; // Simplified monthly estimation
+        
+        weeklySpan.innerText = weekly.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        monthlySpan.innerText = monthly.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+
+    amountInput.addEventListener('input', calculateROI);
+    document.addEventListener('DOMContentLoaded', calculateROI);
+
     function updatePaymentDetails(qr, instructions) {
         document.getElementById('qr-code-img').src = '{{ asset("storage") }}/' + qr;
         document.getElementById('payment-instructions').innerText = instructions || 'No special instructions.';

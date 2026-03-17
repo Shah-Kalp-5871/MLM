@@ -150,6 +150,16 @@ class InvestmentService
             $upline = User::find($uplineId);
             if (!$upline) break;
 
+            // ONLY GIVE INCOME IF UPLINE HAS ACTIVE INVESTMENT
+            $hasActiveInvestment = $upline->investments()->where('status', 'active')->exists();
+
+            if (!$hasActiveInvestment) {
+                // Skip inactive upline, move to next
+                $uplineId = $upline->upline_id;
+                $level++;
+                continue;
+            }
+
             // Get commission percentage for this level
             $levelSetting = LevelSetting::where('level', $level)->where('is_active', true)->first();
             

@@ -35,10 +35,6 @@
                         <input type="text" name="min_withdrawal" value="{{ $settings['min_withdrawal'] ?? '200' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
                     </div>
                     <div class="space-y-2">
-                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Withdrawal Fee (%)</label>
-                        <input type="text" name="withdrawal_fee" value="{{ $settings['withdrawal_fee'] ?? '5' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
-                    </div>
-                    <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Weekly ROI (%)</label>
                         <input type="text" name="weekly_roi_percentage" value="{{ $settings['weekly_roi_percentage'] ?? '3' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
                     </div>
@@ -49,13 +45,6 @@
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Deposit Minimum</label>
                         <input type="text" name="min_deposit" value="{{ $settings['min_deposit'] ?? '500' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
-                    </div>
-                     <div class="space-y-2">
-                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">ROI Distribution Day</label>
-                        <select name="roi_day" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none appearance-none">
-                            <option value="Monday" {{ ($settings['roi_day'] ?? '') == 'Monday' ? 'selected' : '' }}>Monday</option>
-                            <option value="Sunday" {{ ($settings['roi_day'] ?? '') == 'Sunday' ? 'selected' : '' }}>Sunday</option>
-                        </select>
                     </div>
                 </div>
             </div>

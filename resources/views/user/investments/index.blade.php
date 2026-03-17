@@ -10,27 +10,27 @@
 </div>
 
 @php
-    $totalInvestment = auth()->user()->investments()->where('status', 'active')->sum('amount');
-    $activeCount = auth()->user()->investments()->where('status', 'active')->count();
-    $minROI = $settings['weekly_roi_min'] ?? 3;
-    $maxROI = $settings['weekly_roi_max'] ?? 3.5;
-    $expectedWeekly = $totalInvestment * ($minROI / 100);
+    $activeInvestments = auth()->user()->investments()->where('status', 'active')->get();
+    $totalInvestment = $activeInvestments->sum('amount');
+    $activeCount = $activeInvestments->count();
+    $globalROI = $settings['weekly_roi_percentage'] ?? 3;
+    
+    $expectedWeekly = 0;
+    foreach($activeInvestments as $inv) {
+        $expectedWeekly += $inv->amount * ($inv->weekly_roi_percentage / 100);
+    }
 @endphp
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
     <div class="glass-panel p-6 rounded-2xl border border-purple-500/20 flex flex-col justify-center">
-        <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-2">ROI Explanation</h2>
+        <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-2">ROI Transparency</h2>
         <p class="text-xs text-gray-400 leading-relaxed mb-4">
-            Your investment generates passive weekly ROI based on the package value.
+            Each investment earns a fixed weekly ROI. Your profit is credited to your wallet exactly 7 days after approval.
         </p>
         <div class="flex gap-4">
-            <div class="bg-black/30 p-3 rounded-xl border border-white/5 flex-1">
-                <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Weekly ROI</p>
-                <p class="text-white font-black">{{ $minROI }}% – {{ $maxROI }}%</p>
-            </div>
-            <div class="bg-black/30 p-3 rounded-xl border border-white/5 flex-1">
-                <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Monthly ROI</p>
-                <p class="text-white font-black">{{ $minROI * 4 }}% – {{ $maxROI * 4 }}%</p>
+            <div class="bg-black/30 p-4 rounded-xl border border-white/5 flex-1">
+                <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Global Active Rate</p>
+                <p class="text-white font-black text-xl">{{ $globalROI }}% <span class="text-[10px] text-purple-400 uppercase ml-1 tracking-tighter">Per Week</span></p>
             </div>
         </div>
     </div>
@@ -45,8 +45,8 @@
             <h3 class="text-2xl font-black text-white">{{ $activeCount }}</h3>
         </div>
         <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-amber-500 sm:col-span-2">
-            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Expected Weekly Profit</p>
-            <h3 class="text-2xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($expectedWeekly, 2) }} – {{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($totalInvestment * ($maxROI / 100), 2) }}</h3>
+            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Total Weekly Profit (Auto-Credit)</p>
+            <h3 class="text-2xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($expectedWeekly, 2) }}</h3>
         </div>
     </div>
 </div>
@@ -95,7 +95,10 @@
                     </td>
                     <td class="text-xs text-gray-400 font-medium">{{ $inv->created_at->format('d M, Y') }}</td>
                     <td class="text-right">
-                        <span class="text-xs text-indigo-400 font-bold">{{ \Carbon\Carbon::parse($inv->next_payout_at)->format('d M') }}</span>
+                        <div class="flex flex-col items-end">
+                            <span class="text-xs text-white font-bold">{{ \Carbon\Carbon::parse($inv->next_payout_at)->format('d M') }}</span>
+                            <span class="text-[9px] text-indigo-400 font-bold uppercase tracking-tighter">In {{ now()->diffInDays($inv->next_payout_at) }} Days</span>
+                        </div>
                     </td>
                 </tr>
                 @empty
@@ -192,4 +195,49 @@
     </div>
 </div>
 @endif
+<div class="mb-12">
+    <div class="flex items-center gap-3 mb-6">
+        <div class="w-2 h-8 bg-blue-500 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)]"></div>
+        <h2 class="text-lg font-bold text-white uppercase tracking-tight">Recent ROI Payouts</h2>
+    </div>
+
+    <div class="glass-panel rounded-3xl overflow-hidden border border-white/5 bg-white/[0.02] relative shadow-2xl">
+        <div class="table-wrapper p-4">
+            <table>
+                <thead>
+                    <tr class="text-[10px] uppercase tracking-widest text-gray-500 font-bold border-b border-white/5">
+                        <th class="pb-4 pl-2">Date</th>
+                        <th class="pb-4">Investment ID</th>
+                        <th class="pb-4">ROI Amount</th>
+                        <th class="pb-4 text-right pr-2">Week #</th>
+                    </tr>
+                </thead>
+                <tbody class="text-xs">
+                    @forelse($roiHistory as $history)
+                    <tr class="hover:bg-white/[0.03] transition-colors border-b border-white/5 last:border-0">
+                        <td class="py-4 pl-2 text-gray-400 font-medium">{{ $history->distributed_at->format('d M, Y') }}</td>
+                        <td class="py-4 font-mono text-gray-500 text-[10px]">#PLAT-{{ $history->investment_id }}</td>
+                        <td class="py-4 text-emerald-400 font-bold">+{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($history->roi_amount, 2) }}</td>
+                        <td class="py-4 text-right pr-2">
+                            <span class="px-2 py-0.5 bg-blue-500/10 text-blue-400 rounded-lg font-bold uppercase tracking-widest text-[9px]">Week {{ $history->week_number }}</span>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="4" class="text-center py-12 text-gray-500 italic font-medium">No ROI payouts recorded yet. Your first ROI will appear 7 days after approval.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        @if($roiHistory->isNotEmpty())
+        <div class="p-4 border-t border-white/5 flex justify-center bg-white/[0.01]">
+            <a href="{{ route('earnings.index') }}" class="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-blue-400 transition-colors flex items-center gap-2">
+                See Full ROI History <i data-lucide="arrow-right" class="w-3 h-3"></i>
+            </a>
+        </div>
+        @endif
+    </div>
+</div>
+
 @endsection

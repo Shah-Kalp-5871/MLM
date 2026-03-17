@@ -98,5 +98,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Voucher::class);
     }
+
+    public function roiIncomes()
+    {
+        return $this->hasMany(ROIIncome::class);
+    }
+
+    public function levelCommissions()
+    {
+        return $this->hasMany(LevelCommission::class, 'receiver_id');
+    }
+
+    public function sentCommissions()
+    {
+        return $this->hasMany(LevelCommission::class, 'from_user_id');
+    }
 }
 

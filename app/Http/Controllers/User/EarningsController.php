@@ -27,12 +27,18 @@ class EarningsController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(5, ['*'], 'level_page');
             
+        $networkInfo = [
+            'total_referrals' => \App\Models\MLMTree::where('ancestor_id', $user->id)->where('distance', '>', 0)->count(),
+            'max_depth' => 15,
+        ];
+            
         return view('user.earnings', compact(
             'totalROI', 
             'totalLevelIncome', 
             'totalEarnings', 
             'roiRecords', 
-            'levelCommissions'
+            'levelCommissions',
+            'networkInfo'
         ));
     }
 }

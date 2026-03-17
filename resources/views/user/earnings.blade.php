@@ -17,7 +17,7 @@
         <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-2">Passive ROI Income</h3>
         <p class="text-xs text-gray-400 leading-relaxed">
             ROI (Return on Investment) is profit generated automatically from your own active packages. 
-            Paid <span class="text-white font-bold">weekly (3% – 3.5%)</span> directly into your wallet.
+            Paid <span class="text-white font-bold">weekly ({{ $settings['weekly_roi_percentage'] ?? 3 }}%)</span> directly into your wallet.
         </p>
     </div>
     <div class="glass-panel p-5 rounded-2xl border border-purple-500/20">
@@ -29,7 +29,7 @@
     </div>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
         <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         <p class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1">ROI Income</p>
@@ -46,6 +46,19 @@
         <p class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1">Total Earnings</p>
         <h3 class="text-3xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($totalEarnings, 2) }}</h3>
         <p class="text-[10px] text-gray-500 mt-2">Historical Total</p>
+    </div>
+    
+    <!-- Network Info Card -->
+    <div class="glass-panel p-6 rounded-2xl border border-indigo-500/20 flex flex-col justify-center">
+        <p class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-4"><i data-lucide="network" class="w-3 h-3 inline-block -mt-1 mr-1"></i> Referral Network</p>
+        <div class="flex justify-between items-center mb-2">
+            <span class="text-xs text-gray-400 font-medium">Total Team Size:</span>
+            <span class="text-sm font-black text-white bg-white/5 px-2 py-1 rounded">{{ $networkInfo['total_referrals'] }} Users</span>
+        </div>
+        <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-400 font-medium">Income Depth:</span>
+            <span class="text-sm font-black text-indigo-400">{{ $networkInfo['max_depth'] }} Levels</span>
+        </div>
     </div>
 </div>
 

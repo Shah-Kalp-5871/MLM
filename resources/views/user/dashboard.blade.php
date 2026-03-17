@@ -18,22 +18,47 @@
     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
         <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         <i data-lucide="trending-up" class="w-8 h-8 text-purple-400 mb-4 opacity-80"></i>
-        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Weekly ROI</p>
-        <h3 class="text-2xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['weekly_roi'], 2) }}</h3>
+        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Weekly Profit ({{ $stats['roi_percentage'] }}%)</p>
+        <h3 class="text-2xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['weekly_earnings'], 2) }}</h3>
+    </div>
+
+    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group border-l-4 border-l-blue-500">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <i data-lucide="calendar-check" class="w-8 h-8 text-blue-400 mb-4 opacity-80"></i>
+        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Next ROI Payout</p>
+        <h3 class="text-xl font-black text-white">
+            @if($stats['next_payout_at'])
+                {{ $stats['next_payout_at']->format('d M') }}
+                <span class="text-[10px] text-blue-400 block mt-1 font-bold uppercase tracking-tighter">In {{ now()->diffInDays($stats['next_payout_at']) }} Days</span>
+            @else
+                <span class="text-sm">No Active Plan</span>
+            @endif
+        </h3>
     </div>
 
     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
-        <div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-        <i data-lucide="users" class="w-8 h-8 text-blue-400 mb-4 opacity-80"></i>
+        <div class="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <i data-lucide="gem" class="w-8 h-8 text-amber-500 mb-4 opacity-80"></i>
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Total Investment</p>
         <h3 class="text-2xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['total_investment'], 2) }}</h3>
     </div>
 
-    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group border-amber-500/20">
-        <div class="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-        <i data-lucide="award" class="w-8 h-8 text-amber-500 mb-4 opacity-80"></i>
+    <!-- New: Level Income Card -->
+    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group border-indigo-500/20">
+        <div class="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <div class="flex justify-between items-start mb-4">
+            <i data-lucide="network" class="w-8 h-8 text-indigo-400 opacity-80"></i>
+            <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-[10px] uppercase font-bold rounded-lg">+{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['level_income_today'], 2) }} Today</span>
+        </div>
+        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Total Level Income</p>
+        <h3 class="text-2xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['total_level_income'], 2) }}</h3>
+    </div>
+
+    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group border-emerald-500/20">
+        <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <i data-lucide="award" class="w-8 h-8 text-emerald-500 mb-4 opacity-80"></i>
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Network Team Base</p>
-        <h3 class="text-xl font-black text-white">Team: <span class="text-amber-500">{{ $stats['team_size'] }}</span> | Direct: <span class="text-amber-500">{{ $stats['direct_referrals'] }}</span></h3>
+        <h3 class="text-xl font-black text-white">Team: <span class="text-emerald-500">{{ $stats['team_size'] }}</span> | Direct: <span class="text-emerald-500">{{ $stats['direct_referrals'] }}</span></h3>
     </div>
 </div>
 

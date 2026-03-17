@@ -14,11 +14,9 @@ class SettingsSeeder extends Seeder
             // ROI Config
             ['key' => 'roi_min_percentage',     'value' => '3.00',      'type' => 'decimal',  'group' => 'roi',        'label' => 'Minimum Weekly ROI %',          'is_public' => true],
             ['key' => 'roi_max_percentage',     'value' => '3.50',      'type' => 'decimal',  'group' => 'roi',        'label' => 'Maximum Weekly ROI %',          'is_public' => true],
-            ['key' => 'roi_distribution_day',   'value' => 'monday',    'type' => 'string',   'group' => 'roi',        'label' => 'Day ROI is distributed',        'is_public' => false],
 
             // Withdrawal Config
             ['key' => 'min_withdrawal_amount',  'value' => '50.00',     'type' => 'decimal',  'group' => 'withdrawal', 'label' => 'Minimum Withdrawal Amount',     'is_public' => true],
-            ['key' => 'withdrawal_fee_percent', 'value' => '0.00',      'type' => 'decimal',  'group' => 'withdrawal', 'label' => 'Withdrawal Fee (%)',            'is_public' => true],
             ['key' => 'withdrawal_processing_days', 'value' => '2',     'type' => 'integer',  'group' => 'withdrawal', 'label' => 'Processing Days (max)',         'is_public' => true],
 
             // Platform Config
