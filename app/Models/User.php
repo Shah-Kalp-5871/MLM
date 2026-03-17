@@ -96,7 +96,7 @@ class User extends Authenticatable
 
     public function vouchers()
     {
-        return $this->hasMany(Voucher::class);
+        return $this->hasMany(Voucher::class, 'owner_id');
     }
 
     public function roiIncomes()

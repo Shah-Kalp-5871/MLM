@@ -16,6 +16,7 @@ class Wallet extends Model
         'total_level_earned',
         'total_withdrawn',
         'total_deposited',
+        'voucher_balance',
     ];
 
     public function user()
@@ -25,7 +26,7 @@ class Wallet extends Model
 
     public function transactions()
     {
-        return $this->hasMany(WalletTransaction::class);
+        return $this->hasMany(WalletTransaction::class, 'user_id', 'user_id');
     }
 
 }

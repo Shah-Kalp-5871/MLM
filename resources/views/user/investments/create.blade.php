@@ -89,24 +89,8 @@
                     </div>
                 </div>
 
-                <!-- Voucher Code Input -->
-                <div class="mt-6 pt-6 border-t border-white/5">
-                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Reward Voucher Code (Optional)</label>
-                    <div class="relative">
-                        <span class="absolute left-6 top-1/2 -translate-y-1/2 text-purple-500">
-                            <i data-lucide="ticket" class="w-5 h-5"></i>
-                        </span>
-                        <input type="text" name="voucher_code" 
-                            class="w-full bg-black/40 border-2 border-white/5 focus:border-emerald-500/50 rounded-2xl pl-14 pr-8 py-4 text-lg font-bold text-white focus:outline-none transition-all placeholder:text-gray-700 uppercase"
-                            placeholder="Enter Code (e.g., CLUB-XXXX)">
-                        <p class="text-[10px] text-gray-500 mt-2 ml-2 italic">Applied as a discount on your required deposit amount.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 2: Payment Receipt -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Step 2: Payment Receipt -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-white/5">
             <div class="md:col-span-1">
                 <div class="glass p-6 rounded-3xl border border-white/5 text-center sticky top-8">
                     <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">Scan to Pay</p>

@@ -10,7 +10,8 @@ class Voucher extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'owner_id',
+        'used_by',
         'code',
         'amount',
         'type',
@@ -22,8 +23,13 @@ class Voucher extends Model
         'used_at' => 'datetime',
     ];
 
-    public function user()
+    public function owner()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function redeemer()
+    {
+        return $this->belongsTo(User::class, 'used_by');
     }
 }

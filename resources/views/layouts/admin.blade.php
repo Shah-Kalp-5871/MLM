@@ -134,6 +134,10 @@
                     <i data-lucide="zap" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">ROI Engine</span>
                 </a>
+                <a href="{{ route('admin.reports.vouchers') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.reports.vouchers') ? 'active' : '' }}">
+                    <i data-lucide="ticket" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">Voucher Report</span>
+                </a>
 
                 <div class="pt-6 text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">Network & Growth</div>
                 <a href="{{ route('admin.network.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.network.*') ? 'active' : '' }}">

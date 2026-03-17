@@ -19,6 +19,7 @@ class Investment extends Model
         'next_payout_at',
         'matures_at',
         'status', // active, completed, cancelled
+        'source',
     ];
 
     protected $casts = [

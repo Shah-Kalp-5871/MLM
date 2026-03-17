@@ -143,6 +143,7 @@
                             <a href="{{ route('withdraw.create') }}" class="dropdown-item {{ request()->routeIs('withdraw.create') ? 'active' : '' }}"><i data-lucide="arrow-up-right" class="w-4 h-4"></i> Withdraw</a>
                             <a href="{{ route('withdrawals.index') }}" class="dropdown-item {{ request()->routeIs('withdrawals.index') ? 'active' : '' }}"><i data-lucide="history" class="w-4 h-4"></i> Withdrawal History</a>
                             <a href="{{ route('vouchers.index') }}" class="dropdown-item {{ request()->routeIs('vouchers.index') ? 'active' : '' }}"><i data-lucide="ticket" class="w-4 h-4"></i> Vouchers</a>
+                            <a href="{{ route('vouchers.redeem') }}" class="dropdown-item {{ request()->routeIs('vouchers.redeem') ? 'active' : '' }}"><i data-lucide="zap" class="w-4 h-4"></i> Redeem Voucher</a>
                         </div>
                     </div>
 
@@ -186,6 +187,7 @@
             <a href="{{ route('withdraw.create') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('withdraw.create') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="arrow-up-right" class="w-4 h-4 text-purple-400"></i> Withdraw</a>
             <a href="{{ route('withdrawals.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('withdrawals.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="history" class="w-4 h-4 text-purple-400"></i> Withdrawal History</a>
             <a href="{{ route('vouchers.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('vouchers.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="ticket" class="w-4 h-4 text-purple-400"></i> Vouchers</a>
+            <a href="{{ route('vouchers.redeem') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('vouchers.redeem') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="zap" class="w-4 h-4 text-purple-400"></i> Redeem Voucher</a>
 
             <div class="mt-4 pt-4 border-t border-white/5">
                 <a href="{{ route('profile.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('profile.index') ? 'bg-white/5' : '' }}"><i data-lucide="user" class="w-4 h-4 text-purple-400"></i> Profile</a>

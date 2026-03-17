@@ -63,6 +63,8 @@ Route::middleware(['auth'])->group(function () {
     // Club & Vouchers
     Route::get('/club', [App\Http\Controllers\User\ClubController::class, 'index'])->name('club.index');
     Route::get('/vouchers', [App\Http\Controllers\User\VoucherController::class, 'index'])->name('vouchers.index');
+    Route::get('/vouchers/redeem', [App\Http\Controllers\User\VoucherController::class, 'showRedeemForm'])->name('vouchers.redeem');
+    Route::post('/vouchers/redeem', [App\Http\Controllers\User\VoucherController::class, 'redeem'])->name('vouchers.redeem.submit');
 });
 
 Route::get('/admin', function () {
@@ -104,6 +106,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::post('/level-settings', [\App\Http\Controllers\Admin\LevelSettingController::class, 'update'])->name('level-settings.update');
     
     Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/vouchers', [\App\Http\Controllers\Admin\ReportController::class, 'voucherReport'])->name('reports.vouchers');
     Route::get('/settings', [AdminSettingsController::class, 'settings'])->name('settings');
     Route::post('/settings', [AdminSettingsController::class, 'update'])->name('settings.update');
     Route::get('/network', [AdminNetworkController::class, 'index'])->name('network.index');

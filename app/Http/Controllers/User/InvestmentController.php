@@ -34,7 +34,6 @@ class InvestmentController extends Controller
             'amount' => 'required|numeric|min:1',
             'payment_method_id' => 'required|exists:payment_methods,id',
             'payment_proof' => 'required|image|max:2048',
-            'voucher_code' => 'nullable|string',
         ]);
 
         // Check for pending again on server side
@@ -46,38 +45,13 @@ class InvestmentController extends Controller
             return back()->with('error', 'You already have a pending investment request. Please wait for admin approval.');
         }
 
-        // Voucher Validation
-        $discountAmount = 0;
-        $voucherCode = null;
-
-        if ($request->filled('voucher_code')) {
-            $voucher = auth()->user()->vouchers()
-                ->where('code', $request->voucher_code)
-                ->where('status', 'unused')
-                ->first();
-
-            if (!$voucher) {
-                return back()->withInput()->with('error', 'Invalid or already used voucher code.');
-            }
-
-            /** @var \App\Models\Voucher $voucher */
-            // Optional: Limit discount to deposit amount (so they don't get 'negative' charge)
-            $discountAmount = min($voucher->amount, $request->amount);
-            $voucherCode = $voucher->code;
-
-            // Voucher will be marked as used ONLY upon Admin deposit approval.
-        }
-
         $method = \App\Models\PaymentMethod::find($request->payment_method_id);
-        
         $proofPath = $request->file('payment_proof')->store('proofs', 'public');
 
         auth()->user()->deposits()->create([
             'amount' => $request->amount,
             'payment_method' => strtolower($method->name),
             'payment_proof' => $proofPath,
-            'voucher_code' => $voucherCode,
-            'discount_amount' => $discountAmount,
             'status' => 'pending',
         ]);
 

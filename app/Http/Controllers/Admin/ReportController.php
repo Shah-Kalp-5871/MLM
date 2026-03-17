@@ -51,4 +51,19 @@ class ReportController extends Controller
 
         return view('admin.reports.index', compact('stats', 'leaders'));
     }
+    public function voucherReport()
+    {
+        $vouchers = \App\Models\Voucher::with(['owner', 'redeemer'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
+            
+        $stats = [
+            'total_generated' => \App\Models\Voucher::count(),
+            'total_value' => \App\Models\Voucher::sum('amount'),
+            'total_used' => \App\Models\Voucher::where('status', 'used')->count(),
+            'unused_value' => \App\Models\Voucher::where('status', 'unused')->sum('amount'),
+        ];
+
+        return view('admin.reports.vouchers', compact('vouchers', 'stats'));
+    }
 }

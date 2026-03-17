@@ -46,13 +46,15 @@ class InvestmentService
             // 1. Update Deposit Status
             $deposit->update(['status' => 'approved', 'approved_at' => now(), 'approved_by' => auth()->id()]);
 
-            // Mark applied voucher as used
+            // Old voucher logic removed as vouchers are now redeemed directly or via investment source
+            /*
             if ($deposit->voucher_code) {
                 $voucher = \App\Models\Voucher::where('code', $deposit->voucher_code)->first();
                 if ($voucher && $voucher->status === 'unused') {
                     $voucher->update(['status' => 'used', 'used_at' => now()]);
                 }
             }
+            */
 
             // 2. Add Funds to Wallet (if not internal transfer)
             if ($deposit->payment_method !== 'internal_wallet') {
@@ -134,7 +136,7 @@ class InvestmentService
                     $user->vouchers()->create([
                         'code' => strtoupper("CLUB{$level->level}-" . str_replace('.', '', uniqid('', true))),
                         'amount' => $level->reward_amount,
-                        'description' => $level->title, // Add title to voucher description if needed
+                        'description' => $level->title,
                         'type' => $type,
                         'status' => 'unused',
                     ]);
