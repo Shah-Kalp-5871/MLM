@@ -44,7 +44,7 @@
                         <td class="px-6 py-4 text-red-500/70">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($withdrawal->amount * 0.05, 2) }}</td>
                         <td class="px-6 py-4 text-green-400">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($withdrawal->amount * 0.95, 2) }}</td>
                         <td class="px-6 py-4">
-                            <span class="text-xs text-slate-500 bg-slate-800/10 px-2 py-1 rounded border border-[#1f1f1f]">{{ $withdrawal->payment_method }}</span>
+                            <span class="text-xs text-slate-500 bg-slate-800/10 px-2 py-1 rounded border border-[#1f1f1f]">{{ strtoupper(str_replace('_', ' ', $withdrawal->payment_method)) }}</span>
                         </td>
                         <td class="px-6 py-4">
                             @if($withdrawal->status == 'pending')

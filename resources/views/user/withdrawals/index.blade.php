@@ -43,7 +43,7 @@
                 @forelse($withdrawals as $w)
                 <tr>
                     <td class="font-bold text-white font-mono">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($w->amount, 2) }}</td>
-                    <td>{{ $w->payment_method }}</td>
+                    <td>{{ strtoupper(str_replace('_', ' ', $w->payment_method)) }}</td>
                     <td>
                         @if($w->status == 'approved')
                             <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase rounded-full">Completed</span>

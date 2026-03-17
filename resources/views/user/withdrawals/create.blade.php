@@ -10,6 +10,29 @@
 </div>
 
 <div class="max-w-2xl mx-auto space-y-8">
+    {{-- Flash Messages --}}
+    @if(session('error'))
+    <div class="p-4 rounded-2xl border border-red-500/30 bg-red-500/10 text-red-400 text-sm font-medium">
+        {{ session('error') }}
+    </div>
+    @endif
+    @if(session('success'))
+    <div class="p-4 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-sm font-medium">
+        {{ session('success') }}
+    </div>
+    @endif
+
+    {{-- Validation Errors --}}
+    @if($errors->any())
+    <div class="p-4 rounded-2xl border border-red-500/30 bg-red-500/10 text-red-400 text-sm">
+        <ul class="list-disc list-inside space-y-1">
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
     <!-- Balance Summary -->
     <div class="glass-panel rounded-3xl p-8 border border-emerald-500/20 bg-emerald-500/5 flex items-center justify-between">
         <div>
@@ -28,16 +51,16 @@
             <div class="space-y-6">
                 <div>
                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Withdrawal Amount ({{ $settings['platform_currency_symbol'] ?? '$' }})</label>
-                    <input type="number" name="amount" min="{{ $settings['min_withdrawal'] ?? 10 }}" step="0.01" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-emerald-500 focus:outline-none transition-all placeholder:text-gray-600" placeholder="{{ $settings['min_withdrawal'] ?? '100.00' }}" required>
-                    <p class="text-[10px] text-gray-500 mt-2 ml-1 italic">Minimum withdrawal amount: {{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($settings['min_withdrawal'] ?? 10, 2) }}</p>
+                    <input type="number" name="amount" min="{{ $settings['min_withdrawal'] ?? 200 }}" step="0.01" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-emerald-500 focus:outline-none transition-all placeholder:text-gray-600" placeholder="{{ $settings['min_withdrawal'] ?? '200.00' }}" required>
+                    <p class="text-[10px] text-gray-500 mt-2 ml-1 italic">Minimum withdrawal amount: {{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($settings['min_withdrawal'] ?? 200, 2) }}</p>
                 </div>
 
                 <div>
                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Select Payment Method</label>
                     <select name="payment_method" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-emerald-500 focus:outline-none transition-all appearance-none cursor-pointer" required>
-                        <option value="USDT TRC20">USDT TRC20</option>
-                        <option value="Bank Transfer">Bank Transfer (IMPS/NEFT)</option>
-                        <option value="UPI">UPI ID</option>
+                        <option value="usdt_trc20">USDT TRC20</option>
+                        <option value="bank_transfer">Bank Transfer (IMPS/NEFT)</option>
+                        <option value="upi">UPI ID</option>
                     </select>
                 </div>
 
@@ -80,7 +103,7 @@
                     <tr class="border-b border-white/5 last:border-0 group">
                         <td class="py-4 pl-2">
                             <span class="font-bold text-white font-mono">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($w->amount, 2) }}</span>
-                            <p class="text-[9px] text-gray-500 mt-0.5 uppercase tracking-tighter">{{ $w->payment_method }}</p>
+                            <p class="text-[9px] text-gray-500 mt-0.5 uppercase tracking-tighter">{{ str_replace('_', ' ', $w->payment_method) }}</p>
                         </td>
                         <td class="py-4">
                             @if($w->status == 'approved')
@@ -108,72 +131,44 @@
         </div>
     </div>
 </div>
-</div>
 
 <script>
-    const availableBalance = {{ $wallet->balance ?? 0 }};
-    const hasPendingWithdrawal = {{ $withdrawals->where('status', 'pending')->count() > 0 ? 'true' : 'false' }};
-
 document.getElementById('withdrawalForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
-    if (hasPendingWithdrawal) {
-        Swal.fire({
-            title: 'Action Not Allowed',
-            text: 'You already have a pending withdrawal request. Please wait for admin approval.',
-            icon: 'error',
-            background: '#0a0b14',
-            color: '#fff',
-            confirmButtonColor: '#ef4444',
-            customClass: {
-                title: 'text-xl font-bold',
-                popup: 'border border-rose-500/20 rounded-2xl',
-            }
-        });
-        return;
-    }
 
+    const form = this;
     const amount = parseFloat(document.querySelector('input[name="amount"]').value);
     const method = document.querySelector('select[name="payment_method"]').value;
     const address = document.querySelector('input[name="wallet_address"]').value;
-    
-    if(!amount || !address) return; // Let HTML5 validation handle empty fields first
-    
-    if (amount > availableBalance) {
-        Swal.fire({
-            title: 'Insufficient Balance',
-            text: 'You cannot withdraw more than your available balance.',
-            icon: 'error',
-            background: '#0a0b14',
-            color: '#fff',
-            confirmButtonColor: '#ef4444',
-            customClass: {
-                title: 'text-xl font-bold',
-                popup: 'border border-rose-500/20 rounded-2xl',
-            }
-        });
+    const availableBalance = {{ $wallet->balance ?? 0 }};
+    const hasPendingWithdrawal = {{ $withdrawals->where('status', 'pending')->count() > 0 ? 'true' : 'false' }};
+
+    if (hasPendingWithdrawal) {
+        alert('You already have a pending withdrawal request. Please wait for admin approval.');
         return;
     }
-    
-    Swal.fire({
-        title: 'Confirm Withdrawal',
-        html: `Are you sure you want to withdraw <strong class="text-emerald-400">${amount}</strong> to your <strong class="text-white">${method}</strong> account (<span class="font-mono text-xs text-gray-400">${address}</span>)?<br><br><span class="text-xs text-rose-400">This action cannot be undone.</span>`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#10b981',
-        cancelButtonColor: '#3f3f46',
-        confirmButtonText: 'Yes, Process It',
-        background: '#0a0b14',
-        color: '#fff',
-        customClass: {
-            title: 'text-xl font-bold',
-            popup: 'border border-white/10 rounded-2xl',
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            this.submit();
-        }
-    });
+
+    if (!amount || !address) {
+        alert('Please fill in all fields.');
+        return;
+    }
+
+    if (amount > availableBalance) {
+        alert('Insufficient balance. You only have $' + availableBalance.toFixed(2) + ' available.');
+        return;
+    }
+
+    const confirmed = window.confirm(
+        'Confirm Withdrawal\n\n' +
+        'Amount: $' + amount.toFixed(2) + '\n' +
+        'Method: ' + method + '\n' +
+        'Address: ' + address + '\n\n' +
+        'Proceed with this withdrawal?'
+    );
+
+    if (confirmed) {
+        form.submit();
+    }
 });
 </script>
 @endsection
