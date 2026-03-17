@@ -35,7 +35,7 @@
                 <div class="mt-8 pt-6 border-t border-white/5">
                     <div class="bg-black/40 border border-white/10 rounded-xl p-3 flex items-center justify-between">
                         <code class="text-sm font-mono text-purple-300">{{ $voucher->code }}</code>
-                        <button onclick="navigator.clipboard.writeText('{{ $voucher->code }}'); this.innerHTML='<i data-lucide=\'check\' class=\'w-4 h-4 text-emerald-400\'></i>'; setTimeout(()=>this.innerHTML='<i data-lucide=\'copy\' class=\'w-4 h-4\'></i>', 2000)" class="text-slate-500 hover:text-white transition-colors">
+                        <button onclick="navigator.clipboard.writeText('{{ $voucher->code }}'); this.innerHTML='<i data-lucide=\'check\' class=\'w-4 h-4 text-emerald-400\'></i>'; lucide.createIcons(); setTimeout(()=>{this.innerHTML='<i data-lucide=\'copy\' class=\'w-4 h-4\'></i>'; lucide.createIcons();}, 2000)" class="text-slate-500 hover:text-white transition-colors">
                             <i data-lucide="copy" class="w-4 h-4"></i>
                         </button>
                     </div>
