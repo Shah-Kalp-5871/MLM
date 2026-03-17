@@ -12,9 +12,9 @@ Before the autodeploy can work, you MUST add these secrets to your GitHub reposi
 
 | Secret Name | Description | Example |
 | :--- | :--- | :--- |
-| `SSH_HOST` | Your server's IP address or domain | `123.45.67.89` |
-| `SSH_USER` | The SSH username | `ubuntu` |
-| `SSH_KEY` | Your private SSH key (RSA/PEM) | `-----BEGIN RSA PRIVATE KEY-----...` |
+| `SERVER_IP` | Your server's IP address or domain | `123.45.67.89` |
+| `SERVER_USER` | The SSH username | `ubuntu` |
+| `SSH_PRIVATE_KEY` | Your private SSH key (RSA/PEM) | `-----BEGIN RSA PRIVATE KEY-----...` |
 | `DEPLOY_PATH` | Full path to the app on the server | `/var/www/mlm` |
 
 ## 2. Triggering a Deploy

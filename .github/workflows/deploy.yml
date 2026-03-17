@@ -36,10 +36,14 @@ jobs:
       - name: Deploy to Server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            if [ -z "${{ secrets.DEPLOY_PATH }}" ]; then
+              echo "ERROR: DEPLOY_PATH secret is not set."
+              exit 1
+            fi
             cd ${{ secrets.DEPLOY_PATH }}
             git pull origin main
             composer install --no-dev --optimize-autoloader
