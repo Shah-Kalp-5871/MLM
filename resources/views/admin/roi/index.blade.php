@@ -1,14 +1,28 @@
-﻿@extends('layouts.admin')
+@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-10">
+    @if(session('success'))
+        <div class="glass p-4 rounded-xl border-l-4 border-green-500 text-green-500 text-sm font-bold flex items-center gap-3 animate-pulse">
+            <i data-lucide="check-circle" class="w-5 h-5"></i>
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="glass p-4 rounded-xl border-l-4 border-red-500 text-red-500 text-sm font-bold flex items-center gap-3">
+            <i data-lucide="alert-circle" class="w-5 h-5"></i>
+            {{ session('error') }}
+        </div>
+    @endif
+
     <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div>
             <h1 class="text-2xl font-bold tracking-tight">ROI Engine Control</h1>
             <p class="text-slate-400 text-sm">Automate and monitor weekly profit distribution.</p>
         </div>
         <div class="flex items-center gap-3">
-             <form action="{{ url('admin/roi/run') }}" method="POST">
+             <form action="{{ route('admin.roi.trigger') }}" method="POST">
                 @csrf
                 <button type="submit" class="btn-gradient px-8 py-3 rounded-2xl text-sm font-bold shadow-xl shadow-purple-600/20 flex items-center gap-2">
                     <i data-lucide="play" class="w-4 h-4"></i> Execute ROI Distribution

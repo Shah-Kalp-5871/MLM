@@ -130,6 +130,10 @@
                     <i data-lucide="gem" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Investments List</span>
                 </a>
+                <a href="{{ route('admin.roi.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.roi.*') ? 'active' : '' }}">
+                    <i data-lucide="zap" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">ROI Engine</span>
+                </a>
 
                 <div class="pt-6 text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">Network & Growth</div>
                 <a href="{{ route('admin.network.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.network.*') ? 'active' : '' }}">
@@ -139,6 +143,10 @@
                 <a href="{{ route('admin.commissions.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.commissions.*') ? 'active' : '' }}">
                     <i data-lucide="layers" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Commission History</span>
+                </a>
+                <a href="{{ route('admin.level-settings.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.level-settings.*') ? 'active' : '' }}">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">Commission Settings</span>
                 </a>
 
                 <div class="pt-6 text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">System Control</div>

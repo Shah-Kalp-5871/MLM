@@ -114,7 +114,8 @@
                         <div class="dropdown-menu">
                             <a href="{{ route('invest.create') }}" class="dropdown-item {{ request()->routeIs('invest.create') ? 'active' : '' }}"><i data-lucide="plus-circle" class="w-4 h-4"></i> Start Investing</a>
                             <a href="{{ route('investments.index') }}" class="dropdown-item {{ request()->routeIs('investments.index') ? 'active' : '' }}"><i data-lucide="history" class="w-4 h-4"></i> Investment Hub</a>
-                            <a href="{{ route('earnings.index') }}" class="dropdown-item {{ request()->routeIs('earnings.index') ? 'active' : '' }}"><i data-lucide="trending-up" class="w-4 h-4"></i> Earnings</a>
+                            <a href="{{ route('roi.index') }}" class="dropdown-item {{ request()->routeIs('roi.index') ? 'active' : '' }}"><i data-lucide="zap" class="w-4 h-4"></i> ROI History</a>
+                            <a href="{{ route('earnings.index') }}" class="dropdown-item {{ request()->routeIs('earnings.index') ? 'active' : '' }}"><i data-lucide="trending-up" class="w-4 h-4"></i> Overall Earnings</a>
                         </div>
                     </div>
 
@@ -126,6 +127,7 @@
                         <div class="dropdown-menu">
                             <a href="{{ route('network.index') }}" class="dropdown-item {{ request()->routeIs('network.index') ? 'active' : '' }}"><i data-lucide="share-2" class="w-4 h-4"></i> Team Tree</a>
                             <a href="{{ route('referrals.index') }}" class="dropdown-item {{ request()->routeIs('referrals.index') ? 'active' : '' }}"><i data-lucide="users" class="w-4 h-4"></i> Referral List</a>
+                            <a href="{{ route('level-income.index') }}" class="dropdown-item {{ request()->routeIs('level-income.index') ? 'active' : '' }}"><i data-lucide="layers" class="w-4 h-4"></i> Level Income</a>
                             <a href="{{ route('club.index') }}" class="dropdown-item {{ request()->routeIs('club.index') ? 'active' : '' }}"><i data-lucide="award" class="w-4 h-4"></i> Club Rewards</a>
                         </div>
                     </div>
@@ -137,7 +139,9 @@
                         </button>
                         <div class="dropdown-menu">
                             <a href="{{ route('wallet.index') }}" class="dropdown-item {{ request()->routeIs('wallet.index') ? 'active' : '' }}"><i data-lucide="piggy-bank" class="w-4 h-4"></i> Wallet</a>
+                            <a href="{{ route('deposits.index') }}" class="dropdown-item {{ request()->routeIs('deposits.index') ? 'active' : '' }}"><i data-lucide="arrow-down-to-line" class="w-4 h-4"></i> Deposit History</a>
                             <a href="{{ route('withdraw.create') }}" class="dropdown-item {{ request()->routeIs('withdraw.create') ? 'active' : '' }}"><i data-lucide="arrow-up-right" class="w-4 h-4"></i> Withdraw</a>
+                            <a href="{{ route('withdrawals.index') }}" class="dropdown-item {{ request()->routeIs('withdrawals.index') ? 'active' : '' }}"><i data-lucide="history" class="w-4 h-4"></i> Withdrawal History</a>
                             <a href="{{ route('vouchers.index') }}" class="dropdown-item {{ request()->routeIs('vouchers.index') ? 'active' : '' }}"><i data-lucide="ticket" class="w-4 h-4"></i> Vouchers</a>
                         </div>
                     </div>
@@ -167,16 +171,20 @@
             <div class="px-3 pt-4 pb-2 text-[10px] font-black text-gray-500 uppercase tracking-widest border-t border-white/5 mt-2">Investments</div>
             <a href="{{ route('invest.create') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('invest.create') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="zap" class="w-4 h-4 text-purple-400"></i> Start Investing</a>
             <a href="{{ route('investments.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('investments.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="history" class="w-4 h-4 text-purple-400"></i> Investment Hub</a>
-            <a href="{{ route('earnings.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('earnings.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="trending-up" class="w-4 h-4 text-purple-400"></i> Earnings</a>
+            <a href="{{ route('roi.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('roi.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="zap" class="w-4 h-4 text-purple-400"></i> ROI History</a>
+            <a href="{{ route('earnings.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('earnings.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="trending-up" class="w-4 h-4 text-purple-400"></i> Overall Earnings</a>
 
             <div class="px-3 pt-4 pb-2 text-[10px] font-black text-gray-500 uppercase tracking-widest border-t border-white/5 mt-2">Network</div>
             <a href="{{ route('network.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('network.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="share-2" class="w-4 h-4 text-purple-400"></i> Team Tree</a>
             <a href="{{ route('referrals.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('referrals.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="users" class="w-4 h-4 text-purple-400"></i> Referrals</a>
+            <a href="{{ route('level-income.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('level-income.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="layers" class="w-4 h-4 text-purple-400"></i> Level Income</a>
             <a href="{{ route('club.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('club.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="award" class="w-4 h-4 text-purple-400"></i> Club Rewards</a>
 
             <div class="px-3 pt-4 pb-2 text-[10px] font-black text-gray-500 uppercase tracking-widest border-t border-white/5 mt-2">Finance</div>
-            <a href="{{ route('wallet.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('wallet.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="piggy-bank" class="w-4 h-4 text-purple-400"></i> Balance</a>
+            <a href="{{ route('wallet.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('wallet.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="piggy-bank" class="w-4 h-4 text-purple-400"></i> Wallet</a>
+            <a href="{{ route('deposits.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('deposits.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="arrow-down-to-line" class="w-4 h-4 text-purple-400"></i> Deposits</a>
             <a href="{{ route('withdraw.create') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('withdraw.create') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="arrow-up-right" class="w-4 h-4 text-purple-400"></i> Withdraw</a>
+            <a href="{{ route('withdrawals.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('withdrawals.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="history" class="w-4 h-4 text-purple-400"></i> Withdrawal History</a>
             <a href="{{ route('vouchers.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('vouchers.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="ticket" class="w-4 h-4 text-purple-400"></i> Vouchers</a>
 
             <div class="mt-4 pt-4 border-t border-white/5">

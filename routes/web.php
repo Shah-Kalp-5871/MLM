@@ -95,6 +95,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::get('/investments', [AdminInvestmentController::class, 'index'])->name('investments.index');
     
     Route::get('/roi', [\App\Http\Controllers\Admin\IncomeController::class, 'roiIndex'])->name('roi.index');
+    Route::post('/roi/trigger', [\App\Http\Controllers\Admin\IncomeController::class, 'triggerROI'])->name('roi.trigger');
 
     
     Route::get('/commissions', [\App\Http\Controllers\Admin\IncomeController::class, 'levelIndex'])->name('commissions.index');
