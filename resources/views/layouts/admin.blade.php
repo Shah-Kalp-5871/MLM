@@ -90,7 +90,7 @@
 <body class="flex min-h-screen">
 
     <!-- Sidebar -->
-    <aside class="fixed left-0 top-0 bottom-0 w-64 glass border-r border-[#1f1f1f] z-50 hidden lg:block">
+    <aside class="fixed left-0 top-0 bottom-0 w-64 glass border-r border-[#1f1f1f] z-50 hidden lg:block overflow-y-auto">
         <div class="p-6">
             <div class="flex items-center gap-3 mb-10">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-blue-600 flex items-center justify-center">
