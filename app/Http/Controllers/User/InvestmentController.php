@@ -60,15 +60,12 @@ class InvestmentController extends Controller
                 return back()->withInput()->with('error', 'Invalid or already used voucher code.');
             }
 
+            /** @var \App\Models\Voucher $voucher */
             // Optional: Limit discount to deposit amount (so they don't get 'negative' charge)
             $discountAmount = min($voucher->amount, $request->amount);
             $voucherCode = $voucher->code;
 
-            // Mark voucher as used immediately upon submission (or later upon admin approval depending on policy, user specified "during purchase")
-            $voucher->update([
-                'status' => 'used',
-                'used_at' => now()
-            ]);
+            // Voucher will be marked as used ONLY upon Admin deposit approval.
         }
 
         $method = \App\Models\PaymentMethod::find($request->payment_method_id);

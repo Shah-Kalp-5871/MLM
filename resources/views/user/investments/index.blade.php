@@ -13,7 +13,7 @@
     $activeInvestments = auth()->user()->investments()->where('status', 'active')->get();
     $totalInvestment = $activeInvestments->sum('amount');
     $activeCount = $activeInvestments->count();
-    $globalROI = $settings['weekly_roi_percentage'] ?? 3;
+    $globalROI = $settings['weekly_roi_percentage'];
     
     $expectedWeekly = 0;
     foreach($activeInvestments as $inv) {

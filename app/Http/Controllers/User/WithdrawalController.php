@@ -29,8 +29,10 @@ class WithdrawalController extends Controller
     {
         $user = auth()->user();
         
+        $minWithdrawal = \App\Models\Setting::get('min_withdrawal', 200);
+
         $request->validate([
-            'amount' => 'required|numeric|min:10', 
+            'amount' => "required|numeric|min:{$minWithdrawal}", 
             'payment_method' => 'required|string',
             'wallet_address' => 'required|string',
         ]);

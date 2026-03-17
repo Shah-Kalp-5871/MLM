@@ -113,5 +113,37 @@ class User extends Authenticatable
     {
         return $this->hasMany(LevelCommission::class, 'from_user_id');
     }
+
+    /**
+     * Recursively calculate total team size (all downlines).
+     */
+    public function calculateTeamSize()
+    {
+        $count = 0;
+        $referrals = $this->referrals()->get();
+        
+        foreach ($referrals as $referral) {
+            $count++; // Count direct referral
+            $count += $referral->calculateTeamSize(); // Count their referrals recursively
+        }
+        
+        return $count;
+    }
+
+    /**
+     * Check if this user is an ancestor of another user.
+     * Useful for preventing circular referrals.
+     */
+    public function isAncestorOf($user)
+    {
+        $current = $user;
+        while ($current && $current->upline_id) {
+            if ($current->upline_id == $this->id) {
+                return true;
+            }
+            $current = $current->upline;
+        }
+        return false;
+    }
 }
 

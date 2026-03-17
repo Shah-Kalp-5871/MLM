@@ -17,7 +17,7 @@
         <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-2">Passive ROI Income</h3>
         <p class="text-xs text-gray-400 leading-relaxed">
             ROI (Return on Investment) is profit generated automatically from your own active packages. 
-            Paid <span class="text-white font-bold">weekly ({{ $settings['weekly_roi_percentage'] ?? 3 }}%)</span> directly into your wallet.
+            Paid <span class="text-white font-bold">weekly ({{ $settings['weekly_roi_percentage'] }}%)</span> directly into your wallet.
         </p>
     </div>
     <div class="glass-panel p-5 rounded-2xl border border-purple-500/20">

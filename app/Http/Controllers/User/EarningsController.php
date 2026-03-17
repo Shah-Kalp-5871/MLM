@@ -28,7 +28,7 @@ class EarningsController extends Controller
             ->paginate(5, ['*'], 'level_page');
             
         $networkInfo = [
-            'total_referrals' => \App\Models\MLMTree::where('ancestor_id', $user->id)->where('distance', '>', 0)->count(),
+            'total_referrals' => $user->calculateTeamSize(),
             'max_depth' => 15,
         ];
             

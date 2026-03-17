@@ -48,7 +48,7 @@
                         <span class="absolute left-6 top-1/2 -translate-y-1/2 text-2xl font-bold text-purple-500">
                             {{ $settings['platform_currency_symbol'] ?? '$' }}
                         </span>
-                        <input type="number" name="amount" id="investment-amount" min="{{ $settings['min_deposit'] ?? 500 }}" step="0.01" value="{{ $settings['min_deposit'] ?? 500 }}" 
+                        <input type="number" name="amount" id="investment-amount" min="{{ $settings['min_deposit'] }}" step="0.01" value="{{ $settings['min_deposit'] }}" 
                             class="w-full bg-black/40 border-2 border-white/5 focus:border-purple-600/50 rounded-2xl pl-12 pr-8 py-5 text-3xl font-black text-white focus:outline-none transition-all placeholder:text-gray-800"
                             placeholder="0.00" required>
                     </div>
@@ -57,7 +57,7 @@
                 <!-- ROI Calculator Preview -->
                 <div class="grid grid-cols-2 gap-4">
                     <div class="p-6 rounded-2xl bg-purple-500/5 border border-purple-500/10">
-                        <p class="text-[10px] font-bold text-purple-400 uppercase tracking-widest mb-1">Weekly Earnings ({{ $settings['weekly_roi_percentage'] ?? 3 }}%)</p>
+                        <p class="text-[10px] font-bold text-purple-400 uppercase tracking-widest mb-1">Weekly Earnings ({{ $settings['weekly_roi_percentage'] }}%)</p>
                         <h4 class="text-xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}<span id="weekly-preview">0.00</span></h4>
                     </div>
                     <div class="p-6 rounded-2xl bg-blue-500/5 border border-blue-500/10">
@@ -168,7 +168,7 @@
 </div>
 
 <script>
-    const roiPercent = {{ $settings['weekly_roi_percentage'] ?? 3 }};
+    const roiPercent = {{ $settings['weekly_roi_percentage'] }};
     const amountInput = document.getElementById('investment-amount');
     const weeklySpan = document.getElementById('weekly-preview');
     const monthlySpan = document.getElementById('monthly-preview');

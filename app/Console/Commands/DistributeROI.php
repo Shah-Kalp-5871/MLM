@@ -51,6 +51,17 @@ class DistributeROI extends Command
     protected function processPayout(Investment $investment)
     {
         DB::transaction(function () use ($investment) {
+            $weekKey = now()->format('o-\WW'); 
+
+            // Duplicate Protection Check (Strict Weekly)
+            $alreadyPaidThisWeek = ROIIncome::where('investment_id', $investment->id)
+                ->where('week_key', $weekKey)
+                ->exists();
+                
+            if ($alreadyPaidThisWeek) {
+                return;
+            }
+
             $roiAmount = $investment->amount * ($investment->weekly_roi_percentage / 100);
 
             // 1. Credit Wallet
@@ -61,7 +72,7 @@ class DistributeROI extends Command
             WalletTransaction::create([
                 'user_id' => $investment->user_id,
                 'amount' => $roiAmount,
-                'type' => 'roi',
+                'type' => 'roi_income',
                 'wallet' => 'cash',
                 'direction' => 'credit',
                 'balance_after' => $wallet->balance,
@@ -74,6 +85,7 @@ class DistributeROI extends Command
             $roiIncome = ROIIncome::create([
                 'user_id' => $investment->user_id,
                 'investment_id' => $investment->id,
+                'week_key' => $weekKey,
                 'investment_amount' => $investment->amount,
                 'roi_percentage' => $investment->weekly_roi_percentage,
                 'roi_amount' => $roiAmount,

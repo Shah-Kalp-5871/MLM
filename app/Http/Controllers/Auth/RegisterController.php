@@ -91,7 +91,10 @@ class RegisterController extends Controller
         // Create user
         $upline = null;
         if ($pending['referral_code']) {
-            $upline = User::where('referral_code', $pending['referral_code'])->first();
+            $upline = User::where('referral_code', $pending['referral_code'])->where('status', 'active')->first();
+            if (!$upline) {
+                return redirect()->route('register')->withErrors(['email' => 'The referral link used is no longer active.']);
+            }
         }
 
         $user = User::create([

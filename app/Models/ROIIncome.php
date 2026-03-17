@@ -15,6 +15,7 @@ class ROIIncome extends Model
     protected $fillable = [
         'user_id',
         'investment_id',
+        'week_key',
         'investment_amount',
         'roi_percentage',
         'roi_amount',

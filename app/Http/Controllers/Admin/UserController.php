@@ -30,8 +30,8 @@ class UserController extends Controller
             'roi_income_breakdown' => \App\Models\ROIIncome::where('user_id', $user->id)->orderBy('distributed_at', 'desc')->limit(5)->get(),
             'commission_breakdown' => \App\Models\LevelCommission::where('user_id', $user->id)->with('fromUser')->orderBy('created_at', 'desc')->limit(5)->get(),
             'direct_referrals' => $user->referrals()->count(),
-            'total_team_size' => $user->mlmDescendants()->count(),
-            'team_investment_volume' => Investment::whereIn('user_id', $user->mlmDescendants()->pluck('descendant_id'))->sum('amount'),
+            'total_team_size' => $user->calculateTeamSize(),
+            'team_investment_volume' => $user->team_business,
         ];
 
         // Combined Earnings Table
@@ -63,6 +63,13 @@ class UserController extends Controller
             'referral_code' => 'required|unique:users,referral_code,' . $user->id,
             'status' => 'required',
         ]);
+
+        if ($request->has('upline_id') && $request->upline_id != $user->upline_id) {
+            $newUpline = User::find($request->upline_id);
+            if ($newUpline && $user->isAncestorOf($newUpline)) {
+                return back()->withErrors(['upline_id' => 'Circular referral detected! This user is already an ancestor of the proposed upline.']);
+            }
+        }
 
         $user->update($request->all());
 

@@ -32,7 +32,7 @@
     @php
         $nextClub = null;
         foreach($clubLevels as $lvl) {
-            if ($stats['direct_business'] < $lvl['direct'] || $stats['team_business'] < $lvl['team']) {
+            if ($stats['direct_business'] < $lvl->direct_required || $stats['team_business'] < $lvl->team_required) {
                 $nextClub = $lvl;
                 break;
             }
@@ -47,16 +47,16 @@
             <div class="flex justify-between items-center mb-6">
                 <div class="space-y-1">
                     <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Next Target: Direct Business</p>
-                    <h3 class="text-2xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['direct_business'], 0) }} <span class="text-slate-500 text-sm font-bold">/ {{ number_format($nextClub['direct'], 0) }}</span></h3>
+                    <h3 class="text-2xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['direct_business'], 0) }} <span class="text-slate-500 text-sm font-bold">/ {{ number_format($nextClub->direct_required, 0) }}</span></h3>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-purple-600/10 flex items-center justify-center">
                     <i data-lucide="users" class="w-6 h-6 text-purple-400"></i>
                 </div>
             </div>
             <div class="w-full bg-white/5 h-3 rounded-full overflow-hidden">
-                <div class="bg-gradient-to-r from-purple-600 to-indigo-600 h-full transition-all duration-1000" style="width: {{ min(($stats['direct_business'] / $nextClub['direct']) * 100, 100) }}%"></div>
+                <div class="bg-gradient-to-r from-purple-600 to-indigo-600 h-full transition-all duration-1000" style="width: {{ min(($stats['direct_business'] / $nextClub->direct_required) * 100, 100) }}%"></div>
             </div>
-            <p class="text-[10px] text-slate-500 mt-4 text-right font-bold uppercase tracking-widest">{{ round(min(($stats['direct_business'] / $nextClub['direct']) * 100, 100)) }}% Completed</p>
+            <p class="text-[10px] text-slate-500 mt-4 text-right font-bold uppercase tracking-widest">{{ round(min(($stats['direct_business'] / $nextClub->direct_required) * 100, 100)) }}% Completed</p>
         </div>
 
         <div class="glass-panel p-8 rounded-2xl relative overflow-hidden group">
@@ -64,16 +64,16 @@
             <div class="flex justify-between items-center mb-6">
                 <div class="space-y-1">
                     <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Next Target: Team Business</p>
-                    <h3 class="text-2xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['team_business'], 0) }} <span class="text-slate-500 text-sm font-bold">/ {{ number_format($nextClub['team'], 0) }}</span></h3>
+                    <h3 class="text-2xl font-black text-white">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($stats['team_business'], 0) }} <span class="text-slate-500 text-sm font-bold">/ {{ number_format($nextClub->team_required, 0) }}</span></h3>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-emerald-600/10 flex items-center justify-center">
                     <i data-lucide="network" class="w-6 h-6 text-emerald-400"></i>
                 </div>
             </div>
             <div class="w-full bg-white/5 h-3 rounded-full overflow-hidden">
-                <div class="bg-gradient-to-r from-emerald-600 to-teal-600 h-full transition-all duration-1000" style="width: {{ min(($stats['team_business'] / $nextClub['team']) * 100, 100) }}%"></div>
+                <div class="bg-gradient-to-r from-emerald-600 to-teal-600 h-full transition-all duration-1000" style="width: {{ min(($stats['team_business'] / $nextClub->team_required) * 100, 100) }}%"></div>
             </div>
-            <p class="text-[10px] text-slate-500 mt-4 text-right font-bold uppercase tracking-widest">{{ round(min(($stats['team_business'] / $nextClub['team']) * 100, 100)) }}% Completed</p>
+            <p class="text-[10px] text-slate-500 mt-4 text-right font-bold uppercase tracking-widest">{{ round(min(($stats['team_business'] / $nextClub->team_required) * 100, 100)) }}% Completed</p>
         </div>
     </div>
     @endif
@@ -88,8 +88,8 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($clubLevels as $level)
                 @php
-                    $isEarned = $earnedVouchers->contains('type', 'club_' . $level['id']);
-                    $isInProgress = !$isEarned && ($nextClub && $nextClub['id'] == $level['id']);
+                    $isEarned = $earnedVouchers->contains('type', 'club_' . $level->level);
+                    $isInProgress = !$isEarned && ($nextClub && $nextClub->level == $level->level);
                     $isLocked = !$isEarned && !$isInProgress;
                 @endphp
                 
@@ -101,18 +101,18 @@
                     @endif
 
                     <div class="mb-6">
-                        <h3 class="text-xl font-black text-white">{{ $level['title'] }}</h3>
-                        <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Reward: <span class="text-amber-500">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($level['reward'], 0) }} Voucher</span></p>
+                        <h3 class="text-xl font-black text-white">{{ $level->title }}</h3>
+                        <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Reward: <span class="text-amber-500">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($level->reward_amount, 0) }} Voucher</span></p>
                     </div>
 
                     <div class="space-y-4">
                         <div class="flex justify-between items-center text-xs">
                             <span class="text-slate-500 font-bold uppercase tracking-widest">Direct Business</span>
-                            <span class="text-white font-bold">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($level['direct'], 0) }}</span>
+                            <span class="text-white font-bold">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($level->direct_required, 0) }}</span>
                         </div>
                         <div class="flex justify-between items-center text-xs">
                             <span class="text-slate-500 font-bold uppercase tracking-widest">Team Business</span>
-                            <span class="text-white font-bold">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($level['team'], 0) }}</span>
+                            <span class="text-white font-bold">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($level->team_required, 0) }}</span>
                         </div>
                     </div>
 
