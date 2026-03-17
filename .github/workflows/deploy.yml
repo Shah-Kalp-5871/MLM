@@ -40,16 +40,47 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            set -e
+            echo "--- Starting Deployment Script ---"
+            
             if [ -z "${{ secrets.DEPLOY_PATH }}" ]; then
-              echo "ERROR: DEPLOY_PATH secret is not set."
+              echo "ERROR: DEPLOY_PATH secret is not set in GitHub."
               exit 1
             fi
+            
+            echo "Checking directory: ${{ secrets.DEPLOY_PATH }}"
+            if [ ! -d "${{ secrets.DEPLOY_PATH }}" ]; then
+              echo "ERROR: Deployment directory does not exist on the server."
+              exit 1
+            fi
+            
             cd ${{ secrets.DEPLOY_PATH }}
+            
+            echo "Pulling latest changes..."
             git pull origin main
+            
+            echo "Installing dependencies..."
             composer install --no-dev --optimize-autoloader
+            
+            echo "Checking for .env file..."
+            if [ ! -f .env ]; then
+              echo "WARNING: .env file missing. Copying .env.example..."
+              cp .env.example .env
+              php artisan key:generate
+            fi
+            
+            echo "Running migrations..."
             php artisan migrate --force
+            
+            echo "Optimizing Laravel..."
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
-            npm install
-            npm run build
+            
+            echo "Building frontend assets..."
+            if [ -f package.json ]; then
+              npm install
+              npm run build
+            fi
+            
+            echo "--- Deployment Successful ---"
