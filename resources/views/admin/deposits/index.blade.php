@@ -81,6 +81,16 @@
                 </tbody>
             </table>
         </div>
+        @if($deposits->hasPages())
+        <div class="p-6 border-t border-[#1f1f1f] flex items-center justify-between">
+            <span class="text-xs text-slate-500 font-medium">
+                Showing {{ $deposits->firstItem() }} to {{ $deposits->lastItem() }} of {{ $deposits->total() }} deposits
+            </span>
+            <div>
+                {{ $deposits->links() }}
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 
