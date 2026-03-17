@@ -35,7 +35,7 @@
                 <div class="mt-8 pt-6 border-t border-white/5">
                     <div class="bg-black/40 border border-white/10 rounded-xl p-3 flex items-center justify-between">
                         <code class="text-sm font-mono text-purple-300">{{ $voucher->code }}</code>
-                        <button onclick="navigator.clipboard.writeText('{{ $voucher->code }}'); this.innerHTML='<i data-lucide=\'check\' class=\'w-4 h-4 text-emerald-400\'></i>'; lucide.createIcons(); setTimeout(()=>{this.innerHTML='<i data-lucide=\'copy\' class=\'w-4 h-4\'></i>'; lucide.createIcons();}, 2000)" class="text-slate-500 hover:text-white transition-colors">
+                        <button onclick="copyToClipboard('{{ $voucher->code }}', this)" class="text-slate-500 hover:text-white transition-colors">
                             <i data-lucide="copy" class="w-4 h-4"></i>
                         </button>
                     </div>
@@ -66,6 +66,7 @@
                             <th class="px-6 py-4">Code</th>
                             <th class="px-6 py-4">Value</th>
                             <th class="px-6 py-4">Status</th>
+                            <th class="px-6 py-4 text-center">Copy</th>
                             <th class="px-6 py-4">Used By</th>
                             <th class="px-6 py-4">Date</th>
                         </tr>
@@ -82,6 +83,11 @@
                                     <span class="px-2 py-0.5 rounded-full text-[9px] font-black uppercase bg-white/5 text-slate-500 border border-white/10">Used</span>
                                 @endif
                             </td>
+                            <td class="px-6 py-4 text-center">
+                                <button onclick="copyToClipboard('{{ $v->code }}', this)" class="text-slate-500 hover:text-white transition-colors">
+                                    <i data-lucide="copy" class="w-4 h-4"></i>
+                                </button>
+                            </td>
                             <td class="px-6 py-4">
                                 @if($v->used_by)
                                     <div class="flex items-center gap-2">
@@ -97,7 +103,7 @@
                             <td class="px-6 py-4 text-slate-500 text-xs">{{ $v->created_at->format('d M Y') }}</td>
                         </tr>
                         @empty
-                        <tr><td colspan="5" class="px-6 py-10 text-center text-slate-600 italic">You haven't earned any reward vouchers yet.</td></tr>
+                        <tr><td colspan="6" class="px-6 py-10 text-center text-slate-600 italic">You haven't earned any reward vouchers yet.</td></tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -140,5 +146,49 @@
         </div>
     </div>
 </div>
+
+<script>
+function copyToClipboard(text, btn) {
+    // Robust fallback for non-secure contexts
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+            showCheck(btn);
+        }).catch(err => {
+            console.error('Clipboard error:', err);
+            fallbackCopy(text, btn);
+        });
+    } else {
+        fallbackCopy(text, btn);
+    }
+}
+
+function fallbackCopy(text, btn) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-9999px";
+    textArea.style.top = "0";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+        document.execCommand('copy');
+        showCheck(btn);
+    } catch (err) {
+        console.error('Fallback copy failed:', err);
+    }
+    document.body.removeChild(textArea);
+}
+
+function showCheck(btn) {
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>';
+    lucide.createIcons();
+    setTimeout(() => {
+        btn.innerHTML = originalHTML;
+        lucide.createIcons();
+    }, 2000);
+}
+</script>
 @endsection
 
