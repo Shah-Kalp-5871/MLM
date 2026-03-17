@@ -144,31 +144,80 @@ document.getElementById('withdrawalForm').addEventListener('submit', function(e)
     const hasPendingWithdrawal = {{ $withdrawals->where('status', 'pending')->count() > 0 ? 'true' : 'false' }};
 
     if (hasPendingWithdrawal) {
-        alert('You already have a pending withdrawal request. Please wait for admin approval.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Request Denied',
+            text: 'You already have a pending withdrawal request. Please wait for admin approval.',
+            background: '#0f0f0f',
+            color: '#fff',
+            confirmButtonColor: '#10b981',
+            customClass: { popup: 'glass rounded-3xl border border-white/10' }
+        });
         return;
     }
 
     if (!amount || !address) {
-        alert('Please fill in all fields.');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Missing Fields',
+            text: 'Please fill in all fields before proceeding.',
+            background: '#0f0f0f',
+            color: '#fff',
+            confirmButtonColor: '#10b981',
+            customClass: { popup: 'glass rounded-3xl border border-white/10' }
+        });
         return;
     }
 
     if (amount > availableBalance) {
-        alert('Insufficient balance. You only have $' + availableBalance.toFixed(2) + ' available.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Insufficient Balance',
+            text: 'You only have {{ $settings["platform_currency_symbol"] ?? "$" }}' + availableBalance.toFixed(2) + ' available in your profit wallet.',
+            background: '#0f0f0f',
+            color: '#fff',
+            confirmButtonColor: '#10b981',
+            customClass: { popup: 'glass rounded-3xl border border-white/10' }
+        });
         return;
     }
 
-    const confirmed = window.confirm(
-        'Confirm Withdrawal\n\n' +
-        'Amount: $' + amount.toFixed(2) + '\n' +
-        'Method: ' + method + '\n' +
-        'Address: ' + address + '\n\n' +
-        'Proceed with this withdrawal?'
-    );
-
-    if (confirmed) {
-        form.submit();
-    }
+    Swal.fire({
+        title: 'Confirm Withdrawal',
+        html: `
+            <div class="text-left space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10 mt-4">
+                <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                    <span class="text-[10px] text-gray-500 uppercase font-black tracking-widest">Amount</span>
+                    <span class="text-sm font-bold text-emerald-400 font-mono">{{ $settings["platform_currency_symbol"] ?? "$" }}${amount.toFixed(2)}</span>
+                </div>
+                <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                    <span class="text-[10px] text-gray-500 uppercase font-black tracking-widest">Method</span>
+                    <span class="text-sm font-bold text-white uppercase">${method.replace('_', ' ')}</span>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <span class="text-[10px] text-gray-500 uppercase font-black tracking-widest">Destination</span>
+                    <span class="text-[11px] font-mono text-gray-400 break-all">${address}</span>
+                </div>
+            </div>
+        `,
+        icon: 'question',
+        showCancelButton: true,
+        background: '#0f0f0f',
+        color: '#fff',
+        confirmButtonColor: '#10b981',
+        cancelButtonColor: '#ef4444',
+        confirmButtonText: 'Yes, Process It!',
+        cancelButtonText: 'Cancel',
+        customClass: {
+            popup: 'glass rounded-3xl border border-white/10 shadow-2xl',
+            confirmButton: 'rounded-xl px-6 py-3 font-bold text-xs uppercase',
+            cancelButton: 'rounded-xl px-6 py-3 font-bold text-xs uppercase'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    });
 });
 </script>
 @endsection
