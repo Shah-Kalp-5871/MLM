@@ -1,4 +1,4 @@
-﻿@extends('layouts.admin')
+@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-6">
@@ -22,7 +22,7 @@
                 <thead class="bg-[#0c0c0c] text-slate-500 uppercase text-[10px] font-bold">
                     <tr>
                         <th class="px-6 py-4">User</th>
-                        <th class="px-6 py-4">Package</th>
+                        <th class="px-6 py-4">ROI %</th>
                         <th class="px-6 py-4">Amount</th>
                         <th class="px-6 py-4">Status</th>
                         <th class="px-6 py-4">Date</th>
@@ -41,7 +41,7 @@
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.5)]"></span>
-                                <span class="text-slate-300 font-medium">{{ $inv->package->name ?? 'N/A' }}</span>
+                                <span class="text-slate-300 font-medium">{{ $inv->weekly_roi_percentage }}%</span>
                             </div>
                         </td>
                         <td class="px-6 py-4">

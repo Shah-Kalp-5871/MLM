@@ -21,6 +21,10 @@ class LevelCommission extends Model
         'created_at',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime',
+    ];
+
     public function receiver()
     {
         return $this->belongsTo(User::class, 'receiver_id');

@@ -120,11 +120,11 @@
 
                     <!-- Network Dropdown -->
                     <div class="relative group">
-                        <button class="nav-link text-xs font-bold uppercase tracking-wider flex items-center gap-2 {{ request()->routeIs(['team.index', 'referrals.index', 'club.index']) ? 'text-white' : 'text-gray-400' }}">
+                        <button class="nav-link text-xs font-bold uppercase tracking-wider flex items-center gap-2 {{ request()->routeIs(['network.index', 'referrals.index', 'club.index']) ? 'text-white' : 'text-gray-400' }}">
                             <i data-lucide="network" class="w-4 h-4"></i> Network <i data-lucide="chevron-down" class="w-3 h-3 opacity-50"></i>
                         </button>
                         <div class="dropdown-menu">
-                            <a href="{{ route('team.index') }}" class="dropdown-item {{ request()->routeIs('team.index') ? 'active' : '' }}"><i data-lucide="share-2" class="w-4 h-4"></i> Team Tree</a>
+                            <a href="{{ route('network.index') }}" class="dropdown-item {{ request()->routeIs('network.index') ? 'active' : '' }}"><i data-lucide="share-2" class="w-4 h-4"></i> Team Tree</a>
                             <a href="{{ route('referrals.index') }}" class="dropdown-item {{ request()->routeIs('referrals.index') ? 'active' : '' }}"><i data-lucide="users" class="w-4 h-4"></i> Referral List</a>
                             <a href="{{ route('club.index') }}" class="dropdown-item {{ request()->routeIs('club.index') ? 'active' : '' }}"><i data-lucide="award" class="w-4 h-4"></i> Club Rewards</a>
                         </div>
@@ -170,7 +170,7 @@
             <a href="{{ route('earnings.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('earnings.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="trending-up" class="w-4 h-4 text-purple-400"></i> Earnings</a>
 
             <div class="px-3 pt-4 pb-2 text-[10px] font-black text-gray-500 uppercase tracking-widest border-t border-white/5 mt-2">Network</div>
-            <a href="{{ route('team.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('team.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="share-2" class="w-4 h-4 text-purple-400"></i> Team Tree</a>
+            <a href="{{ route('network.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('network.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="share-2" class="w-4 h-4 text-purple-400"></i> Team Tree</a>
             <a href="{{ route('referrals.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('referrals.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="users" class="w-4 h-4 text-purple-400"></i> Referrals</a>
             <a href="{{ route('club.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('club.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="award" class="w-4 h-4 text-purple-400"></i> Club Rewards</a>
 

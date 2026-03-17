@@ -84,7 +84,7 @@ class InvestmentService
     /**
      * Distribute business totals to uplines up to 15 levels.
      */
-    protected function distributeBusiness(int $userId, float $amount)
+    public function distributeBusiness(int $userId, float $amount)
     {
         $user = User::findOrFail($userId);
         $uplineId = $user->upline_id;
@@ -108,6 +108,11 @@ class InvestmentService
             $uplineId = $upline->upline_id;
             $level++;
         }
+    }
+
+    public function invokeCheckClubQualification(User $user)
+    {
+        $this->checkClubQualification($user);
     }
 
     protected function checkClubQualification(User $user)

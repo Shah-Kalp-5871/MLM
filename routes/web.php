@@ -53,7 +53,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/withdrawals/{id}/receipt', [WithdrawalController::class, 'receipt'])->name('withdrawals.receipt');
     
     Route::get('/referrals', [ReferralController::class, 'index'])->name('referrals.index');
-    Route::get('/team', [ReferralController::class, 'team'])->name('team.index');
+    Route::get('/team', [ReferralController::class, 'team'])->name('network.index');
     Route::get('/level-income', [LevelIncomeController::class, 'index'])->name('level-income.index');
     Route::get('/roi', [ROIController::class, 'index'])->name('roi.index');
     Route::get('/earnings', [EarningsController::class, 'index'])->name('earnings.index');

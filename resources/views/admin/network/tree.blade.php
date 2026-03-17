@@ -43,7 +43,7 @@
                             <h4 class="font-bold text-sm text-slate-300 mt-2 truncate w-full text-center">{{ $child->name }}</h4>
                             <p class="text-[9px] text-slate-500 font-bold uppercase">{{ $child->referral_code }}</p>
                             <div class="mt-2 flex items-center gap-2">
-                                <span class="text-[8px] bg-slate-800 px-2 py-0.5 rounded uppercase font-bold text-slate-400">Team: {{ $child->mlmDescendants()->count() }}</span>
+                                <span class="text-[8px] bg-slate-800 px-2 py-0.5 rounded uppercase font-bold text-slate-400">Team: {{ $child->calculateTeamSize() }}</span>
                                 <a href="{{ route('admin.network.index', ['search' => $child->email]) }}" class="text-[14px] text-slate-600 hover:text-blue-400">
                                     <i data-lucide="external-link" class="w-3 h-3"></i>
                                 </a>
