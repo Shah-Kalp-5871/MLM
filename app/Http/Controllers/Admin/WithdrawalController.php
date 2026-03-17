@@ -62,7 +62,7 @@ class WithdrawalController extends Controller
             // No refund needed, because balance was never deducted in store()
             $withdrawal->update([
                 'status' => 'rejected',
-                'admin_note' => $request->input('note'),
+                'rejection_reason' => $request->input('note'),
             ]);
 
             return back()->with('success', 'Withdrawal rejected.');

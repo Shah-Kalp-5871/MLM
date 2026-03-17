@@ -80,7 +80,7 @@
                     <tr class="border-b border-white/5 last:border-0 group">
                         <td class="py-4 pl-2">
                             <span class="font-bold text-white font-mono">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($w->amount, 2) }}</span>
-                            <p class="text-[9px] text-gray-500 mt-0.5 uppercase tracking-tighter">{{ $w->method }}</p>
+                            <p class="text-[9px] text-gray-500 mt-0.5 uppercase tracking-tighter">{{ $w->payment_method }}</p>
                         </td>
                         <td class="py-4">
                             @if($w->status == 'approved')

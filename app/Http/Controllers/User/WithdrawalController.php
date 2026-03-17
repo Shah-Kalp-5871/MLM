@@ -54,9 +54,9 @@ class WithdrawalController extends Controller
                 Withdrawal::create([
                     'user_id' => $user->id,
                     'amount' => $request->amount,
-                    'method' => $request->payment_method,
+                    'payment_method' => $request->payment_method,
+                    'wallet_address' => $request->wallet_address,
                     'status' => 'pending',
-                    'admin_note' => 'Withdrawal request to ' . $request->wallet_address,
                 ]);
             });
 

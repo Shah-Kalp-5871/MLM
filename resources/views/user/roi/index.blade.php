@@ -1,4 +1,4 @@
-﻿@extends('layouts.user')
+@extends('layouts.user')
 @section('content')
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px">
   <div>
@@ -17,7 +17,7 @@
         @forelse($roi_records as $roi)
         <tr>
           <td>Week {{ $roi->week_number }}</td>
-          <td>{{ $roi->investment->package->name ?? 'N/A' }} ({{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($roi->investment->amount ?? 0, 2) }})</td>
+          <td>Investment ({{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($roi->investment_amount ?? 0, 2) }})</td>
           <td>{{ $roi->roi_percentage }}%</td>
           <td>{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($roi->roi_amount, 2) }}</td>
           <td>{{ $roi->distributed_at ? \Carbon\Carbon::parse($roi->distributed_at)->format('M d, Y') : 'N/A' }}</td>

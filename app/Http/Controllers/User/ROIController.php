@@ -11,7 +11,7 @@ class ROIController extends Controller
     public function index()
     {
         $roi_records = ROIIncome::where('user_id', auth()->id())
-            ->with('investment.package')
+            ->with('investment')
             ->orderBy('distributed_at', 'desc')
             ->paginate(20);
             

@@ -14,10 +14,14 @@ class Withdrawal extends Model
         'amount',
         'fee',
         'net_amount',
-        'method',
-        'details', // JSON for bank/crypto details
-        'status', // pending, approved, rejected
-        'admin_note',
+        'payment_method',
+        'wallet_address',
+        'transaction_id',
+        'status',
+        'approved_by',
+        'approved_at',
+        'paid_at',
+        'rejection_reason',
     ];
 
     protected $casts = [

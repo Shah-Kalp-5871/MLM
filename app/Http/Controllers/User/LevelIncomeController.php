@@ -10,7 +10,7 @@ class LevelIncomeController extends Controller
     public function index()
     {
         $commissions = auth()->user()->levelCommissions()
-            ->with(['roiIncome.investment.package', 'fromUser'])
+            ->with(['roiIncome.investment', 'fromUser'])
             ->orderBy('created_at', 'desc')
             ->paginate(20);
             
