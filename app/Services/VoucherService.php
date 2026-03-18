@@ -41,7 +41,7 @@ class VoucherService
             ]);
 
             // 2. Create Instant Investment
-            $weeklyROI = Setting::get('weekly_roi_percentage', 10);
+            $weeklyROI = Setting::get('weekly_roi_percentage', 3.0); // Default to 3% as per new requirement
             
             $investment = Investment::create([
                 'user_id' => $userId,
@@ -53,6 +53,10 @@ class VoucherService
                 'next_payout_at' => now()->addDays(7),
                 'matures_at' => now()->addDays(365),
             ]);
+
+            // 2.5 Distribute Business Volume (BV) and Check Club Qualification
+            // Voucher is treated exactly like a deposit
+            app(\App\Services\InvestmentService::class)->distributeBusiness($userId, $voucher->amount);
 
             // 3. Update Voucher Balance Tracking
             // Decrement the balance of the ORIGINAL OWNER (the one who earned it)
