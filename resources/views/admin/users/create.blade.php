@@ -1,4 +1,4 @@
-﻿@extends('layouts.admin')
+@extends('layouts.admin')
 
 @section('content')
 <div class="max-w-4xl mx-auto space-y-8">
@@ -43,10 +43,10 @@
                 <div class="space-y-2">
                     <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Upline / Referrer ID</label>
                     <div class="relative">
-                        <input type="text" placeholder="NEXA2938" class="w-full bg-[#0c0c0c] border border-[#1f1f1f] rounded-2xl px-5 py-3.5 text-sm focus:border-purple-600 outline-none transition-all">
+                        <input type="text" placeholder="EMP2938" class="w-full bg-[#0c0c0c] border border-[#1f1f1f] rounded-2xl px-5 py-3.5 text-sm focus:border-purple-600 outline-none transition-all">
                         <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-green-500 uppercase">Valid</span>
                     </div>
-                    <p class="text-[10px] text-slate-500 ml-1 italic">Leave empty for direct company registration (Root node).</p>
+                    <p class="text-[10px] text-slate-500 ml-1 italic">Leave empty for direct EliteMatrixPro registration (Root node).</p>
                 </div>
 
                 <div class="space-y-2">

@@ -30,7 +30,7 @@
         <div class="space-y-5 mb-8">
             <div>
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Email Address</label>
-                <input type="email" name="email" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm" placeholder="name@company.com" required value="{{ old('email') }}">
+                <input type="email" name="email" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm" placeholder="name@elitematrixpro.com" required value="{{ old('email') }}">
                 @error('email') <span class="text-rose-500 text-[10px] mt-1 ml-1">{{ $message }}</span> @enderror
             </div>
             <div>

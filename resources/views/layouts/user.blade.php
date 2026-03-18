@@ -97,7 +97,7 @@
                         <i data-lucide="zap" class="w-5 h-5 text-white"></i>
                     </div>
                     <div class="flex flex-col leading-none">
-                        <span class="text-xs font-bold text-white tracking-widest uppercase opacity-90">Company</span>
+                        <span class="text-xs font-bold text-white tracking-widest uppercase opacity-90">EliteMatrixPro</span>
                         <span class="text-lg font-bold text-purple-500 tracking-tight mt-0.5">PLATFORM</span>
                     </div>
                 </a>

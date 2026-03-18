@@ -159,7 +159,7 @@ class RegisterController extends Controller
     {
         do {
             // Generate a 5-digit code for 90,000 possible combinations per prefix
-            $code = 'NEXA' . rand(10000, 99999);
+            $code = 'EMP' . rand(10000, 99999);
             
             // Query the database to see if this code already exists
             $exists = User::where('referral_code', $code)->exists();

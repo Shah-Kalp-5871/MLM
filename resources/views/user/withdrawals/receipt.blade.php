@@ -107,7 +107,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">PLATFORM</div>
+            <div class="logo">EliteMatrixPro</div>
             <div class="receipt-title">Withdrawal Receipt</div>
         </div>
         
@@ -150,7 +150,7 @@
         
         <div class="footer">
             <p>This is a computer-generated receipt.</p>
-            <p>&copy; {{ date('Y') }} Platform. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} EliteMatrixPro. All rights reserved.</p>
         </div>
         
         <button class="print-btn" onclick="window.print()">Print Receipt</button>

@@ -425,7 +425,7 @@
                     <i data-lucide="refresh-ccw" class="w-7 h-7 text-indigo-400"></i>
                 </div>
                 <h4 class="text-lg font-bold text-white mb-3">Sustainable ROI</h4>
-                <p class="text-xs text-gray-500 leading-relaxed font-medium">ROI is generated from real platform activities and distributed fairly each week to members.</p>
+                <p class="text-xs text-gray-500 leading-relaxed font-medium">ROI is generated from real EliteMatrixPro activities and distributed fairly each week to members.</p>
             </div>
             <div class="p-8 rounded-3xl hover:bg-white/5 transition-all text-center md:text-left border border-transparent hover:border-white/10">
                 <div class="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-6 mx-auto md:mx-0">

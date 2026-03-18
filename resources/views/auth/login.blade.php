@@ -19,7 +19,7 @@
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Email Address</label>
                 <div class="relative">
                     <i data-lucide="mail" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500"></i>
-                    <input type="email" name="email" class="auth-input w-full pl-12 pr-4 py-3.5 rounded-xl text-sm" placeholder="name@company.com" required>
+                    <input type="email" name="email" class="auth-input w-full pl-12 pr-4 py-3.5 rounded-xl text-sm" placeholder="name@elitematrixpro.com" required>
                 </div>
                 @error('email')
                     <span class="text-rose-500 text-[10px] mt-1 ml-1">{{ $message }}</span>

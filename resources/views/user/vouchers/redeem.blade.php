@@ -56,7 +56,7 @@
                 </div>
                 <h4 class="text-sm font-bold text-white uppercase tracking-wider">Transferable</h4>
             </div>
-            <p class="text-xs text-gray-400 leading-relaxed">Vouchers aren't locked to your account. You can give or sell your code to any other user on the platform.</p>
+            <p class="text-xs text-gray-400 leading-relaxed">Vouchers aren't locked to your account. You can give or sell your code to any other user on EliteMatrixPro.</p>
         </div>
         <div class="p-6 rounded-2xl bg-white/5 border border-white/10">
             <div class="flex items-center gap-3 mb-3">
