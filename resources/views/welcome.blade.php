@@ -84,7 +84,7 @@
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 w-full z-50 px-4 md:px-8 py-6">
         <div class="max-w-7xl mx-auto flex justify-between items-center glass-panel px-6 py-4 rounded-3xl relative">
-            <a href="/" class="flex items-center gap-3 group">
+            <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
                 <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
                     <i data-lucide="zap" class="w-6 h-6 text-white"></i>
                 </div>

@@ -92,15 +92,15 @@
     <!-- Sidebar -->
     <aside class="fixed left-0 top-0 bottom-0 w-64 glass border-r border-[#1f1f1f] z-50 hidden lg:block overflow-y-auto">
         <div class="p-6">
-            <div class="flex items-center gap-3 mb-10">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-blue-600 flex items-center justify-center">
-                    <i data-lucide="shield-check" class="text-white w-6 h-6"></i>
+            <a href="{{ route('welcome') }}" class="flex items-center gap-3 group mb-10 no-underline">
+                <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
+                    <i data-lucide="zap" class="w-6 h-6 text-white"></i>
                 </div>
-                <div>
-                    <h1 class="text-xl font-bold tracking-tight">CoreAdmin</h1>
-                    <p class="text-[10px] text-purple-400 font-bold tracking-[0.2em] uppercase">Control Suite</p>
+                <div class="flex flex-col">
+                    <span class="text-sm font-black text-white tracking-tighter italic">EliteMatrix<span class="text-purple-500">Pro</span></span>
+                    <span class="text-[10px] text-purple-400 font-bold tracking-[0.2em] uppercase leading-none mt-1">Control Console</span>
                 </div>
-            </div>
+            </a>
 
             <nav class="space-y-1">
                 <div class="text-[10px] uppercase tracking-widest text-[#444] font-bold mb-4 ml-3">Main Control</div>
@@ -173,7 +173,12 @@
         <header class="h-20 glass sticky top-0 z-40 border-b border-[#1f1f1f] px-4 lg:px-8 flex items-center justify-between">
             <div class="flex items-center gap-4 lg:hidden">
                 <i data-lucide="menu" class="w-6 h-6 text-muted cursor-pointer"></i>
-                <h1 class="font-bold">CoreAdmin</h1>
+                <a href="{{ route('welcome') }}" class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
+                        <i data-lucide="zap" class="w-4 h-4 text-white"></i>
+                    </div>
+                    <span class="text-xs font-black text-white tracking-tighter italic">EMP<span class="text-purple-500">Admin</span></span>
+                </a>
             </div>
 
             <div class="hidden lg:flex items-center gap-6">

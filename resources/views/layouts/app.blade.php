@@ -4,10 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EliteMatrixPro Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
   :root {
+    --brand-purple: #9333ea;
+    --brand-indigo: #4f46e5;
     --green: #2FB67C;
     --green-light: #3ECF93;
     --green-dim: rgba(47,182,124,0.12);
@@ -22,7 +26,7 @@
     --shadow-hover: 0 12px 48px rgba(47,182,124,0.18);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; display: flex; }
+  body { font-family: 'Inter', 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; display: flex; }
   h1,h2,h3,h4,h5 { font-family: 'Syne', sans-serif; }
 
   /* SIDEBAR */
@@ -131,34 +135,41 @@
 <body>
 
 <aside class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <a href="/" class="logo"><span class="logo-dot"></span>EliteMatrix<span>Pro</span></a>
+  <div class="sidebar-header" style="height: 100px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+    <a href="{{ route('welcome') }}" class="flex items-center gap-3 group no-underline">
+        <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
+            <i data-lucide="zap" class="w-6 h-6 text-white"></i>
+        </div>
+        <div class="flex flex-col">
+            <span class="text-sm font-black text-white tracking-tighter italic">EliteMatrix<span class="text-purple-500">Pro</span></span>
+            <span class="text-[10px] text-gray-500 uppercase font-black tracking-widest leading-none mt-1">Protocol</span>
+        </div>
+    </a>
   </div>
   <ul class="nav-menu">
     @if(request()->is('admin*'))
       <!-- Admin Menu -->
-      <li><a href="{{ route('admin.dashboard') }}" class="{{ request()->is('admin/dashboard') ? 'active' : '' }}"><i class="fa-solid fa-house"></i> Dashboard</a></li>
-      <li><a href="{{ route('admin.users.index') }}" class="{{ request()->is('admin/users*') ? 'active' : '' }}"><i class="fa-solid fa-users"></i> Users</a></li>
-      <li><a href="{{ route('admin.deposits.index') }}" class="{{ request()->is('admin/deposits*') ? 'active' : '' }}"><i class="fa-solid fa-money-bill-transfer"></i> Deposits</a></li>
-      <li><a href="{{ route('admin.withdrawals.index') }}" class="{{ request()->is('admin/withdrawals*') ? 'active' : '' }}"><i class="fa-solid fa-building-columns"></i> Withdrawals</a></li>
-      <li><a href="{{ route('admin.roi.index') }}" class="{{ request()->is('admin/roi*') ? 'active' : '' }}"><i class="fa-solid fa-chart-line"></i> ROI Income</a></li>
-      <li><a href="{{ route('admin.level-income.index') }}" class="{{ request()->is('admin/level-income*') ? 'active' : '' }}"><i class="fa-solid fa-layer-group"></i> Level Income</a></li>
-      <li><a href="{{ url('admin/network') }}" class="{{ request()->is('admin/network*') ? 'active' : '' }}"><i class="fa-solid fa-network-wired"></i> Network Tree</a></li>
-      <li><a href="{{ url('admin/club') }}" class="{{ request()->is('admin/club*') ? 'active' : '' }}"><i class="fa-solid fa-award"></i> Club Rewards</a></li>
-      <li><a href="{{ url('admin/vouchers') }}" class="{{ request()->is('admin/vouchers*') ? 'active' : '' }}"><i class="fa-solid fa-ticket"></i> Vouchers</a></li>
-      <li><a href="{{ url('admin/reports') }}" class="{{ request()->is('admin/reports*') ? 'active' : '' }}"><i class="fa-solid fa-file-invoice"></i> Reports</a></li>
+      <li><a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+      <li><a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}"><i class="fa-solid fa-users"></i> Users</a></li>
+      <li><a href="{{ route('admin.deposits.index') }}" class="{{ request()->routeIs('admin.deposits.*') ? 'active' : '' }}"><i class="fa-solid fa-money-bill-transfer"></i> Deposits</a></li>
+      <li><a href="{{ route('admin.withdrawals.index') }}" class="{{ request()->routeIs('admin.withdrawals.*') ? 'active' : '' }}"><i class="fa-solid fa-building-columns"></i> Withdrawals</a></li>
+      <li><a href="{{ route('admin.roi.index') }}" class="{{ request()->routeIs('admin.roi.*') ? 'active' : '' }}"><i class="fa-solid fa-chart-line"></i> ROI Income</a></li>
+      <li><a href="{{ route('admin.commissions.index') }}" class="{{ request()->routeIs('admin.commissions.*') ? 'active' : '' }}"><i class="fa-solid fa-layer-group"></i> Level Income</a></li>
+      <li><a href="{{ route('admin.network.index') }}" class="{{ request()->routeIs('admin.network.*') ? 'active' : '' }}"><i class="fa-solid fa-network-wired"></i> Network Tree</a></li>
+      <li><a href="{{ route('admin.reports.vouchers') }}" class="{{ request()->routeIs('admin.reports.vouchers') ? 'active' : '' }}"><i class="fa-solid fa-ticket"></i> Vouchers</a></li>
+      <li><a href="{{ route('admin.reports.index') }}" class="{{ request()->routeIs('admin.reports.index') ? 'active' : '' }}"><i class="fa-solid fa-file-invoice"></i> Reports</a></li>
     @else
       <!-- User Menu -->
-      <li><a href="{{ url('user/dashboard') }}" class="{{ request()->is('user/dashboard') ? 'active' : '' }}"><i class="fa-solid fa-house"></i> Dashboard</a></li>
-      <li><a href="{{ url('user/investments') }}" class="{{ request()->is('user/investments*') ? 'active' : '' }}"><i class="fa-solid fa-piggy-bank"></i> Investments</a></li>
-      <li><a href="{{ url('user/wallet') }}" class="{{ request()->is('user/wallet*') ? 'active' : '' }}"><i class="fa-solid fa-wallet"></i> Wallet</a></li>
-      <li><a href="{{ url('user/withdrawals') }}" class="{{ request()->is('user/withdrawals*') ? 'active' : '' }}"><i class="fa-solid fa-building-columns"></i> Withdrawals</a></li>
-      <li><a href="{{ url('user/referrals') }}" class="{{ request()->is('user/referrals*') ? 'active' : '' }}"><i class="fa-solid fa-user-plus"></i> Referrals</a></li>
-      <li><a href="{{ url('user/network') }}" class="{{ request()->is('user/network*') ? 'active' : '' }}"><i class="fa-solid fa-network-wired"></i> Network Tree</a></li>
-      <li><a href="{{ url('user/roi') }}" class="{{ request()->is('user/roi*') ? 'active' : '' }}"><i class="fa-solid fa-chart-line"></i> ROI</a></li>
-      <li><a href="{{ url('user/level-income') }}" class="{{ request()->is('user/level-income*') ? 'active' : '' }}"><i class="fa-solid fa-layer-group"></i> Level Income</a></li>
-      <li><a href="{{ url('user/club-rewards') }}" class="{{ request()->is('user/club-rewards*') ? 'active' : '' }}"><i class="fa-solid fa-award"></i> Club Rewards</a></li>
-      <li><a href="{{ url('user/profile') }}" class="{{ request()->is('user/profile*') ? 'active' : '' }}"><i class="fa-solid fa-gear"></i> Profile</a></li>
+      <li><a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+      <li><a href="{{ route('investments.index') }}" class="{{ request()->routeIs('investments.index') ? 'active' : '' }}"><i class="fa-solid fa-piggy-bank"></i> Investments</a></li>
+      <li><a href="{{ route('wallet.index') }}" class="{{ request()->routeIs('wallet.index') ? 'active' : '' }}"><i class="fa-solid fa-wallet"></i> Wallet</a></li>
+      <li><a href="{{ route('withdrawals.index') }}" class="{{ request()->routeIs('withdrawals.index') ? 'active' : '' }}"><i class="fa-solid fa-building-columns"></i> Withdrawals</a></li>
+      <li><a href="{{ route('referrals.index') }}" class="{{ request()->routeIs('referrals.index') ? 'active' : '' }}"><i class="fa-solid fa-user-plus"></i> Referrals</a></li>
+      <li><a href="{{ route('network.index') }}" class="{{ request()->routeIs('network.index') ? 'active' : '' }}"><i class="fa-solid fa-network-wired"></i> Network Tree</a></li>
+      <li><a href="{{ route('roi.index') }}" class="{{ request()->routeIs('roi.index') ? 'active' : '' }}"><i class="fa-solid fa-chart-line"></i> ROI</a></li>
+      <li><a href="{{ route('level-income.index') }}" class="{{ request()->routeIs('level-income.index') ? 'active' : '' }}"><i class="fa-solid fa-layer-group"></i> Level Income</a></li>
+      <li><a href="{{ route('club.index') }}" class="{{ request()->routeIs('club.index') ? 'active' : '' }}"><i class="fa-solid fa-award"></i> Club Rewards</a></li>
+      <li><a href="{{ route('profile.index') }}" class="{{ request()->routeIs('profile.index') ? 'active' : '' }}"><i class="fa-solid fa-gear"></i> Profile</a></li>
     @endif
     <li style="margin-top:20px"><a href="{{ route('login') }}" style="color:#dc3545"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
   </ul>
@@ -208,6 +219,9 @@
 
   mobileToggle.addEventListener('click', () => toggleSidebar());
   sidebarOverlay.addEventListener('click', () => toggleSidebar(true));
+  
+  // Initialize Lucide
+  lucide.createIcons();
 </script>
 
 </body>

@@ -23,7 +23,7 @@ use App\Http\Controllers\Admin\NetworkController as AdminNetworkController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::get('/test/verify', [\App\Http\Controllers\TestController::class, 'verify']);
 
