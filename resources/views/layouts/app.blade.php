@@ -65,59 +65,74 @@
   .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
   
-  .card { background: var(--card-bg); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); border: 1px solid var(--border); }
-  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-  .card-title { font-size: 1.1rem; font-weight: 700; color: var(--navy); }
-  
-  .stat-card { display: flex; align-items: center; gap: 20px; }
-  .stat-icon { width: 56px; height: 56px; border-radius: 14px; background: var(--green-dim); color: var(--green); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
-  .stat-info h4 { font-size: 0.85rem; color: var(--text-muted); font-family: 'DM Sans', sans-serif; margin-bottom: 4px; }
-  .stat-info .val { font-size: 1.8rem; font-weight: 800; font-family: 'Syne', sans-serif; color: var(--navy); }
+    .card { background: var(--card-bg); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .card-title { font-size: 1.1rem; font-weight: 700; color: var(--navy); }
+    
+    .stat-card { display: flex; align-items: center; gap: 20px; }
+    .stat-icon { width: 56px; height: 56px; border-radius: 14px; background: var(--green-dim); color: var(--green); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+    .stat-info h4 { font-size: 0.85rem; color: var(--text-muted); font-family: 'DM Sans', sans-serif; margin-bottom: 4px; }
+    .stat-info .val { font-size: 1.8rem; font-weight: 800; font-family: 'Syne', sans-serif; color: var(--navy); }
 
-  /* TABLES */
-  .table-responsive { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; }
-  th { text-align: left; padding: 16px; font-size: 0.85rem; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--border); background: var(--bg); }
-  td { padding: 16px; font-size: 0.9rem; color: var(--text); border-bottom: 1px solid var(--border); }
-  tr:last-child td { border-bottom: none; }
-  .badge { padding: 6px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; }
-  .badge-green { background: var(--green-dim); color: var(--green); }
-  .badge-navy { background: rgba(15,42,68,0.1); color: var(--navy); }
-  .badge-red { background: rgba(220,53,69,0.1); color: #dc3545; }
+    /* TABLES */
+    .table-responsive { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; padding: 16px; font-size: 0.85rem; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--border); background: var(--bg); }
+    td { padding: 16px; font-size: 0.9rem; color: var(--text); border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    .badge { padding: 6px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; }
+    .badge-green { background: var(--green-dim); color: var(--green); }
+    .badge-navy { background: rgba(15,42,68,0.1); color: var(--navy); }
+    .badge-red { background: rgba(220,53,69,0.1); color: #dc3545; }
 
-  /* FORMS & BUTTONS */
-  .form-group { margin-bottom: 20px; }
-  .form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
-  .form-control { width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border); outline: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
-  .form-control:focus { border-color: var(--green); box-shadow: 0 0 0 4px var(--green-dim); }
-  
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; border-radius: 10px; font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; transition: all 0.2s; text-decoration: none; }
-  .btn-primary { background: var(--green); color: #fff; }
-  .btn-primary:hover { background: var(--green-light); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(47,182,124,0.35); }
-  .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--navy); }
-  .btn-sm { padding: 8px 16px; font-size: 0.8rem; border-radius: 8px; }
+    /* FORMS & BUTTONS */
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
+    .form-control { width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border); outline: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+    .form-control:focus { border-color: var(--green); box-shadow: 0 0 0 4px var(--green-dim); }
+    
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; border-radius: 10px; font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; transition: all 0.2s; text-decoration: none; }
+    .btn-primary { background: var(--green); color: #fff; }
+    .btn-primary:hover { background: var(--green-light); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(47,182,124,0.35); }
+    .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--navy); }
+    .btn-sm { padding: 8px 16px; font-size: 0.8rem; border-radius: 8px; }
 
-  /* RESPONSIVE */
-  @media (max-width: 992px) {
-    .sidebar { transform: translateX(-100%); }
-    .sidebar.active { transform: translateX(0); box-shadow: 20px 0 50px rgba(0,0,0,0.5); }
-    .main-wrapper { margin-left: 0; width: 100%; }
-    .mobile-toggle { display: block; }
-    .grid-4 { grid-template-columns: repeat(2, 1fr); }
-    .grid-3 { grid-template-columns: 1fr; }
-    .content-area { padding: 24px; }
-  }
-  @media (max-width: 576px) {
-    .grid-4, .grid-2 { grid-template-columns: 1fr; }
-    .topbar { padding: 0 20px; }
-  }
+    /* MOBILE OVERLAY */
+    .sidebar-overlay {
+      position: fixed; inset: 0; background: rgba(15,42,68,0.4);
+      backdrop-filter: blur(4px); z-index: 999; opacity: 0; pointer-events: none; transition: all 0.3s;
+    }
+    .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
+
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.active { transform: translateX(0); box-shadow: 20px 0 50px rgba(0,0,0,0.5); }
+      .main-wrapper { margin-left: 0; width: 100%; }
+      .mobile-toggle { 
+          display: flex; align-items: center; justify-content: center;
+          width: 40px; height: 40px; background: var(--green-dim); 
+          color: var(--green); border-radius: 10px; transition: all 0.2s;
+      }
+      .mobile-toggle:hover { background: var(--green); color: #fff; }
+      .mobile-toggle i { transition: transform 0.3s; }
+      .mobile-toggle.active i { transform: rotate(90deg); }
+      
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: 1fr; }
+      .content-area { padding: 24px; }
+    }
+    @media (max-width: 576px) {
+      .grid-4, .grid-2 { grid-template-columns: 1fr; }
+      .topbar { padding: 0 20px; }
+    }
 </style>
 </head>
 <body>
 
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <a href="#" class="logo"><span class="logo-dot"></span>Nexa<span>Net</span></a>
+    <a href="/" class="logo"><span class="logo-dot"></span>EliteMatrix<span>Pro</span></a>
   </div>
   <ul class="nav-menu">
     @if(request()->is('admin*'))
@@ -149,9 +164,13 @@
   </ul>
 </aside>
 
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
 <div class="main-wrapper">
   <header class="topbar">
-    <div class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('active')"><i class="fa-solid fa-bars"></i></div>
+    <div class="mobile-toggle" id="mobileToggle">
+      <i class="fa-solid fa-bars" id="toggleIcon"></i>
+    </div>
     <div class="top-search">
       <input type="text" placeholder="Search...">
     </div>
@@ -164,6 +183,32 @@
     @yield('content')
   </main>
 </div>
+
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  const mobileToggle = document.getElementById('mobileToggle');
+  const toggleIcon = document.getElementById('toggleIcon');
+
+  function toggleSidebar(forceClose = false) {
+    const isActive = forceClose ? false : !sidebar.classList.contains('active');
+    
+    if(isActive) {
+      sidebar.classList.add('active');
+      sidebarOverlay.classList.add('active');
+      mobileToggle.classList.add('active');
+      toggleIcon.className = 'fa-solid fa-xmark';
+    } else {
+      sidebar.classList.remove('active');
+      sidebarOverlay.classList.remove('active');
+      mobileToggle.classList.remove('active');
+      toggleIcon.className = 'fa-solid fa-bars';
+    }
+  }
+
+  mobileToggle.addEventListener('click', () => toggleSidebar());
+  sidebarOverlay.addEventListener('click', () => toggleSidebar(true));
+</script>
 
 </body>
 </html>
