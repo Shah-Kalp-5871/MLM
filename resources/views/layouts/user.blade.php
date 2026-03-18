@@ -92,14 +92,11 @@
             <div class="glass-panel px-6 py-3 rounded-2xl flex justify-between items-center">
                 
                 <!-- Logo -->
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20">
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 no-underline group">
+                    <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
                         <i data-lucide="zap" class="w-5 h-5 text-white"></i>
                     </div>
-                    <div class="flex flex-col leading-none">
-                        <span class="text-xs font-bold text-white tracking-widest uppercase opacity-90">EliteMatrixPro</span>
-                        <span class="text-lg font-bold text-purple-500 tracking-tight mt-0.5">PLATFORM</span>
-                    </div>
+                    <span class="text-xl font-black text-white tracking-tighter italic">EliteMatrix<span class="text-purple-500">Pro</span></span>
                 </a>
 
                 <!-- Desktop Links -->
@@ -205,7 +202,7 @@
     <!-- Footer -->
     <footer class="border-t border-white/5 py-8 mt-auto z-10 relative">
         <div class="max-w-7xl mx-auto px-6 text-center text-xs text-gray-500 font-medium">
-            &copy; {{ date('Y') }} Platform Name. All rights reserved.<br>
+            &copy; {{ date('Y') }} EliteMatrixPro. All rights reserved.<br>
             <a href="#" class="hover:text-white transition-colors">Support</a> | <a href="#" class="hover:text-white transition-colors">Terms</a>
         </div>
     </footer>

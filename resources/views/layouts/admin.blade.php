@@ -96,10 +96,7 @@
                 <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
                     <i data-lucide="zap" class="w-6 h-6 text-white"></i>
                 </div>
-                <div class="flex flex-col">
-                    <span class="text-sm font-black text-white tracking-tighter italic">EliteMatrix<span class="text-purple-500">Pro</span></span>
-                    <span class="text-[10px] text-purple-400 font-bold tracking-[0.2em] uppercase leading-none mt-1">Control Console</span>
-                </div>
+                <span class="text-xl font-black text-white tracking-tighter italic">EliteMatrix<span class="text-purple-500">Pro</span></span>
             </a>
 
             <nav class="space-y-1">
