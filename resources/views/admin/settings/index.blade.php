@@ -14,11 +14,11 @@
                 <div class="space-y-4">
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Platform Name</label>
-                        <input type="text" name="platform_name" value="{{ $settings['platform_name'] ?? 'NexaNet MLM' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
+                        <input type="text" name="platform_name" value="{{ $settings['platform_name'] ?? 'EliteMatrixPro' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
                     </div>
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Support Email</label>
-                        <input type="email" name="support_email" value="{{ $settings['support_email'] ?? 'support@nexanet.com' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
+                        <input type="email" name="support_email" value="{{ $settings['support_email'] ?? 'support@elitematrixpro.com' }}" class="w-full bg-[#121212] border border-[#1f1f1f] rounded-xl px-4 py-2.5 text-sm focus:border-purple-600 outline-none">
                     </div>
                 </div>
             </div>

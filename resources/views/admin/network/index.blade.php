@@ -5,7 +5,7 @@
     <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div>
             <h1 class="text-2xl font-bold tracking-tight">Global Network Tree</h1>
-            <p class="text-slate-400 text-sm">Visualize and traverse the entire NexaNet MLM hierarchy.</p>
+            <p class="text-slate-400 text-sm">Visualize and traverse the entire EliteMatrixPro MLM hierarchy.</p>
         </div>
         <div class="flex items-center gap-3">
             <div class="relative">

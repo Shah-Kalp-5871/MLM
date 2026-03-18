@@ -29,7 +29,7 @@
         .auth-input:focus { border-color: #9333ea; box-shadow: 0 0 15px rgba(147, 51, 234, 0.15); outline: none; background: rgba(255, 255, 255, 0.04); }
     </style>
 </head>
-<body class="selection:bg-purple-500 selection:text-white min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+<body class="selection:bg-purple-500 selection:text-white min-h-screen flex items-center justify-center p-6 md:p-12 relative">
 
     <!-- Background Elements -->
     <div class="fixed inset-0 pointer-events-none z-0">

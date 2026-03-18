@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Core Admin - NexaNet</title>
+    <title>Core Admin - EliteMatrixPro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -207,7 +207,7 @@
 
         <!-- Footer -->
         <footer class="mt-auto p-4 lg:p-8 border-t border-[#1f1f1f] text-center">
-            <p class="text-xs text-muted">© 2026 CoreAdmin v2.1.0 — NexaNet Enterprise Suite. System Latency: 12ms.</p>
+            <p class="text-xs text-muted">© 2026 CoreAdmin v2.1.0 — EliteMatrixPro Enterprise Suite. System Latency: 12ms.</p>
         </footer>
     </main>
 
