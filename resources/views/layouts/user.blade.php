@@ -300,8 +300,13 @@
                 Redeem Voucher
             </a>
 
-            <div class="mt-4 pt-4 border-t border-white/5">
-                <a href="{{ route('profile.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('profile.index') ? 'bg-white/5' : '' }}"><i data-lucide="user" class="w-4 h-4 text-purple-400"></i> Profile</a>
+            <div class="mt-4 pt-4 border-t border-white/10">
+                <a href="{{ route('profile.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('profile.index') ? 'bg-purple-600/10' : '' }}">
+                    <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center shrink-0">
+                        <i data-lucide="user" class="w-4 h-4 text-gray-400"></i>
+                    </div>
+                    Profile
+                </a>
             </div>
         </div>
     </nav>
