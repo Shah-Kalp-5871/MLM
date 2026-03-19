@@ -26,6 +26,7 @@
         }
     </script>
     <style>
+        body { background-color: var(--bg-deep, #0a0b14); color: var(--text-main, #94a3b8); overflow-x: hidden; }
         .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .table-wrapper { width: 100%; overflow-x: auto; scrollbar-width: none; }
         .table-wrapper::-webkit-scrollbar { display: none; }

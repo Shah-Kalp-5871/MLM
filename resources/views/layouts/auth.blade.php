@@ -24,7 +24,7 @@
         }
     </script>
     <style>
-        body { background-color: var(--bg-deep); color: var(--text-main); }
+        body { background-color: var(--bg-deep, #0a0b14); color: var(--text-main, #94a3b8); }
         .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .auth-input { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.1); color: white; transition: all 0.3s; }
         .auth-input:focus { border-color: #9333ea; box-shadow: 0 0 15px rgba(147, 51, 234, 0.15); outline: none; background: rgba(255, 255, 255, 0.04); }

@@ -10,6 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     @include('layouts.theme-master')
     <style>
+        body {
+            background-color: var(--bg-dark, #050505);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
         .glass {
             background: rgba(10, 10, 10, 0.6);
             backdrop-filter: blur(16px);
