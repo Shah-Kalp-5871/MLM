@@ -1,7 +1,3 @@
-@extends('layouts.auth') <!-- Using auth layout for a clean, centered look or I can use a custom one. Actually, let's use a custom structure or extend a common one. -->
-<!-- Wait, layouts.auth is good for centered content, but for "About", maybe a full page like welcome is better. -->
-<!-- I'll use a structure similar to welcome.blade.php but simplified. -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
