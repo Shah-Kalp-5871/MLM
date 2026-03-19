@@ -18,11 +18,42 @@
             <div class="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-3 font-mono text-2xl tracking-[0.2em] text-center text-purple-400 select-all">
                 {{ $refCode }}
             </div>
-            <button type="button" class="px-6 py-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-900/40 flex items-center gap-2" onclick="navigator.clipboard.writeText('{{ $refCode }}')">
-                <i data-lucide="copy" class="w-4 h-4"></i> Copy Code
+            <button id="copy-btn" type="button" class="px-6 py-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-900/40 flex items-center gap-2" onclick="copyReferralCode('{{ $refCode }}')">
+                <i data-lucide="copy" class="w-4 h-4" id="copy-icon"></i> <span id="copy-text">Copy Code</span>
             </button>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        function copyReferralCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.getElementById('copy-btn');
+                const text = document.getElementById('copy-text');
+                const icon = document.getElementById('copy-icon');
+                
+                const originalText = text.innerText;
+                const originalIcon = icon.getAttribute('data-lucide');
+                
+                text.innerText = 'Copied!';
+                icon.setAttribute('data-lucide', 'check');
+                btn.classList.remove('bg-purple-600', 'hover:bg-purple-500');
+                btn.classList.add('bg-emerald-600', 'hover:bg-emerald-500');
+                
+                // Re-render only the modified icon
+                lucide.createIcons();
+                
+                setTimeout(() => {
+                    text.innerText = originalText;
+                    icon.setAttribute('data-lucide', originalIcon);
+                    btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-500');
+                    btn.classList.add('bg-purple-600', 'hover:bg-purple-500');
+                    lucide.createIcons();
+                }, 3000);
+            });
+        }
+    </script>
+    @endpush
 
     <div class="grid grid-cols-1 gap-4">
         <div class="glass-panel p-5 rounded-2xl border-l-[6px] border-l-purple-500 flex items-center justify-between">
