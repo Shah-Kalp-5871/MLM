@@ -28,8 +28,8 @@
     <style>
         body { background-color: var(--bg-deep, #0a0b14); color: var(--text-main, #94a3b8); overflow-x: hidden; transition: background-color 0.3s; }
         .glass-panel { background: var(--glass-bg, rgba(255, 255, 255, 0.03)); backdrop-filter: blur(12px); border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.08)); transition: background 0.3s, border-color 0.3s; }
-        .table-wrapper { width: 100%; overflow-x: auto; scrollbar-width: none; }
-        .table-wrapper::-webkit-scrollbar { display: none; }
+        .table-wrapper, .table-responsive { width: 100%; max-width: 100%; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+        .table-wrapper::-webkit-scrollbar, .table-responsive::-webkit-scrollbar { display: none; }
         .nav-link { transition: all 0.3s ease; }
         .nav-link:hover, .nav-link.active { color: white; text-shadow: 0 0 10px rgba(147,51,234,0.5); }
         table { width: 100%; white-space: nowrap; border-collapse: separate; border-spacing: 0; }
