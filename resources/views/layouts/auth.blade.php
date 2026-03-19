@@ -31,6 +31,7 @@
     </style>
 </head>
 <body class="selection:bg-purple-500 selection:text-white min-h-screen flex items-center justify-center p-6 md:p-12 relative">
+    @include('partials.preloader')
 
     <!-- Background Elements -->
     <div class="fixed inset-0 pointer-events-none z-0">

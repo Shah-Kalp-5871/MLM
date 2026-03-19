@@ -96,6 +96,7 @@
     </style>
 </head>
 <body class="flex min-h-screen">
+    @include('partials.preloader')
 
     <!-- Sidebar -->
     <aside class="fixed left-0 top-0 bottom-0 w-64 glass border-r border-[#1f1f1f] z-50 hidden lg:block overflow-y-auto">

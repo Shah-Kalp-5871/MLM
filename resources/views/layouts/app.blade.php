@@ -148,6 +148,7 @@
 </style>
 </head>
 <body>
+    @include('partials.preloader')
 
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header" style="height: 100px; border-bottom: 1px solid rgba(255,255,255,0.05);">

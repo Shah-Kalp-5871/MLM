@@ -86,6 +86,7 @@
     </style>
 </head>
 <body class="selection:bg-purple-500 selection:text-white">
+    @include('partials.preloader')
 
     <!-- Top Navigation -->
     <nav class="fixed top-0 left-0 w-full z-50 px-4 py-3" id="main-nav">
