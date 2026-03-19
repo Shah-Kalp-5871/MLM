@@ -26,6 +26,22 @@
             transition: background 0.3s, border-color 0.3s;
         }
 
+        /* Dropdown for Accessibility */
+        .admin-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            width: 14rem;
+            background: var(--card-bg, #0f0f0f);
+            border: 1px solid var(--glass-border, #1f1f1f);
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+        }
+        .group:hover .admin-dropdown { display: block; }
+
         .stats-card {
             background: linear-gradient(145deg, #121212, #080808);
             border: 1px solid rgba(255, 255, 255, 0.03);
