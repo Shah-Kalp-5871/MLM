@@ -36,6 +36,10 @@
     --navy: #ffffff;
     --navy-mid: #aaaaaa;
   }
+
+  /* Transition for smooth theme switching */
+  body, .sidebar, .topbar, .card, table, th, td { transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s; }
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Inter', 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; display: flex; }
   h1,h2,h3,h4,h5 { font-family: 'Syne', sans-serif; }

@@ -12,16 +12,18 @@
     <style>
         body {
             background-color: var(--bg-dark, #050505);
-            color: #ffffff;
+            color: var(--text-main, #ffffff);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
+            transition: background-color 0.3s;
         }
 
         .glass {
-            background: rgba(10, 10, 10, 0.6);
+            background: var(--glass-bg, rgba(10, 10, 10, 0.6));
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.05));
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            transition: background 0.3s, border-color 0.3s;
         }
 
         .stats-card {
@@ -188,10 +190,17 @@
                         <i data-lucide="eye" class="w-5 h-5 text-muted group-hover:text-blue-500"></i>
                     </div>
                     <div class="admin-dropdown p-2">
-                        <div class="px-3 py-2 text-[9px] font-black text-gray-500 uppercase tracking-widest border-b border-[#1f1f1f] mb-2 text-left">Accessibility</div>
+                        <div class="px-3 py-2 text-[9px] font-black text-gray-500 uppercase tracking-widest border-b border-[#1f1f1f] mb-2 text-left">Themes</div>
                         <button onclick="setGlobalTheme('default')" class="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold text-gray-400 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-all text-left">
                             <span class="w-2 h-2 rounded-full bg-purple-600"></span> Default
                         </button>
+                        <button onclick="setGlobalTheme('midnight')" class="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold text-gray-400 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-all text-left">
+                            <span class="w-2 h-2 rounded-full bg-[#3b82f6]"></span> Midnight
+                        </button>
+                        <button onclick="setGlobalTheme('sunset')" class="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold text-gray-400 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-all text-left">
+                            <span class="w-2 h-2 rounded-full bg-[#ea580c]"></span> Sunset
+                        </button>
+                        <div class="px-3 py-2 text-[9px] font-black text-gray-500 uppercase tracking-widest border-b border-[#1f1f1f] my-2 text-left">Color Blind</div>
                         <button onclick="setGlobalTheme('protanopia')" class="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold text-gray-400 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-all text-left">
                             <span class="w-2 h-2 rounded-full bg-[#0072B2]"></span> Protanopia
                         </button>

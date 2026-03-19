@@ -26,8 +26,8 @@
         }
     </script>
     <style>
-        body { background-color: var(--bg-deep, #0a0b14); color: var(--text-main, #94a3b8); overflow-x: hidden; }
-        .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        body { background-color: var(--bg-deep, #0a0b14); color: var(--text-main, #94a3b8); overflow-x: hidden; transition: background-color 0.3s; }
+        .glass-panel { background: var(--glass-bg, rgba(255, 255, 255, 0.03)); backdrop-filter: blur(12px); border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.08)); transition: background 0.3s, border-color 0.3s; }
         .table-wrapper { width: 100%; overflow-x: auto; scrollbar-width: none; }
         .table-wrapper::-webkit-scrollbar { display: none; }
         .nav-link { transition: all 0.3s ease; }
@@ -156,10 +156,17 @@
                             <i data-lucide="eye" class="w-4 h-4"></i>
                         </button>
                         <div class="dropdown-menu !w-56 text-left">
-                            <div class="px-3 py-2 text-[9px] font-black text-gray-500 uppercase tracking-widest border-b border-white/5 mb-2">Color Blind Support</div>
+                            <div class="px-3 py-2 text-[9px] font-black text-gray-500 uppercase tracking-widest border-b border-white/5 mb-2">Themes & Accessibility</div>
                             <button onclick="setGlobalTheme('default')" class="dropdown-item w-full flex items-center gap-3">
-                                <span class="w-3 h-3 rounded-full bg-purple-600"></span> Default Theme
+                                <span class="w-3 h-3 rounded-full bg-[#9333ea]"></span> Default Theme
                             </button>
+                            <button onclick="setGlobalTheme('midnight')" class="dropdown-item w-full flex items-center gap-3">
+                                <span class="w-3 h-3 rounded-full bg-[#3b82f6]"></span> Midnight
+                            </button>
+                            <button onclick="setGlobalTheme('sunset')" class="dropdown-item w-full flex items-center gap-3">
+                                <span class="w-3 h-3 rounded-full bg-[#ea580c]"></span> Sunset Glow
+                            </button>
+                            <div class="px-3 py-2 text-[9px] font-black text-gray-500 uppercase tracking-widest border-b border-white/5 my-2">Color Blind</div>
                             <button onclick="setGlobalTheme('protanopia')" class="dropdown-item w-full flex items-center gap-3">
                                 <span class="w-3 h-3 rounded-full bg-[#0072B2]"></span> Protanopia Mode
                             </button>
