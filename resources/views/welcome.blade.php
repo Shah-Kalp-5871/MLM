@@ -196,12 +196,12 @@
                         <h4 class="text-2xl font-black text-white mt-2">Starter Matrix</h4>
                     </div>
                     <div class="text-4xl font-black text-white mb-4">
-                        $500
+                        $100
                     </div>
                     <p class="text-xs text-gray-400 mb-8 italic">Ideal for initial network builders</p>
                     <ul class="space-y-4 mb-10">
                         <li class="flex items-center gap-3 text-sm font-medium text-gray-300">
-                            <i data-lucide="check" class="w-5 h-5 text-emerald-500"></i> $15 - $17.5 Weekly ROI
+                            <i data-lucide="check" class="w-5 h-5 text-emerald-500"></i> $3 - $3.5 Weekly ROI
                         </li>
                         <li class="flex items-center gap-3 text-sm font-medium text-gray-300">
                             <i data-lucide="check" class="w-5 h-5 text-emerald-500"></i> Up to 20% Level 1 Income
@@ -210,7 +210,7 @@
                             <i data-lucide="check" class="w-5 h-5 text-emerald-500"></i> Full 15-Level Access
                         </li>
                     </ul>
-                    <a href="{{ route('register') }}" class="block w-full py-5 rounded-2xl bg-white text-center text-xs font-black text-black uppercase tracking-widest hover:bg-purple-600 hover:text-white transition-all">Start with $500</a>
+                    <a href="{{ route('register') }}" class="block w-full py-5 rounded-2xl bg-white text-center text-xs font-black text-black uppercase tracking-widest hover:bg-purple-600 hover:text-white transition-all">Start with $100</a>
                 </div>
 
                 <!-- Featured -->
