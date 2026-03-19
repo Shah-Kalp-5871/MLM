@@ -8,6 +8,7 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 @include('layouts.theme-master')
+<link rel="icon" type="image/png" href="{{ asset('storage/logo.png') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
   :root {
@@ -153,9 +154,7 @@
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header" style="height: 100px; border-bottom: 1px solid rgba(255,255,255,0.05);">
     <a href="{{ route('welcome') }}" class="flex items-center gap-3 group no-underline">
-        <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
-            <i data-lucide="zap" class="w-6 h-6 text-white"></i>
-        </div>
+        <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-10 h-10 object-contain group-hover:scale-110 transition-transform">
         <span class="text-xl font-black text-white tracking-tighter italic">EliteMatrix<span class="text-purple-500">Pro</span></span>
     </a>
   </div>

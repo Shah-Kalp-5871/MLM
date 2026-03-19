@@ -6,9 +6,7 @@
     <div class="absolute -bottom-20 -left-20 w-56 h-56 bg-purple-600/10 rounded-full blur-3xl"></div>
 
     <div class="mb-8 text-center relative z-10">
-        <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/30 mx-auto mb-5">
-            <i data-lucide="mail-check" class="w-8 h-8 text-white"></i>
-        </div>
+        <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-16 h-16 object-contain mx-auto mb-5 drop-shadow-2xl">
         <h1 class="text-2xl font-black text-white tracking-tight uppercase">Verify Your Email</h1>
         <p class="text-xs text-gray-400 font-medium mt-2 leading-relaxed">
             We sent a <span class="text-purple-400 font-bold">6-digit OTP</span> to your email.<br>

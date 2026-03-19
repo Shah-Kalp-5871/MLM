@@ -5,9 +5,7 @@
     <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-indigo-600/10 rounded-full blur-3xl group-hover:bg-indigo-600/20 transition-all duration-700"></div>
     
     <div class="mb-10 text-center relative z-10">
-        <div class="w-14 h-14 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/20 mx-auto mb-6">
-            <i data-lucide="user-plus" class="w-8 h-8 text-white"></i>
-        </div>
+        <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-14 h-14 object-contain mx-auto mb-6 drop-shadow-2xl">
         <h1 class="text-2xl font-black text-white tracking-tight uppercase">Join the Network</h1>
         <p class="text-xs text-gray-500 font-medium uppercase tracking-widest mt-2">Create your account to start earning</p>
     </div>

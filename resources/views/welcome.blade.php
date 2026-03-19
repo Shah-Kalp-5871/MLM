@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ asset('storage/logo.png') }}">
     @include('layouts.theme-master')
     <script>
         tailwind.config = {
@@ -89,9 +90,7 @@
     <nav class="fixed top-0 left-0 w-full z-50 px-4 md:px-8 py-6">
         <div class="max-w-7xl mx-auto flex justify-between items-center glass-panel px-6 py-4 rounded-3xl relative">
             <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
-                    <i data-lucide="zap" class="w-6 h-6 text-white"></i>
-                </div>
+                <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-10 h-10 object-contain group-hover:scale-110 transition-transform">
                 <span class="text-xl font-black text-white tracking-tighter italic">EliteMatrix<span class="text-purple-500">Pro</span></span>
             </a>
             
@@ -397,6 +396,9 @@
                                         <span class="text-xs text-emerald-400 font-bold">+20%</span>
                                     </div>
                                     <div class="h-8 w-px bg-purple-500/30 mx-auto"></div>
+                                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500/20 to-transparent border border-purple-500/20 flex items-center justify-center">
+                                    <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-6 h-6 object-contain">
+                                </div>
                                     <div class="p-4 rounded-xl border border-purple-500/30 bg-purple-500/5 flex justify-between items-center">
                                         <div class="flex items-center gap-3">
                                             <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-[10px] font-bold text-white">B</div>
@@ -470,9 +472,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
                 <div class="space-y-6">
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                            <i data-lucide="zap" class="w-5 h-5 text-white"></i>
-                        </div>
+                        <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-8 h-8 object-contain">
                         <span class="text-lg font-black text-white italic">EliteMatrix<span class="text-purple-500">Pro</span></span>
                     </div>
                     <p class="text-xs text-gray-500 leading-relaxed uppercase font-bold tracking-widest">Empowering Decentralized Wealth Creation</p>

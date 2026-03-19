@@ -9,6 +9,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ asset('storage/logo.png') }}">
     @include('layouts.theme-master')
     <script>
         tailwind.config = {
@@ -95,9 +96,7 @@
                 
                 <!-- Logo -->
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-2 sm:gap-3 no-underline group shrink-0">
-                    <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform shrink-0">
-                        <i data-lucide="zap" class="w-4 h-4 sm:w-5 sm:h-5 text-white"></i>
-                    </div>
+                    <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-8 h-8 sm:w-10 sm:h-10 object-contain group-hover:scale-110 transition-transform shrink-0">
                     <span class="text-base sm:text-xl font-black text-white tracking-tighter italic hidden min-[360px]:block">EliteMatrix<span class="text-purple-500">Pro</span></span>
                 </a>
 
@@ -108,12 +107,12 @@
                     <!-- Investments Dropdown -->
                     <div class="relative group">
                         <button class="nav-link text-xs font-bold uppercase tracking-wider flex items-center gap-2 {{ request()->routeIs(['invest.create', 'investments.index', 'earnings.index']) ? 'text-white' : 'text-gray-400' }}">
-                            <i data-lucide="zap" class="w-4 h-4"></i> Investments <i data-lucide="chevron-down" class="w-3 h-3 opacity-50"></i>
+                            <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-4 h-4 object-contain"> Investments <i data-lucide="chevron-down" class="w-3 h-3 opacity-50"></i>
                         </button>
                         <div class="dropdown-menu">
                             <a href="{{ route('invest.create') }}" class="dropdown-item {{ request()->routeIs('invest.create') ? 'active' : '' }}"><i data-lucide="plus-circle" class="w-4 h-4"></i> Start Investing</a>
                             <a href="{{ route('investments.index') }}" class="dropdown-item {{ request()->routeIs('investments.index') ? 'active' : '' }}"><i data-lucide="history" class="w-4 h-4"></i> Investment Hub</a>
-                            <a href="{{ route('roi.index') }}" class="dropdown-item {{ request()->routeIs('roi.index') ? 'active' : '' }}"><i data-lucide="zap" class="w-4 h-4"></i> ROI History</a>
+                            <a href="{{ route('roi.index') }}" class="dropdown-item {{ request()->routeIs('roi.index') ? 'active' : '' }}"><img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-4 h-4 object-contain"> ROI History</a>
                             <a href="{{ route('earnings.index') }}" class="dropdown-item {{ request()->routeIs('earnings.index') ? 'active' : '' }}"><i data-lucide="trending-up" class="w-4 h-4"></i> Overall Earnings</a>
                         </div>
                     </div>

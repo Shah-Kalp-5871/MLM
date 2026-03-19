@@ -8,6 +8,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ asset('storage/logo.png') }}">
     @include('layouts.theme-master')
     <style>
         body {
@@ -102,9 +103,7 @@
     <aside class="fixed left-0 top-0 bottom-0 w-64 glass border-r border-[#1f1f1f] z-50 hidden lg:block overflow-y-auto">
         <div class="p-6">
             <a href="{{ route('welcome') }}" class="flex items-center gap-3 group mb-10 no-underline">
-                <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
-                    <i data-lucide="zap" class="w-6 h-6 text-white"></i>
-                </div>
+                <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-10 h-10 object-contain group-hover:scale-110 transition-transform">
                 <span class="text-xl font-black text-white tracking-tighter italic">EliteMatrix<span class="text-purple-500">Pro</span></span>
             </a>
 
@@ -136,10 +135,10 @@
                     <i data-lucide="gem" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Investments List</span>
                 </a>
-                <a href="{{ route('admin.roi.index') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.roi.*') ? 'active' : '' }}">
-                    <i data-lucide="zap" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">ROI Engine</span>
-                </a>
+                    <a href="{{ route('admin.roi.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->routeIs('admin.roi.*') ? 'bg-purple-600/10 text-purple-400 border border-purple-500/20' : 'text-muted hover:bg-white/5' }}">
+                        <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-5 h-5 object-contain">
+                        <span class="text-sm font-medium">ROI Engine</span>
+                    </a>
                 <a href="{{ route('admin.reports.vouchers') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.reports.vouchers') ? 'active' : '' }}">
                     <i data-lucide="ticket" class="w-5 h-5"></i>
                     <span class="text-sm font-medium">Voucher Report</span>
@@ -178,11 +177,11 @@
         <!-- Header -->
         <header class="h-20 glass sticky top-0 z-40 border-b border-[#1f1f1f] px-4 lg:px-8 flex items-center justify-between">
             <div class="flex items-center gap-4 lg:hidden">
-                <i data-lucide="menu" class="w-6 h-6 text-muted cursor-pointer"></i>
+                <button type="button" onclick="document.querySelector('aside').classList.toggle('hidden')" class="lg:hidden text-muted">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
                 <a href="{{ route('welcome') }}" class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                        <i data-lucide="zap" class="w-4 h-4 text-white"></i>
-                    </div>
+                    <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-8 h-8 object-contain">
                     <span class="text-xs font-black text-white tracking-tighter italic">EMP<span class="text-purple-500">Admin</span></span>
                 </a>
             </div>
