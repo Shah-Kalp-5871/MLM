@@ -199,6 +199,16 @@
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center cursor-pointer shadow-lg shadow-purple-900/20">
                     <span class="font-bold text-sm">SA</span>
                 </div>
+
+                <!-- Admin Logout -->
+                <form id="admin-logout-form" action="{{ route('admin.logout') }}" method="POST" class="hidden">
+                    @csrf
+                </form>
+                <button type="button" onclick="event.preventDefault(); document.getElementById('admin-logout-form').submit();" 
+                        class="w-10 h-10 rounded-xl glass flex items-center justify-center cursor-pointer border border-[#2d2d2d] group hover:border-rose-500 transition-all"
+                        title="Logout Admin">
+                    <i data-lucide="log-out" class="w-5 h-5 text-muted group-hover:text-rose-500"></i>
+                </button>
             </div>
         </header>
 
