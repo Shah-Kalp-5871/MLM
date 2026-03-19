@@ -41,12 +41,22 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Password</label>
-                    <input type="password" name="password" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm" placeholder="••••••••" required>
+                    <div class="relative">
+                        <input type="password" name="password" id="password" class="auth-input w-full px-4 pr-12 py-3.5 rounded-xl text-sm" placeholder="••••••••" required>
+                        <button type="button" onclick="togglePassword('password', 'eye-icon-1')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-purple-400 transition-colors">
+                            <i data-lucide="eye" id="eye-icon-1" class="w-4 h-4"></i>
+                        </button>
+                    </div>
                     @error('password') <span class="text-rose-500 text-[10px] mt-1 ml-1">{{ $message }}</span> @enderror
                 </div>
                 <div>
                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Confirm</label>
-                    <input type="password" name="password_confirmation" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm" placeholder="••••••••" required>
+                    <div class="relative">
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="auth-input w-full px-4 pr-12 py-3.5 rounded-xl text-sm" placeholder="••••••••" required>
+                        <button type="button" onclick="togglePassword('password_confirmation', 'eye-icon-2')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-purple-400 transition-colors">
+                            <i data-lucide="eye" id="eye-icon-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

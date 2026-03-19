@@ -29,7 +29,10 @@
                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Password</label>
                 <div class="relative">
                     <i data-lucide="lock" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500"></i>
-                    <input type="password" name="password" class="auth-input w-full pl-12 pr-4 py-3.5 rounded-xl text-sm" placeholder="••••••••" required>
+                    <input type="password" name="password" id="password" class="auth-input w-full pl-12 pr-12 py-3.5 rounded-xl text-sm" placeholder="••••••••" required>
+                    <button type="button" onclick="togglePassword('password', 'eye-icon')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-purple-400 transition-colors">
+                        <i data-lucide="eye" id="eye-icon" class="w-4 h-4"></i>
+                    </button>
                 </div>
             </div>
         </div>
