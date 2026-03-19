@@ -38,6 +38,21 @@
         .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .text-glow { text-shadow: 0 0 20px rgba(147, 51, 234, 0.5); }
         .hero-bg { background-image: radial-gradient(circle at top right, rgba(88, 28, 135, 0.15), transparent 40%), radial-gradient(circle at bottom left, rgba(49, 46, 129, 0.15), transparent 40%); }
+        
+        /* Mobile Menu */
+        #mobile-menu {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(-20px);
+            opacity: 0;
+            pointer-events: none;
+            background: #0a0b14; /* Solid background for visibility */
+            border: 1px solid rgba(147, 51, 234, 0.3);
+        }
+        #mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
     </style>
 </head>
 <body class="selection:bg-purple-500 selection:text-white min-h-screen hero-bg">
@@ -50,10 +65,30 @@
                 <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-10 h-10 object-contain group-hover:scale-110 transition-transform">
                 <span class="text-xl font-black text-white tracking-tighter italic">EliteMatrix<span class="text-purple-500">Pro</span></span>
             </a>
-            <div class="hidden md:flex items-center gap-8">
+            <div class="hidden lg:flex items-center gap-8">
                 <a href="{{ route('welcome') }}" class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-white transition-colors">Home</a>
                 <a href="{{ route('about') }}" class="text-[10px] font-black uppercase tracking-[0.2em] text-white">About</a>
-                <a href="{{ route('login') }}" class="px-6 py-2.5 rounded-xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] text-white hover:bg-white/10 transition-all">Login</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:flex items-center gap-3">
+                    <a href="{{ route('login') }}" class="px-6 py-2.5 rounded-xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] text-white hover:bg-white/10 transition-all">Login</a>
+                    <a href="{{ route('register') }}" class="px-6 py-2.5 rounded-xl bg-purple-600 text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-purple-500 transition-all shadow-lg shadow-purple-500/20">Sign Up</a>
+                </div>
+                <button id="menu-toggle" class="lg:hidden p-3 bg-purple-600/20 rounded-xl text-white border border-purple-500/30 hover:bg-purple-600/40 transition-all">
+                    <i data-lucide="menu" id="icon-menu" class="w-6 h-6"></i>
+                    <i data-lucide="x" id="icon-close" class="w-6 h-6 hidden"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="absolute top-[110%] left-0 w-full rounded-2xl p-8 flex flex-col gap-6 lg:hidden z-50 shadow-2xl">
+                <a href="{{ route('welcome') }}" class="text-xs font-bold uppercase tracking-widest text-white border-b border-white/5 pb-4">Home</a>
+                <a href="{{ route('about') }}" class="text-xs font-bold uppercase tracking-widest text-white border-b border-white/5 pb-4">About</a>
+                <div class="flex flex-col gap-3 pt-4">
+                    <a href="{{ route('login') }}" class="w-full py-4 text-center border border-white/10 rounded-2xl text-xs font-bold text-white uppercase tracking-widest">Login</a>
+                    <a href="{{ route('register') }}" class="w-full py-4 text-center bg-purple-600 rounded-2xl text-xs font-bold text-white uppercase tracking-widest shadow-xl shadow-purple-500/20">Create Account</a>
+                </div>
             </div>
         </div>
     </nav>
@@ -163,6 +198,56 @@
             </div>
         </div>
 
+        <!-- 15-Level Network Plan Section -->
+        <div class="mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-black text-white uppercase tracking-tight">The Power of the Matrix Network</h2>
+                <p class="text-gray-400 mt-4 leading-relaxed max-w-2xl mx-auto uppercase text-xs font-bold tracking-widest">
+                    Your wealth accelerates through our 15-level deep compensation plan. When your network earns, you earn.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="glass-panel p-10 rounded-[2.5rem] border-purple-500/20 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-[50px] rounded-full"></div>
+                    <h3 class="text-xl font-bold text-white uppercase tracking-wider mb-6">Passive Level Income</h3>
+                    <p class="text-[11px] text-gray-400 leading-relaxed uppercase font-bold mb-6">
+                        Every time a member in your network receives their weekly ROI, you receive a percentage of that return. This is real, verifiable yield-sharing, extending all the way down to 15 levels of your tree.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-center justify-between text-sm glass-panel py-3 px-4 rounded-xl">
+                            <span class="text-purple-400 font-bold">Level 1 (Direct)</span>
+                            <span class="text-white font-black">20% of ROI</span>
+                        </li>
+                        <li class="flex items-center justify-between text-sm glass-panel py-3 px-4 rounded-xl">
+                            <span class="text-indigo-400 font-bold">Level 2</span>
+                            <span class="text-white font-black">12% of ROI</span>
+                        </li>
+                        <li class="flex items-center justify-between text-sm glass-panel py-3 px-4 rounded-xl">
+                            <span class="text-blue-400 font-bold">Level 3</span>
+                            <span class="text-white font-black">9% of ROI</span>
+                        </li>
+                        <li class="flex items-center justify-between text-[10px] text-gray-500 uppercase font-bold px-4">
+                            Levels 4-6: 6% • Levels 7-10: 4% • Levels 11-15: 2%
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="glass-panel p-10 rounded-[2.5rem] border-emerald-500/20 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 blur-[50px] rounded-full"></div>
+                    <div class="w-14 h-14 bg-emerald-600/10 rounded-2xl flex items-center justify-center text-emerald-400 mb-6">
+                        <i data-lucide="award" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white uppercase tracking-wider mb-4">Elite Club Vouchers</h3>
+                    <p class="text-[11px] text-gray-400 leading-relaxed uppercase font-bold mb-6">
+                        We turn incredible growth into tangible rewards. As your **Direct Business** (Level 1 volume) and **Team Business** (Total Network volume) cross key milestones, you automatically unlock compounding Club Vouchers.
+                    </p>
+                    <p class="text-[11px] text-gray-400 leading-relaxed uppercase font-bold">
+                        These vouchers act as digital investment tokens, ranging from **$500 to $5,000**, which are instantly reinvested into the ecosystem to turbo-charge your weekly returns without any additional out-of-pocket capital.
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <div class="mt-20 text-center animate-float">
             <a href="{{ route('register') }}" class="inline-flex items-center gap-4 px-12 py-6 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-sm font-black uppercase tracking-widest hover:scale-105 transition-all shadow-2xl shadow-purple-900/40">
                 Join our success story <i data-lucide="arrow-right" class="w-5 h-5"></i>
@@ -181,6 +266,57 @@
 
     <script>
         lucide.createIcons();
+
+        // Mobile Menu Logic
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const iconMenu = document.getElementById('icon-menu');
+        const iconClose = document.getElementById('icon-close');
+
+        function toggleMenu(forceClose = false) {
+            const isActive = forceClose ? false : !mobileMenu.classList.contains('active');
+            
+            if (isActive) {
+                mobileMenu.classList.add('active');
+                iconMenu.classList.add('hidden');
+                iconClose.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.remove('active');
+                iconMenu.classList.remove('hidden');
+                iconClose.classList.add('hidden');
+            }
+        }
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMenu();
+            });
+        }
+
+        // Close menu on click outside or on links
+        document.addEventListener('click', (e) => {
+            if (mobileMenu && mobileMenu.classList.contains('active')) {
+                const isClickInsideMenu = mobileMenu.contains(e.target);
+                const isClickOnLink = e.target.tagName === 'A' || e.target.closest('a');
+                
+                if (!isClickInsideMenu || (isClickInsideMenu && isClickOnLink)) {
+                    toggleMenu(true);
+                }
+            }
+        });
+
+        // Sticky Nav Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav div');
+            if (nav) {
+                if (window.scrollY > 20) {
+                    nav.classList.add('shadow-2xl', 'shadow-purple-500/20', 'bg-deep/80');
+                } else {
+                    nav.classList.remove('shadow-2xl', 'shadow-purple-500/20', 'bg-deep/80');
+                }
+            }
+        });
     </script>
 </body>
 </html>
