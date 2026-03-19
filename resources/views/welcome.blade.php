@@ -200,9 +200,9 @@
                         <h4 class="text-2xl font-black text-white mt-2">Starter Matrix</h4>
                     </div>
                     <div class="text-4xl font-black text-white mb-4">
-                        Any<span class="text-sm font-medium text-purple-200/50"> Amount</span>
+                        $500<span class="text-sm font-medium text-purple-200/50"> minimum</span>
                     </div>
-                    <p class="text-xs text-gray-400 mb-8 italic">Minimum deposit set by admin</p>
+                    <p class="text-xs text-gray-400 mb-8 italic">Start your journey & grow your network</p>
                     <ul class="space-y-4 mb-10">
                         <li class="flex items-center gap-3 text-sm font-medium text-gray-300">
                             <i data-lucide="check" class="w-5 h-5 text-emerald-500"></i> ROI activates at $500 total
