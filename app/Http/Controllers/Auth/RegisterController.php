@@ -28,7 +28,7 @@ class RegisterController extends Controller
             'email'         => 'required|string|email|max:255|unique:users',
             'phone'         => 'required|string|max:20',
             'password'      => 'required|string|min:8|confirmed',
-            'referral_code' => 'nullable|exists:users,referral_code',
+            'referral_code' => 'required|exists:users,referral_code',
         ]);
 
         // Generate 6-digit OTP

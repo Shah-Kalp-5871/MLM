@@ -34,8 +34,8 @@
                 @error('email') <span class="text-rose-500 text-[10px] mt-1 ml-1">{{ $message }}</span> @enderror
             </div>
             <div>
-                <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Referral Code (Optional)</label>
-                <input type="text" name="referral_code" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm font-mono text-purple-300" placeholder="REF-XXXX-XXXX" value="{{ old('referral_code') }}">
+                <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Referral Code</label>
+                <input type="text" name="referral_code" class="auth-input w-full px-4 py-3.5 rounded-xl text-sm font-mono text-purple-300" placeholder="EMPXXXXX" required value="{{ old('referral_code') }}">
                 @error('referral_code') <span class="text-rose-500 text-[10px] mt-1 ml-1">{{ $message }}</span> @enderror
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
