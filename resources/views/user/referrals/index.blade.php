@@ -11,14 +11,14 @@
         <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-2">Your Invite Code</h2>
         <p class="text-xs text-gray-400 mb-6">Share this code with your friends. They can enter it during signup.</p>
         
-        <div class="flex items-center gap-3">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
             @php
                 $refCode = auth()->user()->referral_code;
             @endphp
-            <div class="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-3 font-mono text-2xl tracking-[0.2em] text-center text-purple-400 select-all">
+            <div class="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-4 sm:py-3 font-mono text-xl sm:text-2xl tracking-[0.1em] sm:tracking-[0.2em] text-center text-purple-400 select-all overflow-hidden text-ellipsis">
                 {{ $refCode }}
             </div>
-            <button id="copy-btn" type="button" class="px-6 py-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-900/40 flex items-center gap-2" onclick="copyReferralCode('{{ $refCode }}')">
+            <button id="copy-btn" type="button" class="w-full sm:w-auto px-6 py-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-900/40 flex items-center justify-center gap-2" onclick="copyReferralCode('{{ $refCode }}')">
                 <i data-lucide="copy" class="w-4 h-4" id="copy-icon"></i> <span id="copy-text">Copy Code</span>
             </button>
         </div>
