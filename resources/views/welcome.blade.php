@@ -267,7 +267,7 @@
                             <i data-lucide="check" class="w-5 h-5 text-emerald-500"></i> Infinite Legacy Growth
                         </li>
                     </ul>
-                    <a href="{{ route('register') }}" class="block w-full py-5 rounded-2xl border border-white/10 text-center text-xs font-black text-white uppercase tracking-widest hover:border-indigo-500/50 transition-all">Start with $5,000</a>
+                    <a href="{{ route('register') }}" class="block w-full py-5 rounded-2xl bg-white text-center text-xs font-black text-black uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all">Start with $5,000</a>
                 </div>
             </div>
         </div>
