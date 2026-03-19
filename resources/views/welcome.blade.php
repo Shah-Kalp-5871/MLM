@@ -95,7 +95,8 @@
             </a>
             
             <div class="hidden lg:flex items-center gap-10">
-                <a href="#about" class="nav-link text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-white transition-colors">About</a>
+                <a href="#features" class="nav-link text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-white transition-colors">Features</a>
+                <a href="{{ route('about') }}" class="nav-link text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-white transition-colors">About</a>
                 <a href="#plans" class="nav-link text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-white transition-colors">Investment</a>
                 <a href="#milestones" class="nav-link text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-white transition-colors">Milestones</a>
                 <a href="#how" class="nav-link text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-white transition-colors">How it Works</a>
@@ -114,7 +115,8 @@
 
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="absolute top-[110%] left-0 w-full rounded-2xl p-8 flex flex-col gap-6 lg:hidden z-50 shadow-2xl">
-                <a href="#about" class="text-xs font-bold uppercase tracking-widest text-white border-b border-white/5 pb-4">About</a>
+                <a href="#features" class="text-xs font-bold uppercase tracking-widest text-white border-b border-white/5 pb-4">Features</a>
+                <a href="{{ route('about') }}" class="text-xs font-bold uppercase tracking-widest text-white border-b border-white/5 pb-4">About</a>
                 <a href="#plans" class="text-xs font-bold uppercase tracking-widest text-white border-b border-white/5 pb-4">Investment</a>
                 <a href="#milestones" class="text-xs font-bold uppercase tracking-widest text-white border-b border-white/5 pb-4">Milestones</a>
                 <a href="#how" class="text-xs font-bold uppercase tracking-widest text-white border-b border-white/5 pb-4">How it Works</a>
@@ -480,8 +482,8 @@
                 <div>
                     <h5 class="text-white font-bold text-xs uppercase tracking-[0.3em] mb-8">Ecosystem</h5>
                     <ul class="space-y-4">
-                        <li><a href="#about" class="text-xs text-gray-500 hover:text-white transition-colors">Our Vision</a></li>
-                        <li><a href="#plans" class="text-xs text-gray-500 hover:text-white transition-colors">Yield Protocols</a></li>
+                        <li><a href="{{ route('about') }}" class="text-xs text-gray-500 hover:text-purple-400 transition-colors uppercase font-bold tracking-widest">Our Story</a></li>
+                        <li><a href="{{ route('about') }}" class="text-xs text-gray-500 hover:text-purple-400 transition-colors uppercase font-bold tracking-widest">Business Model</a></li>
                         <li><a href="#milestones" class="text-xs text-gray-500 hover:text-white transition-colors">Club Rewards</a></li>
                     </ul>
                 </div>

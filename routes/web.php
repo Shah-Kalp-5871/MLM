@@ -25,6 +25,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
 Route::get('/test/verify', [\App\Http\Controllers\TestController::class, 'verify']);
 
 Route::get('/test-mail', function () {
