@@ -111,11 +111,16 @@
                         <img id="qr-code-img" src="{{ asset('storage/' . ($paymentMethods->first()->qr_code ?? '')) }}" class="w-40 h-40 object-contain mx-auto" alt="QR Code">
                     </div>
                     <div class="text-left space-y-4">
-                        <div class="p-4 rounded-xl bg-black/40 border border-white/5">
-                            <p class="text-[10px] font-bold text-purple-500 uppercase tracking-widest mb-2">Instructions</p>
-                            <p id="payment-instructions" class="text-xs text-gray-400 leading-relaxed italic">
-                                {{ $paymentMethods->first()->instructions ?? 'No special instructions.' }}
-                            </p>
+                        <div class="flex items-center justify-between gap-2 p-4 rounded-xl bg-black/40 border border-white/5 group/copy">
+                            <div class="overflow-hidden">
+                                <p class="text-[10px] font-bold text-purple-500 uppercase tracking-widest mb-1">ID (Receiver Address)</p>
+                                <p id="payment-instructions" class="text-sm font-bold text-white truncate font-mono">
+                                    {{ $paymentMethods->first()->instructions ?? 'No ID provided.' }}
+                                </p>
+                            </div>
+                            <button type="button" onclick="copyInstructionId(this)" class="p-2.5 rounded-xl bg-white/5 hover:bg-purple-500/20 text-gray-400 hover:text-purple-400 border border-transparent hover:border-purple-500/30 transition-all flex-shrink-0" title="Copy ID">
+                                <i data-lucide="copy" class="w-4 h-4"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -184,7 +189,7 @@
 
     function updatePaymentDetails(qr, instructions) {
         document.getElementById('qr-code-img').src = '{{ asset("storage") }}/' + qr;
-        document.getElementById('payment-instructions').innerText = instructions || 'No special instructions.';
+        document.getElementById('payment-instructions').innerText = instructions || 'No ID provided.';
         
         // Add a subtle animation to highlight the change
         const qrContainer = document.getElementById('qr-code-img').parentElement;
@@ -204,6 +209,22 @@
             }
             reader.readAsDataURL(file);
         }
+    }
+
+    function copyInstructionId(btn) {
+        const textToCopy = document.getElementById('payment-instructions').innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<svg class="w-4 h-4 text-emerald-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            btn.classList.add('text-emerald-400', 'bg-emerald-500/20', 'border-emerald-500/30');
+            btn.classList.remove('text-gray-400', 'hover:text-purple-400', 'bg-white/5', 'hover:bg-purple-500/20');
+            
+            setTimeout(() => { 
+                btn.innerHTML = originalHTML; 
+                btn.classList.remove('text-emerald-400', 'bg-emerald-500/20', 'border-emerald-500/30');
+                btn.classList.add('text-gray-400', 'hover:text-purple-400', 'bg-white/5', 'hover:bg-purple-500/20');
+            }, 2000);
+        });
     }
 </script>
 @endsection

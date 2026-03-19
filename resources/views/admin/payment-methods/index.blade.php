@@ -29,7 +29,7 @@
             <div class="mb-6">
                 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">{{ $method->type }}</p>
                 <h3 class="text-xl font-bold text-white">{{ $method->name }}</h3>
-                <p class="text-xs text-slate-400 mt-2 line-clamp-2 h-8">{{ $method->instructions ?? 'No special instructions' }}</p>
+                <p class="text-xs text-slate-400 mt-2 line-clamp-2 h-8 font-mono">{{ $method->instructions ?? 'No ID provided' }}</p>
             </div>
 
             <div class="bg-black/40 rounded-2xl p-4 border border-white/5 flex items-center justify-center mb-6 aspect-square overflow-hidden group-hover:border-purple-500/50 transition-all">
@@ -95,12 +95,62 @@
                     <input type="file" name="qr_code" class="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-3.5 text-slate-200 text-sm focus:border-purple-600 focus:outline-none transition-all" required>
                 </div>
                 <div class="space-y-1.5">
-                    <label class="text-[10px] uppercase font-bold text-slate-500 tracking-widest px-1">Instructions</label>
-                    <textarea name="instructions" class="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-3.5 text-slate-200 text-sm focus:border-purple-600 focus:outline-none transition-all" rows="3" placeholder="Step-by-step payment guide..."></textarea>
+                    <label class="text-[10px] uppercase font-bold text-slate-500 tracking-widest px-1">ID (Receiver Address)</label>
+                    <textarea name="instructions" class="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-3.5 text-slate-200 text-sm focus:border-purple-600 focus:outline-none transition-all" rows="3" placeholder="e.g. UPI ID or Crypto Address..."></textarea>
                 </div>
                 <div class="pt-2">
                     <button type="submit" class="w-full py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-black uppercase tracking-[0.2em] transition-all shadow-xl shadow-purple-900/40">
                         Save Method
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="editMethodModal" class="modal-backdrop hidden">
+    <div class="modal-content-wrapper max-w-md w-full p-4">
+        <div class="glass rounded-3xl border border-white/10 shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div class="p-6 border-b border-white/5 flex items-center justify-between">
+                <h3 class="text-lg font-bold">Edit Payment Method</h3>
+                <button onclick="toggleModal('editMethodModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <form id="editMethodForm" method="POST" enctype="multipart/form-data" class="p-6 space-y-5">
+                @csrf
+                @method('PUT')
+                <div class="space-y-1.5">
+                    <label class="text-[10px] uppercase font-bold text-slate-500 tracking-widest px-1">Method Name</label>
+                    <input type="text" id="edit_name" name="name" class="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-3.5 text-slate-200 text-sm focus:border-purple-600 focus:outline-none transition-all" required>
+                </div>
+                <div class="flex gap-4">
+                    <div class="space-y-1.5 flex-1">
+                        <label class="text-[10px] uppercase font-bold text-slate-500 tracking-widest px-1">Type</label>
+                        <select id="edit_type" name="type" class="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-3.5 text-slate-200 text-sm focus:border-purple-600 focus:outline-none transition-all appearance-none cursor-pointer">
+                            <option value="UPI">UPI</option>
+                            <option value="Bank Transfer">Bank Transfer</option>
+                            <option value="Paytm">Paytm</option>
+                            <option value="Crypto">Crypto (USDT)</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1.5 flex-1">
+                        <label class="text-[10px] uppercase font-bold text-slate-500 tracking-widest px-1">Status</label>
+                        <select id="edit_is_active" name="is_active" class="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-3.5 text-slate-200 text-sm focus:border-purple-600 focus:outline-none transition-all appearance-none cursor-pointer">
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] uppercase font-bold text-slate-500 tracking-widest px-1">Update QR Code Image (Optional)</label>
+                    <input type="file" name="qr_code" class="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-3.5 text-slate-200 text-sm focus:border-purple-600 focus:outline-none transition-all">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] uppercase font-bold text-slate-500 tracking-widest px-1">ID (Receiver Address)</label>
+                    <textarea id="edit_instructions" name="instructions" class="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-3.5 text-slate-200 text-sm focus:border-purple-600 focus:outline-none transition-all" rows="3" placeholder="e.g. UPI ID or Crypto Address..."></textarea>
+                </div>
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-black uppercase tracking-[0.2em] transition-all shadow-xl shadow-purple-900/40">
+                        Update Method
                     </button>
                 </div>
             </form>
@@ -129,6 +179,20 @@
         document.getElementById(id).classList.toggle('hidden');
     }
     
-    // Simple script to handle modals and edit data would go here
+    const paymentMethods = @json($methods);
+
+    function editMethod(id) {
+        const method = paymentMethods.find(m => m.id === id);
+        if (!method) return;
+
+        document.getElementById('editMethodForm').action = `{{ url('admin/payment-methods') }}/${id}`;
+
+        document.getElementById('edit_name').value = method.name;
+        document.getElementById('edit_type').value = method.type;
+        document.getElementById('edit_instructions').value = method.instructions || '';
+        document.getElementById('edit_is_active').value = method.is_active ? "1" : "0";
+
+        toggleModal('editMethodModal');
+    }
 </script>
 @endsection
