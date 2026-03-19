@@ -91,14 +91,14 @@
     <!-- Top Navigation -->
     <nav class="fixed top-0 left-0 w-full z-50 px-4 py-3" id="main-nav">
         <div class="max-w-7xl mx-auto">
-            <div class="glass-panel px-6 py-3 rounded-2xl flex justify-between items-center">
+            <div class="glass-panel px-3 sm:px-6 py-3 rounded-2xl flex justify-between items-center gap-2">
                 
                 <!-- Logo -->
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 no-underline group">
-                    <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
-                        <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-2 sm:gap-3 no-underline group shrink-0">
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform shrink-0">
+                        <i data-lucide="zap" class="w-4 h-4 sm:w-5 sm:h-5 text-white"></i>
                     </div>
-                    <span class="text-xl font-black text-white tracking-tighter italic">EliteMatrix<span class="text-purple-500">Pro</span></span>
+                    <span class="text-base sm:text-xl font-black text-white tracking-tighter italic hidden min-[360px]:block">EliteMatrix<span class="text-purple-500">Pro</span></span>
                 </a>
 
                 <!-- Desktop Links -->
@@ -150,10 +150,10 @@
                 </div>
 
                 <!-- Right Actions -->
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 sm:gap-4 shrink-0">
                     <!-- Accessibility Menu -->
-                    <div class="relative group">
-                        <button class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-500 hover:bg-blue-500/20 transition-all" title="Accessibility Settings">
+                    <div class="relative group shrink-0">
+                        <button class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-500 hover:bg-blue-500/20 transition-all shrink-0" title="Accessibility Settings">
                             <i data-lucide="eye" class="w-4 h-4"></i>
                         </button>
                         <div class="dropdown-menu !w-56 text-left">
@@ -180,13 +180,13 @@
                         </div>
                     </div>
 
-                    <form action="{{ route('login') }}" method="GET">
-                        <button type="submit" class="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-500 hover:bg-rose-500/20 transition-all">
+                    <form action="{{ route('login') }}" method="GET" class="shrink-0">
+                        <button type="submit" class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-500 hover:bg-rose-500/20 transition-all shrink-0">
                             <i data-lucide="power" class="w-4 h-4"></i>
                         </button>
                     </form>
-                    <button class="lg:hidden w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-300" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
-                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    <button class="lg:hidden w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 shrink-0" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                        <i data-lucide="menu" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                     </button>
                 </div>
 
