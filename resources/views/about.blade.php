@@ -37,7 +37,7 @@
         body { background-color: #0a0b14; color: #94a3b8; }
         .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .text-glow { text-shadow: 0 0 20px rgba(147, 51, 234, 0.5); }
-        .hero-bg { background: radial-gradient(circle at top right, rgba(88, 28, 135, 0.15), transparent 40%), radial-gradient(circle at bottom left, rgba(49, 46, 129, 0.15), transparent 40%); }
+        .hero-bg { background-image: radial-gradient(circle at top right, rgba(88, 28, 135, 0.15), transparent 40%), radial-gradient(circle at bottom left, rgba(49, 46, 129, 0.15), transparent 40%); }
     </style>
 </head>
 <body class="selection:bg-purple-500 selection:text-white min-h-screen hero-bg">
@@ -90,7 +90,7 @@
             </div>
         </div>
 
-        <div class="glass-panel p-12 rounded-[3.5rem] relative overflow-hidden group">
+        <div class="glass-panel p-12 rounded-[3.5rem] relative overflow-hidden group mb-20">
             <div class="absolute -top-24 -right-24 w-64 h-64 bg-purple-600/10 rounded-full blur-[80px]"></div>
             <div class="relative z-10 text-center space-y-8">
                 <h2 class="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase">Our Strategic Investment Pillars</h2>
@@ -98,23 +98,67 @@
                     <div class="space-y-3">
                         <div class="text-purple-400 font-black text-xl">01.</div>
                         <h4 class="text-white font-bold uppercase tracking-widest text-sm">AI Arbitrage</h4>
-                        <p class="text-xs text-gray-500 leading-relaxed">Leveraging artificial intelligence to scan thousands of data points and execute profitable trades in milliseconds.</p>
+                        <p class="text-xs text-gray-500 leading-relaxed uppercase font-bold">Leveraging artificial intelligence to scan thousands of data points and execute profitable trades in milliseconds. Our neural networks analyze order books across 50+ central and decentralized exchanges simultaneously.</p>
                     </div>
                     <div class="space-y-3">
                         <div class="text-indigo-400 font-black text-xl">02.</div>
-                        <h4 class="text-white font-bold uppercase tracking-widest text-sm">Real Estate Portfolios</h4>
-                        <p class="text-xs text-gray-500 leading-relaxed">Diversifying into high-yield commercial real estate to provide a stable, asset-backed foundation for our growth.</p>
+                        <h4 class="text-white font-bold uppercase tracking-widest text-sm">Global Venture Capital</h4>
+                        <p class="text-xs text-gray-500 leading-relaxed uppercase font-bold">Investing in early-stage fintech disruptions and sustainable energy projects that promise exponential long-term growth. We bridge the gap between community capital and high-impact industrial opportunities.</p>
                     </div>
                     <div class="space-y-3">
                         <div class="text-emerald-400 font-black text-xl">03.</div>
                         <h4 class="text-white font-bold uppercase tracking-widest text-sm">Liquidity Provision</h4>
-                        <p class="text-xs text-gray-500 leading-relaxed">Acting as a major liquidity provider for emerging fintech platforms to capture consistent service-based revenue.</p>
+                        <p class="text-xs text-gray-500 leading-relaxed uppercase font-bold">Acting as a major liquidity provider for emerging fintech platforms to capture consistent service-based revenue. We facilitate institutional-grade flow while maintaining robust risk management protocols.</p>
                     </div>
                 </div>
-                <div class="pt-8 text-center">
-                    <p class="text-xs text-gray-500 leading-relaxed max-w-3xl mx-auto uppercase font-bold tracking-[0.2em]">
-                        Your success is our priority. We are committed to maintaining a transparent and high-performing environment for all members.
-                    </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20 animate-fade-in">
+             <div class="glass-panel p-8 rounded-3xl border-white/5 space-y-4">
+                <h4 class="text-white font-black text-lg uppercase italic">Corporate Governance</h4>
+                <p class="text-[10px] text-gray-500 leading-relaxed uppercase font-bold">We operate under a strict framework of internal audits and real-time monitoring. Every dollar invested is tracked through our proprietary MatrixLedger system, ensuring that the ROI we deliver is backed by actual market performance and strategic yields.</p>
+             </div>
+             <div class="glass-panel p-8 rounded-3xl border-white/5 space-y-4">
+                <h4 class="text-white font-black text-lg uppercase italic">Risk Mitigation</h4>
+                <p class="text-[10px] text-gray-500 leading-relaxed uppercase font-bold">Our risk engine uses predictive modeling to identify market downturns before they occur. By maintaining a diverse portfolio of HFT, real-world assets, and crypto-derivatives, we ensure a stable payout even during periods of high volatility.</p>
+             </div>
+             <div class="glass-panel p-8 rounded-3xl border-white/5 space-y-4">
+                <h4 class="text-white font-black text-lg uppercase italic">Future Roadmap</h4>
+                <p class="text-[10px] text-gray-500 leading-relaxed uppercase font-bold">EliteMatrixPro is expanding into tokenized real estate and cross-border payment gateways. Our vision is to create a unified platform where our members can participate in global wealth generation with zero barriers to entry. By 2027, we aim to be the primary liquidity hub for emerging markets, bridging the gap between traditional finance and the decentralized future.</p>
+             </div>
+        </div>
+
+        <div class="glass-panel p-12 rounded-[3.5rem] border border-purple-500/20 bg-gradient-to-b from-purple-900/10 to-transparent mb-20">
+            <h3 class="text-2xl font-black text-white text-center uppercase tracking-[0.3em] mb-10">Why EliteMatrixPro?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="space-y-4">
+                    <h4 class="text-white font-bold uppercase tracking-widest text-sm flex items-center gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+                        Proven Track Record
+                    </h4>
+                    <p class="text-[11px] text-gray-500 leading-relaxed uppercase font-bold">Our core team consists of quantitative analysts and financial engineers with over a decade of experience in traditional hedge funds. We've weathered market cycles by strictly adhering to our automated risk-parity models.</p>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="text-white font-bold uppercase tracking-widest text-sm flex items-center gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+                        Community First
+                    </h4>
+                    <p class="text-[11px] text-gray-500 leading-relaxed uppercase font-bold">Unlike traditional VC funds, we believe in the power of the crowd. EliteMatrixPro is designed to democratize access to high-yield opportunities that were previously reserved for institutional players.</p>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="text-white font-bold uppercase tracking-widest text-sm flex items-center gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+                        Verifiable Payouts
+                    </h4>
+                    <p class="text-[11px] text-gray-500 leading-relaxed uppercase font-bold">Our weekly 3%-3.5% ROI is not a promise; it's a reflection of our actual performance. We maintain a reserve fund to guarantee consistency even during weeks of lower market volatility.</p>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="text-white font-bold uppercase tracking-widest text-sm flex items-center gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+                        Global Scalability
+                    </h4>
+                    <p class="text-[11px] text-gray-500 leading-relaxed uppercase font-bold">With members in over 40 countries, our network effects are our greatest asset. As we scale, our bargaining power with liquidity protocols increases, allowing for even better yield capture.</p>
                 </div>
             </div>
         </div>
