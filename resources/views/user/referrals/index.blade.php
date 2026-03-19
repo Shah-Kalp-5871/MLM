@@ -11,43 +11,49 @@
         <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-2">Your Invite Code</h2>
         <p class="text-xs text-gray-400 mb-6">Share this code with your friends. They can enter it during signup.</p>
         
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+        <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-4">
             @php
                 $refCode = auth()->user()->referral_code;
+                $refLink = route('register') . '?ref=' . $refCode;
             @endphp
             <div class="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-4 sm:py-3 font-mono text-xl sm:text-2xl tracking-[0.1em] sm:tracking-[0.2em] text-center text-purple-400 select-all overflow-hidden text-ellipsis">
                 {{ $refCode }}
             </div>
-            <button id="copy-btn" type="button" class="w-full sm:w-auto px-6 py-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-900/40 flex items-center justify-center gap-2" onclick="copyReferralCode('{{ $refCode }}')">
-                <i data-lucide="copy" class="w-4 h-4" id="copy-icon"></i> <span id="copy-text">Copy Code</span>
-            </button>
+            <div class="flex flex-col sm:flex-row gap-3">
+                <button id="copy-btn" type="button" class="flex-1 sm:w-auto px-6 py-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-900/40 flex items-center justify-center gap-2" onclick="copyReferralContent('{{ $refCode }}', 'copy-btn', 'Code')">
+                    <i data-lucide="copy" class="w-4 h-4"></i> <span class="btn-text">Copy Code</span>
+                </button>
+                <button id="copy-link-btn" type="button" class="flex-1 sm:w-auto px-6 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-indigo-900/40 flex items-center justify-center gap-2" onclick="copyReferralContent('{{ $refLink }}', 'copy-link-btn', 'Link')">
+                    <i data-lucide="link" class="w-4 h-4"></i> <span class="btn-text">Copy Link</span>
+                </button>
+            </div>
         </div>
     </div>
 
     @push('scripts')
     <script>
-        function copyReferralCode(code) {
-            navigator.clipboard.writeText(code).then(() => {
-                const btn = document.getElementById('copy-btn');
-                const text = document.getElementById('copy-text');
-                const icon = document.getElementById('copy-icon');
-                
-                const originalText = text.innerText;
-                const originalIcon = icon.getAttribute('data-lucide');
-                
-                text.innerText = 'Copied!';
+        function copyReferralContent(content, btnId, type) {
+            navigator.clipboard.writeText(content).then(() => {
+                const btn = document.getElementById(btnId);
+                const textSpan = btn.querySelector('.btn-text');
+                const icon = btn.querySelector('i');
+                const originalText = `Copy ${type}`;
+                const originalIcon = type === 'Code' ? 'copy' : 'link';
+                const originalBg = type === 'Code' ? 'bg-purple-600' : 'bg-indigo-600';
+                const originalHover = type === 'Code' ? 'hover:bg-purple-500' : 'hover:bg-indigo-500';
+
+                textSpan.innerText = 'Copied!';
                 icon.setAttribute('data-lucide', 'check');
-                btn.classList.remove('bg-purple-600', 'hover:bg-purple-500');
+                btn.classList.remove(originalBg, originalHover);
                 btn.classList.add('bg-emerald-600', 'hover:bg-emerald-500');
                 
-                // Re-render only the modified icon
                 lucide.createIcons();
                 
                 setTimeout(() => {
-                    text.innerText = originalText;
+                    textSpan.innerText = originalText;
                     icon.setAttribute('data-lucide', originalIcon);
                     btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-500');
-                    btn.classList.add('bg-purple-600', 'hover:bg-purple-500');
+                    btn.classList.add(originalBg, originalHover);
                     lucide.createIcons();
                 }, 3000);
             });

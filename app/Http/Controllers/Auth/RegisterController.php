@@ -15,9 +15,10 @@ use Illuminate\Support\Str;
 class RegisterController extends Controller
 {
     // ─── Step 1: Show signup form ───────────────────────────────────────────────
-    public function showRegistrationForm()
+    public function showRegistrationForm(Request $request)
     {
-        return view('auth.register');
+        $ref = $request->query('ref');
+        return view('auth.register', compact('ref'));
     }
 
     // ─── Step 2: Validate form → generate & send OTP → redirect to OTP screen ──
