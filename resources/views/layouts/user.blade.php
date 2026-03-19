@@ -9,6 +9,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    @include('layouts.theme-master')
     <script>
         tailwind.config = {
             theme: {
@@ -25,24 +26,6 @@
         }
     </script>
     <style>
-        :root {
-            --primary: #9333ea;
-            --primary-hover: #a855f7;
-            --secondary: #4f46e5;
-            --accent: #10b981;
-            --danger: #f43f5e;
-            --bg-deep: #0a0b14;
-            --text-main: #94a3b8;
-        }
-        body { background-color: var(--bg-deep); color: var(--text-main); overflow-x: hidden; }
-        .bg-purple-600 { background-color: var(--primary) !important; }
-        .hover\:bg-purple-500:hover { background-color: var(--primary-hover) !important; }
-        .text-purple-500 { color: var(--primary) !important; }
-        .border-purple-500\/30 { border-color: rgba(var(--primary-rgb, 147, 51, 234), 0.3) !important; }
-        .shadow-purple-900\/40 { --tw-shadow-color: rgba(var(--primary-rgb, 147, 51, 234), 0.4) !important; }
-        .shadow-purple-500\/20 { --tw-shadow-color: rgba(var(--primary-rgb, 147, 51, 234), 0.2) !important; }
-        .from-purple-600 { --tw-gradient-from: var(--primary) !important; --tw-gradient-to: var(--secondary) !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
-        .badge-active { background: rgba(var(--accent-rgb, 16, 185, 129), 0.1); color: var(--accent); border: 1px solid rgba(var(--accent-rgb, 16, 185, 129), 0.2); }
         .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .table-wrapper { width: 100%; overflow-x: auto; scrollbar-width: none; }
         .table-wrapper::-webkit-scrollbar { display: none; }
@@ -173,16 +156,16 @@
                         </button>
                         <div class="dropdown-menu !w-56 text-left">
                             <div class="px-3 py-2 text-[9px] font-black text-gray-500 uppercase tracking-widest border-b border-white/5 mb-2">Color Blind Support</div>
-                            <button onclick="setTheme('default')" class="dropdown-item w-full flex items-center gap-3">
+                            <button onclick="setGlobalTheme('default')" class="dropdown-item w-full flex items-center gap-3">
                                 <span class="w-3 h-3 rounded-full bg-purple-600"></span> Default Theme
                             </button>
-                            <button onclick="setTheme('protanopia')" class="dropdown-item w-full flex items-center gap-3">
+                            <button onclick="setGlobalTheme('protanopia')" class="dropdown-item w-full flex items-center gap-3">
                                 <span class="w-3 h-3 rounded-full bg-[#0072B2]"></span> Protanopia Mode
                             </button>
-                            <button onclick="setTheme('tritanopia')" class="dropdown-item w-full flex items-center gap-3">
+                            <button onclick="setGlobalTheme('tritanopia')" class="dropdown-item w-full flex items-center gap-3">
                                 <span class="w-3 h-3 rounded-full bg-[#E69F00]"></span> Tritanopia Mode
                             </button>
-                            <button onclick="setTheme('high-contrast')" class="dropdown-item w-full flex items-center gap-3">
+                            <button onclick="setGlobalTheme('high-contrast')" class="dropdown-item w-full flex items-center gap-3">
                                 <span class="w-3 h-3 rounded-full bg-[#FFFF00]"></span> High Contrast
                             </button>
                         </div>
@@ -253,58 +236,6 @@
     </div>
 
     <script>
-        const themes = {
-            'default': {
-                '--primary': '#9333ea',
-                '--primary-hover': '#a855f7',
-                '--primary-rgb': '147, 51, 234',
-                '--secondary': '#4f46e5',
-                '--accent': '#10b981',
-                '--accent-rgb': '16, 185, 129'
-            },
-            'protanopia': {
-                '--primary': '#0072B2',
-                '--primary-hover': '#005a8d',
-                '--primary-rgb': '0, 114, 178',
-                '--secondary': '#F0E442',
-                '--accent': '#56B4E9',
-                '--accent-rgb': '86, 180, 233'
-            },
-            'tritanopia': {
-                '--primary': '#E69F00',
-                '--primary-hover': '#b87f00',
-                '--primary-rgb': '230, 159, 0',
-                '--secondary': '#56B4E9',
-                '--accent': '#CC79A7',
-                '--accent-rgb': '204, 121, 167'
-            },
-            'high-contrast': {
-                '--primary': '#FFFF00',
-                '--primary-hover': '#e6e600',
-                '--primary-rgb': '255, 255, 0',
-                '--secondary': '#00FFFF',
-                '--accent': '#FFFFFF',
-                '--accent-rgb': '255, 255, 255'
-            }
-        };
-
-        function setTheme(themeName) {
-            const theme = themes[themeName] || themes['default'];
-            const root = document.documentElement;
-            
-            Object.keys(theme).forEach(key => {
-                root.style.setProperty(key, theme[key]);
-            });
-            
-            localStorage.setItem('preferred-theme', themeName);
-        }
-
-        // Apply theme immediately on load
-        (function() {
-            const savedTheme = localStorage.getItem('preferred-theme') || 'default';
-            setTheme(savedTheme);
-        })();
-
         lucide.createIcons();
     </script>
     @stack('scripts')

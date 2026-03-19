@@ -8,75 +8,8 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    @include('layouts.theme-master')
     <style>
-        :root {
-            --bg-dark: #050505;
-            --card-dark: #0f0f0f;
-            --border-dark: #1f1f1f;
-            --accent-purple: #8b5cf6;
-            --accent-purple-rgb: 139, 92, 246;
-            --accent-blue: #3b82f6;
-            --accent-red: #ef4444;
-            --accent-green: #10b981;
-            --text-muted: #94a3b8;
-        }
-        
-        /* Color Blind Overrides */
-        .theme-protanopia {
-            --accent-purple: #0072B2;
-            --accent-purple-rgb: 0, 114, 178;
-            --accent-blue: #F0E442;
-            --accent-green: #56B4E9;
-            --accent-red: #D55E00;
-        }
-        .theme-tritanopia {
-            --accent-purple: #E69F00;
-            --accent-purple-rgb: 230, 159, 0;
-            --accent-blue: #56B4E9;
-            --accent-green: #CC79A7;
-            --accent-red: #009E73;
-        }
-        .theme-high-contrast {
-            --accent-purple: #FFFF00;
-            --accent-purple-rgb: 255, 255, 0;
-            --accent-blue: #00FFFF;
-            --accent-green: #FFFFFF;
-            --accent-red: #FF00FF;
-            --bg-dark: #000000;
-            --card-dark: #111111;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
-
-        .from-purple-600 { --tw-gradient-from: var(--accent-purple) !important; }
-        .to-indigo-600 { --tw-gradient-to: var(--accent-blue) !important; }
-        .text-purple-500 { color: var(--accent-purple) !important; }
-        .bg-purple-600 { background-color: var(--accent-purple) !important; }
-        .border-purple-500 { border-color: var(--accent-purple) !important; }
-        .shadow-purple-500\/20 { --tw-shadow-color: rgba(var(--accent-purple-rgb), 0.2) !important; }
-        .shadow-purple-900\/20 { --tw-shadow-color: rgba(var(--accent-purple-rgb), 0.2) !important; }
-        
-        /* Dropdown for Accessibility */
-        .admin-dropdown {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            margin-top: 0.5rem;
-            width: 14rem;
-            background: #0f0f0f;
-            border: 1px solid #1f1f1f;
-            border-radius: 0.75rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            z-index: 50;
-        }
-        .group:hover .admin-dropdown { display: block; }
-
         .glass {
             background: rgba(10, 10, 10, 0.6);
             backdrop-filter: blur(16px);
@@ -249,16 +182,16 @@
                     </div>
                     <div class="admin-dropdown p-2">
                         <div class="px-3 py-2 text-[9px] font-black text-gray-500 uppercase tracking-widest border-b border-[#1f1f1f] mb-2 text-left">Accessibility</div>
-                        <button onclick="setAdminTheme('default')" class="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold text-gray-400 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-all text-left">
+                        <button onclick="setGlobalTheme('default')" class="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold text-gray-400 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-all text-left">
                             <span class="w-2 h-2 rounded-full bg-purple-600"></span> Default
                         </button>
-                        <button onclick="setAdminTheme('protanopia')" class="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold text-gray-400 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-all text-left">
+                        <button onclick="setGlobalTheme('protanopia')" class="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold text-gray-400 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-all text-left">
                             <span class="w-2 h-2 rounded-full bg-[#0072B2]"></span> Protanopia
                         </button>
-                        <button onclick="setAdminTheme('tritanopia')" class="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold text-gray-400 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-all text-left">
+                        <button onclick="setGlobalTheme('tritanopia')" class="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold text-gray-400 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-all text-left">
                             <span class="w-2 h-2 rounded-full bg-[#E69F00]"></span> Tritanopia
                         </button>
-                        <button onclick="setAdminTheme('high-contrast')" class="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold text-gray-400 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-all text-left">
+                        <button onclick="setGlobalTheme('high-contrast')" class="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold text-gray-400 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-all text-left">
                             <span class="w-2 h-2 rounded-full bg-[#FFFF00]"></span> High Contrast
                         </button>
                     </div>
@@ -295,21 +228,6 @@
     </main>
 
     <script>
-        function setAdminTheme(themeName) {
-            const body = document.body;
-            body.classList.remove('theme-protanopia', 'theme-tritanopia', 'theme-high-contrast');
-            if (themeName !== 'default') {
-                body.classList.add('theme-' + themeName);
-            }
-            localStorage.setItem('admin-preferred-theme', themeName);
-        }
-
-        // Apply theme immediately on load
-        (function() {
-            const savedTheme = localStorage.getItem('admin-preferred-theme') || 'default';
-            setAdminTheme(savedTheme);
-        })();
-
         lucide.createIcons();
     </script>
 </body>

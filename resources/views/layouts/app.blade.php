@@ -7,23 +7,24 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+@include('layouts.theme-master')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
   :root {
-    --brand-purple: #9333ea;
-    --brand-indigo: #4f46e5;
-    --green: #2FB67C;
-    --green-light: #3ECF93;
-    --green-dim: rgba(47,182,124,0.12);
+    --brand-purple: var(--primary);
+    --brand-indigo: var(--secondary);
+    --green: var(--accent);
+    --green-light: var(--accent);
+    --green-dim: rgba(var(--accent-rgb), 0.12);
     --navy: #0F2A44;
     --navy-mid: #163657;
-    --bg: #F4F7FB;
-    --card-bg: #ffffff;
-    --text: #1A1A2E;
+    --bg: var(--bg-deep);
+    --card-bg: #1a1b26;
+    --text: var(--text-main);
     --text-muted: #5E6E82;
-    --border: rgba(15,42,68,0.08);
-    --shadow: 0 4px 32px rgba(15,42,68,0.10);
-    --shadow-hover: 0 12px 48px rgba(47,182,124,0.18);
+    --border: rgba(var(--primary-rgb), 0.1);
+    --shadow: 0 4px 32px rgba(0,0,0,0.2);
+    --shadow-hover: 0 12px 48px rgba(var(--accent-rgb), 0.18);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Inter', 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; display: flex; }

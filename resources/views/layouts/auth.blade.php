@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    @include('layouts.theme-master')
     <script>
         tailwind.config = {
             theme: {
@@ -23,7 +24,7 @@
         }
     </script>
     <style>
-        body { background-color: #0a0b14; color: #94a3b8; }
+        body { background-color: var(--bg-deep); color: var(--text-main); }
         .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .auth-input { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.1); color: white; transition: all 0.3s; }
         .auth-input:focus { border-color: #9333ea; box-shadow: 0 0 15px rgba(147, 51, 234, 0.15); outline: none; background: rgba(255, 255, 255, 0.04); }
