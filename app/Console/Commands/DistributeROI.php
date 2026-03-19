@@ -62,6 +62,20 @@ class DistributeROI extends Command
                 return;
             }
 
+            // $500 Minimum Threshold Check
+            $totalActiveInvestment = \App\Models\Investment::where('user_id', $investment->user_id)
+                ->where('status', 'active')
+                ->sum('amount');
+                
+            if ($totalActiveInvestment < 500) {
+                // Postpone payout by 7 days since threshold isn't met
+                $investment->update([
+                    'next_payout_at' => $investment->next_payout_at->addDays(7),
+                ]);
+                $this->line("Skipped User ID: {$investment->user_id} (Total investment: \${$totalActiveInvestment} < \$500)");
+                return;
+            }
+
             $roiAmount = $investment->amount * ($investment->weekly_roi_percentage / 100);
 
             // 1. Credit Wallet

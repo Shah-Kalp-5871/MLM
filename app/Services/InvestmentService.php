@@ -159,11 +159,11 @@ class InvestmentService
                 $upline = User::find($uplineId);
                 if (!$upline) break;
 
-                // ONLY GIVE INCOME IF UPLINE HAS ACTIVE INVESTMENT
-                $hasActiveInvestment = $upline->investments()->where('status', 'active')->exists();
+                // ONLY GIVE INCOME IF UPLINE HAS >= $500 TOTAL ACTIVE INVESTMENT
+                $totalActiveInvestment = $upline->investments()->where('status', 'active')->sum('amount');
 
-                if (!$hasActiveInvestment) {
-                    // Skip inactive upline, move to next
+                if ($totalActiveInvestment < 500) {
+                    // Skip inactive or underfunded upline, move to next
                     $uplineId = $upline->upline_id;
                     $level++;
                     continue;

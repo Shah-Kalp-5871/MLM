@@ -25,7 +25,7 @@
     <div class="glass-panel p-6 rounded-2xl border border-purple-500/20 flex flex-col justify-center">
         <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-2">ROI Transparency</h2>
         <p class="text-xs text-gray-400 leading-relaxed mb-4">
-            Each investment earns a fixed weekly ROI. Your profit is credited to your wallet exactly 7 days after approval.
+            Each investment earns a fixed weekly ROI. Your profit is credited to your wallet exactly 7 days after approval, <strong>provided your total active investments are at least $500</strong>.
         </p>
         <div class="flex gap-4">
             <div class="bg-black/30 p-4 rounded-xl border border-white/5 flex-1">

@@ -66,6 +66,19 @@
                     </div>
                 </div>
 
+                <!-- ROI Activation Threshold Warning -->
+                <div class="bg-indigo-500/10 border border-indigo-500/20 p-4 rounded-xl flex items-start gap-4">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400 flex-shrink-0">
+                        <i data-lucide="info" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <strong class="text-indigo-300 text-xs uppercase tracking-widest block mb-1">Activation Threshold</strong>
+                        <p class="text-xs text-indigo-200/80 leading-relaxed">
+                            You can deposit any amount, but your <strong>total active investments must reach $500</strong> to activate the weekly ROI and Level Income.
+                        </p>
+                    </div>
+                </div>
+
                 <div>
                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4 ml-1">Choose Payment Gateway</label>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
