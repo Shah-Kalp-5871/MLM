@@ -56,10 +56,18 @@
         const root = document.documentElement;
         const body = document.body;
         
-        body.classList.remove('theme-protanopia', 'theme-tritanopia', 'theme-high-contrast', 'theme-midnight', 'theme-sunset');
-        
-        if (themeName !== 'default') {
-            body.classList.add('theme-' + themeName);
+        if (body) {
+            body.classList.remove('theme-protanopia', 'theme-tritanopia', 'theme-high-contrast', 'theme-midnight', 'theme-sunset');
+            
+            if (themeName !== 'default') {
+                body.classList.add('theme-' + themeName);
+            }
+        } else {
+             // Fallback to html tag if body is not yet parsed
+             root.classList.remove('theme-protanopia', 'theme-tritanopia', 'theme-high-contrast', 'theme-midnight', 'theme-sunset');
+             if (themeName !== 'default') {
+                 root.classList.add('theme-' + themeName);
+             }
         }
         
         const themes = {

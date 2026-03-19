@@ -133,17 +133,17 @@
                     <div class="space-y-3">
                         <div class="text-purple-400 font-black text-xl">01.</div>
                         <h4 class="text-white font-bold uppercase tracking-widest text-sm">AI Arbitrage</h4>
-                        <p class="text-xs text-gray-500 leading-relaxed uppercase font-bold">Leveraging artificial intelligence to scan thousands of data points and execute profitable trades in milliseconds. Our neural networks analyze order books across 50+ central and decentralized exchanges simultaneously.</p>
+                        <p class="text-sm text-gray-500 leading-relaxed font-semibold">Leveraging artificial intelligence to scan thousands of data points and execute profitable trades in milliseconds. Our neural networks analyze order books across 50+ central and decentralized exchanges simultaneously.</p>
                     </div>
                     <div class="space-y-3">
                         <div class="text-indigo-400 font-black text-xl">02.</div>
                         <h4 class="text-white font-bold uppercase tracking-widest text-sm">Global Venture Capital</h4>
-                        <p class="text-xs text-gray-500 leading-relaxed uppercase font-bold">Investing in early-stage fintech disruptions and sustainable energy projects that promise exponential long-term growth. We bridge the gap between community capital and high-impact industrial opportunities.</p>
+                        <p class="text-sm text-gray-500 leading-relaxed font-semibold">Investing in early-stage fintech disruptions and sustainable energy projects that promise exponential long-term growth. We bridge the gap between community capital and high-impact industrial opportunities.</p>
                     </div>
                     <div class="space-y-3">
                         <div class="text-emerald-400 font-black text-xl">03.</div>
                         <h4 class="text-white font-bold uppercase tracking-widest text-sm">Liquidity Provision</h4>
-                        <p class="text-xs text-gray-500 leading-relaxed uppercase font-bold">Acting as a major liquidity provider for emerging fintech platforms to capture consistent service-based revenue. We facilitate institutional-grade flow while maintaining robust risk management protocols.</p>
+                        <p class="text-sm text-gray-500 leading-relaxed font-semibold">Acting as a major liquidity provider for emerging fintech platforms to capture consistent service-based revenue. We facilitate institutional-grade flow while maintaining robust risk management protocols.</p>
                     </div>
                 </div>
             </div>
@@ -152,15 +152,15 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20 animate-fade-in">
              <div class="glass-panel p-8 rounded-3xl border-white/5 space-y-4">
                 <h4 class="text-white font-black text-lg uppercase italic">Corporate Governance</h4>
-                <p class="text-[10px] text-gray-500 leading-relaxed uppercase font-bold">We operate under a strict framework of internal audits and real-time monitoring. Every dollar invested is tracked through our proprietary MatrixLedger system, ensuring that the ROI we deliver is backed by actual market performance and strategic yields.</p>
+                <p class="text-sm text-gray-400 leading-relaxed font-semibold">We operate under a strict framework of internal audits and real-time monitoring. Every dollar invested is tracked through our proprietary MatrixLedger system, ensuring that the ROI we deliver is backed by actual market performance and strategic yields.</p>
              </div>
              <div class="glass-panel p-8 rounded-3xl border-white/5 space-y-4">
                 <h4 class="text-white font-black text-lg uppercase italic">Risk Mitigation</h4>
-                <p class="text-[10px] text-gray-500 leading-relaxed uppercase font-bold">Our risk engine uses predictive modeling to identify market downturns before they occur. By maintaining a diverse portfolio of HFT, real-world assets, and crypto-derivatives, we ensure a stable payout even during periods of high volatility.</p>
+                <p class="text-sm text-gray-400 leading-relaxed font-semibold">Our risk engine uses predictive modeling to identify market downturns before they occur. By maintaining a diverse portfolio of HFT, real-world assets, and crypto-derivatives, we ensure a stable payout even during periods of high volatility.</p>
              </div>
              <div class="glass-panel p-8 rounded-3xl border-white/5 space-y-4">
                 <h4 class="text-white font-black text-lg uppercase italic">Future Roadmap</h4>
-                <p class="text-[10px] text-gray-500 leading-relaxed uppercase font-bold">EliteMatrixPro is expanding into tokenized real estate and cross-border payment gateways. Our vision is to create a unified platform where our members can participate in global wealth generation with zero barriers to entry. By 2027, we aim to be the primary liquidity hub for emerging markets, bridging the gap between traditional finance and the decentralized future.</p>
+                <p class="text-sm text-gray-400 leading-relaxed font-semibold">EliteMatrixPro is expanding into tokenized real estate and cross-border payment gateways. Our vision is to create a unified platform where our members can participate in global wealth generation with zero barriers to entry. By 2027, we aim to be the primary liquidity hub for emerging markets, bridging the gap between traditional finance and the decentralized future.</p>
              </div>
         </div>
 
@@ -202,48 +202,84 @@
         <div class="mb-20">
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-black text-white uppercase tracking-tight">The Power of the Matrix Network</h2>
-                <p class="text-gray-400 mt-4 leading-relaxed max-w-2xl mx-auto uppercase text-xs font-bold tracking-widest">
+                <p class="text-gray-400 mt-4 leading-relaxed max-w-2xl mx-auto uppercase text-sm font-bold tracking-widest">
                     Your wealth accelerates through our 15-level deep compensation plan. When your network earns, you earn.
                 </p>
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <div class="glass-panel p-10 rounded-[2.5rem] border-purple-500/20 relative overflow-hidden">
+                <div class="glass-panel p-10 rounded-[2.5rem] border-purple-500/20 relative overflow-hidden text-left">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-[50px] rounded-full"></div>
                     <h3 class="text-xl font-bold text-white uppercase tracking-wider mb-6">Passive Level Income</h3>
-                    <p class="text-[11px] text-gray-400 leading-relaxed uppercase font-bold mb-6">
+                    <p class="text-sm text-gray-400 leading-relaxed font-semibold mb-6">
                         Every time a member in your network receives their weekly ROI, you receive a percentage of that return. This is real, verifiable yield-sharing, extending all the way down to 15 levels of your tree.
                     </p>
                     <ul class="space-y-4">
-                        <li class="flex items-center justify-between text-sm glass-panel py-3 px-4 rounded-xl">
+                        <li class="flex items-center justify-between text-base glass-panel py-3 px-4 rounded-xl">
                             <span class="text-purple-400 font-bold">Level 1 (Direct)</span>
                             <span class="text-white font-black">20% of ROI</span>
                         </li>
-                        <li class="flex items-center justify-between text-sm glass-panel py-3 px-4 rounded-xl">
+                        <li class="flex items-center justify-between text-base glass-panel py-3 px-4 rounded-xl">
                             <span class="text-indigo-400 font-bold">Level 2</span>
                             <span class="text-white font-black">12% of ROI</span>
                         </li>
-                        <li class="flex items-center justify-between text-sm glass-panel py-3 px-4 rounded-xl">
+                        <li class="flex items-center justify-between text-base glass-panel py-3 px-4 rounded-xl">
                             <span class="text-blue-400 font-bold">Level 3</span>
                             <span class="text-white font-black">9% of ROI</span>
                         </li>
-                        <li class="flex items-center justify-between text-[10px] text-gray-500 uppercase font-bold px-4">
+                        <li class="flex items-center justify-between text-xs text-gray-500 uppercase font-bold px-4">
                             Levels 4-6: 6% • Levels 7-10: 4% • Levels 11-15: 2%
                         </li>
                     </ul>
                 </div>
                 
-                <div class="glass-panel p-10 rounded-[2.5rem] border-emerald-500/20 relative overflow-hidden">
+                <div class="glass-panel p-10 rounded-[2.5rem] border-emerald-500/20 relative overflow-hidden text-left">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 blur-[50px] rounded-full"></div>
                     <div class="w-14 h-14 bg-emerald-600/10 rounded-2xl flex items-center justify-center text-emerald-400 mb-6">
                         <i data-lucide="award" class="w-8 h-8"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white uppercase tracking-wider mb-4">Elite Club Vouchers</h3>
-                    <p class="text-[11px] text-gray-400 leading-relaxed uppercase font-bold mb-6">
+                    <p class="text-sm text-gray-400 leading-relaxed font-semibold mb-6">
                         We turn incredible growth into tangible rewards. As your **Direct Business** (Level 1 volume) and **Team Business** (Total Network volume) cross key milestones, you automatically unlock compounding Club Vouchers.
                     </p>
-                    <p class="text-[11px] text-gray-400 leading-relaxed uppercase font-bold">
+                    <p class="text-sm text-gray-400 leading-relaxed font-semibold">
                         These vouchers act as digital investment tokens, ranging from **$500 to $5,000**, which are instantly reinvested into the ecosystem to turbo-charge your weekly returns without any additional out-of-pocket capital.
                     </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security & Platform Operations Section -->
+        <div class="glass-panel p-12 rounded-[3.5rem] border border-red-500/20 bg-gradient-to-b from-red-900/10 to-transparent mb-20">
+            <h3 class="text-2xl font-black text-white text-center uppercase tracking-[0.3em] mb-4">Platform Security & Integrity</h3>
+            <p class="text-center text-gray-400 text-sm max-w-2xl mx-auto mb-12">Total transparency and absolute asset protection.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                <div class="glass-panel p-6 rounded-2xl flex items-start gap-4">
+                    <i data-lucide="lock" class="w-8 h-8 text-red-400 shrink-0"></i>
+                    <div>
+                        <h4 class="text-white font-bold text-base mb-2">Verified Placements</h4>
+                        <p class="text-sm text-gray-400 leading-relaxed font-medium">All investments undergo a manual verification process before approval. Our compliance team verifies transaction proofs on the blockchain to ensure the integrity of the MatrixLedger system. No arbitrary inflation is possible.</p>
+                    </div>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl flex items-start gap-4">
+                    <i data-lucide="server" class="w-8 h-8 text-indigo-400 shrink-0"></i>
+                    <div>
+                        <h4 class="text-white font-bold text-base mb-2">Automated Execution</h4>
+                        <p class="text-sm text-gray-400 leading-relaxed font-medium">ROI and network commissions are executed securely via an insulated cron-scheduler every Friday. We process thousands of micro-transactions programmatically, severely reducing the risk of human error.</p>
+                    </div>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl flex items-start gap-4">
+                    <i data-lucide="activity" class="w-8 h-8 text-emerald-400 shrink-0"></i>
+                    <div>
+                        <h4 class="text-white font-bold text-base mb-2">Live Reporting & Wallets</h4>
+                        <p class="text-sm text-gray-400 leading-relaxed font-medium">Every user monitors their asset flows in real-time. Detailed breakdowns limit ambiguity, showing exact earnings from ROI, level commissions down to 15 tiers, and club rewards directly within the member dashboard.</p>
+                    </div>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl flex items-start gap-4">
+                    <i data-lucide="shield" class="w-8 h-8 text-blue-400 shrink-0"></i>
+                    <div>
+                        <h4 class="text-white font-bold text-base mb-2">Decentralized Backups</h4>
+                        <p class="text-sm text-gray-400 leading-relaxed font-medium">Critical system data, including the multi-level network hierarchy and balance ledgers, are snapshotted daily across multiple secure cloud regions, providing complete disaster recovery capability.</p>
+                    </div>
                 </div>
             </div>
         </div>
