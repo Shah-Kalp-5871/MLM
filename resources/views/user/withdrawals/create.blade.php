@@ -51,8 +51,8 @@
             <div class="space-y-6">
                 <div>
                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Withdrawal Amount ({{ $settings['platform_currency_symbol'] ?? '$' }})</label>
-                    <input type="number" name="amount" min="{{ $settings['min_withdrawal'] ?? 200 }}" step="0.01" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-emerald-500 focus:outline-none transition-all placeholder:text-gray-600" placeholder="{{ $settings['min_withdrawal'] ?? '200.00' }}" required>
-                    <p class="text-[10px] text-gray-500 mt-2 ml-1 italic">Minimum withdrawal amount: {{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($settings['min_withdrawal'] ?? 200, 2) }}</p>
+                    <input type="number" name="amount" min="{{ $settings['min_withdrawal'] ?? 200 }}" step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-emerald-500 focus:outline-none transition-all placeholder:text-gray-600" placeholder="{{ $settings['min_withdrawal'] ?? '200' }}" required>
+                    <p class="text-[10px] text-gray-500 mt-2 ml-1 italic">Minimum withdrawal amount: {{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($settings['min_withdrawal'] ?? 200, 0) }}</p>
                 </div>
 
                 <div>

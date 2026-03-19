@@ -48,9 +48,9 @@
                         <span class="absolute left-6 top-1/2 -translate-y-1/2 text-2xl font-bold text-purple-500">
                             {{ $settings['platform_currency_symbol'] ?? '$' }}
                         </span>
-                        <input type="number" name="amount" id="investment-amount" min="{{ $settings['min_deposit'] }}" step="0.01" value="{{ $settings['min_deposit'] }}" 
+                        <input type="number" name="amount" id="investment-amount" min="{{ $settings['min_deposit'] }}" step="1" value="{{ $settings['min_deposit'] }}" oninput="this.value = this.value.replace(/[^0-9]/g, ''); calculateROI();"
                             class="w-full bg-black/40 border-2 border-white/5 focus:border-purple-600/50 rounded-2xl pl-12 pr-8 py-5 text-3xl font-black text-white focus:outline-none transition-all placeholder:text-gray-800"
-                            placeholder="0.00" required>
+                            placeholder="0" required>
                     </div>
                 </div>
 
