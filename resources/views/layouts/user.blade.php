@@ -185,7 +185,8 @@
                             <i data-lucide="power" class="w-4 h-4"></i>
                         </button>
                     </form>
-                    <button class="lg:hidden w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 shrink-0" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                    <button class="lg:hidden w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 shrink-0 hover:bg-white/10 transition-all active:scale-90" 
+                        onclick="const m = document.getElementById('mobile-menu'); m.classList.toggle('hidden'); m.classList.toggle('flex'); document.body.classList.toggle('overflow-hidden')">
                         <i data-lucide="menu" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                     </button>
                 </div>
@@ -194,28 +195,110 @@
         </div>
         
         <!-- Mobile Menu (Hidden by default) -->
-        <div id="mobile-menu" class="hidden absolute top-[80px] left-4 right-4 glass-panel rounded-2xl p-4 shadow-2xl lg:hidden flex-col gap-2 max-h-[80vh] overflow-y-auto">
-            <a href="{{ route('dashboard') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('dashboard') ? 'bg-white/5' : '' }}"><i data-lucide="home" class="w-4 h-4 text-purple-400"></i> Home</a>
+        <div id="mobile-menu" class="hidden fixed inset-x-4 top-[90px] bottom-6 z-[60] bg-[#0d111c]/95 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.5)] lg:hidden flex-col gap-2 overflow-y-auto animate-in slide-in-from-top-4 duration-300">
+            <div class="flex items-center justify-between mb-6 px-2">
+                <span class="text-[10px] font-black text-purple-500 uppercase tracking-[0.2em]">Navigation Menu</span>
+                <button onclick="document.getElementById('mobile-menu').classList.add('hidden'); document.body.classList.remove('overflow-hidden')" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            
+            <a href="{{ route('dashboard') }}" class="p-4 text-sm text-white font-bold uppercase rounded-2xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('dashboard') ? 'bg-purple-600/20 border border-purple-500/30' : 'border border-transparent' }}">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
+                    <i data-lucide="home" class="w-5 h-5 text-purple-400"></i> 
+                </div>
+                Home
+            </a>
 
-            <div class="px-3 pt-4 pb-2 text-[10px] font-black text-gray-500 uppercase tracking-widest border-t border-white/5 mt-2">Investments</div>
-            <a href="{{ route('invest.create') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('invest.create') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="zap" class="w-4 h-4 text-purple-400"></i> Start Investing</a>
-            <a href="{{ route('investments.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('investments.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="history" class="w-4 h-4 text-purple-400"></i> Investment Hub</a>
-            <a href="{{ route('roi.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('roi.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="zap" class="w-4 h-4 text-purple-400"></i> ROI History</a>
-            <a href="{{ route('earnings.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('earnings.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="trending-up" class="w-4 h-4 text-purple-400"></i> Overall Earnings</a>
+            <div class="px-5 pt-4 pb-2 text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Investments</div>
+            <a href="{{ route('invest.create') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('invest.create') ? 'bg-purple-600/10 text-purple-400' : '' }}">
+                <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center shrink-0">
+                    <i data-lucide="zap" class="w-4 h-4 text-purple-400"></i>
+                </div>
+                Start Investing
+            </a>
+            <a href="{{ route('investments.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('investments.index') ? 'bg-purple-600/10 text-purple-400' : '' }}">
+                <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
+                    <i data-lucide="history" class="w-4 h-4 text-blue-400"></i>
+                </div>
+                Investment Hub
+            </a>
+            <a href="{{ route('roi.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('roi.index') ? 'bg-purple-600/10 text-purple-400' : '' }}">
+                <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
+                    <i data-lucide="zap" class="w-4 h-4 text-emerald-400"></i>
+                </div>
+                ROI History
+            </a>
+            <a href="{{ route('earnings.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('earnings.index') ? 'bg-purple-600/10 text-purple-400' : '' }}">
+                <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center shrink-0">
+                    <i data-lucide="trending-up" class="w-4 h-4 text-indigo-400"></i>
+                </div>
+                Overall Earnings
+            </a>
 
-            <div class="px-3 pt-4 pb-2 text-[10px] font-black text-gray-500 uppercase tracking-widest border-t border-white/5 mt-2">Network</div>
-            <a href="{{ route('network.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('network.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="share-2" class="w-4 h-4 text-purple-400"></i> Team Tree</a>
-            <a href="{{ route('referrals.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('referrals.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="users" class="w-4 h-4 text-purple-400"></i> Referrals</a>
-            <a href="{{ route('level-income.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('level-income.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="layers" class="w-4 h-4 text-purple-400"></i> Level Income</a>
-            <a href="{{ route('club.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('club.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="award" class="w-4 h-4 text-purple-400"></i> Club Rewards</a>
+            <div class="px-5 pt-4 pb-2 text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Network</div>
+            <a href="{{ route('network.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('network.index') ? 'bg-purple-600/10 text-purple-400' : '' }}">
+                <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center shrink-0">
+                    <i data-lucide="share-2" class="w-4 h-4 text-purple-400"></i>
+                </div>
+                Team Tree
+            </a>
+            <a href="{{ route('referrals.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('referrals.index') ? 'bg-purple-600/10 text-purple-400' : '' }}">
+                <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
+                    <i data-lucide="users" class="w-4 h-4 text-blue-400"></i>
+                </div>
+                Referrals
+            </a>
+            <a href="{{ route('level-income.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('level-income.index') ? 'bg-purple-600/10 text-purple-400' : '' }}">
+                <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center shrink-0">
+                    <i data-lucide="layers" class="w-4 h-4 text-indigo-400"></i>
+                </div>
+                Level Income
+            </a>
+            <a href="{{ route('club.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('club.index') ? 'bg-purple-600/10 text-purple-400' : '' }}">
+                <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
+                    <i data-lucide="award" class="w-4 h-4 text-emerald-400"></i>
+                </div>
+                Club Rewards
+            </a>
 
-            <div class="px-3 pt-4 pb-2 text-[10px] font-black text-gray-500 uppercase tracking-widest border-t border-white/5 mt-2">Finance</div>
-            <a href="{{ route('wallet.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('wallet.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="piggy-bank" class="w-4 h-4 text-purple-400"></i> Wallet</a>
-            <a href="{{ route('deposits.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('deposits.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="arrow-down-to-line" class="w-4 h-4 text-purple-400"></i> Deposits</a>
-            <a href="{{ route('withdraw.create') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('withdraw.create') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="arrow-up-right" class="w-4 h-4 text-purple-400"></i> Withdraw</a>
-            <a href="{{ route('withdrawals.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('withdrawals.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="history" class="w-4 h-4 text-purple-400"></i> Withdrawal History</a>
-            <a href="{{ route('vouchers.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('vouchers.index') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="ticket" class="w-4 h-4 text-purple-400"></i> Vouchers</a>
-            <a href="{{ route('vouchers.redeem') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('vouchers.redeem') ? 'bg-white/5 text-purple-400' : '' }}"><i data-lucide="zap" class="w-4 h-4 text-purple-400"></i> Redeem Voucher</a>
+            <div class="px-5 pt-4 pb-2 text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Finance</div>
+            <a href="{{ route('wallet.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('wallet.index') ? 'bg-purple-600/10 text-purple-400' : '' }}">
+                <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center shrink-0">
+                    <i data-lucide="piggy-bank" class="w-4 h-4 text-purple-400"></i>
+                </div>
+                Wallet
+            </a>
+            <a href="{{ route('deposits.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('deposits.index') ? 'bg-purple-600/10 text-purple-400' : '' }}">
+                <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
+                    <i data-lucide="arrow-down-to-line" class="w-4 h-4 text-blue-400"></i>
+                </div>
+                Deposits
+            </a>
+            <a href="{{ route('withdraw.create') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('withdraw.create') ? 'bg-purple-600/10 text-purple-400' : '' }}">
+                <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center shrink-0">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4 text-rose-400"></i>
+                </div>
+                Withdraw
+            </a>
+            <a href="{{ route('withdrawals.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('withdrawals.index') ? 'bg-purple-600/10 text-purple-400' : '' }}">
+                <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center shrink-0">
+                    <i data-lucide="history" class="w-4 h-4 text-indigo-400"></i>
+                </div>
+                Withdrawal History
+            </a>
+            <a href="{{ route('vouchers.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('vouchers.index') ? 'bg-purple-600/10 text-purple-400' : '' }}">
+                <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
+                    <i data-lucide="ticket" class="w-4 h-4 text-emerald-400"></i>
+                </div>
+                Vouchers
+            </a>
+            <a href="{{ route('vouchers.redeem') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-4 transition-all {{ request()->routeIs('vouchers.redeem') ? 'bg-purple-600/10 text-purple-400' : '' }}">
+                <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center shrink-0">
+                    <i data-lucide="zap" class="w-4 h-4 text-purple-400"></i>
+                </div>
+                Redeem Voucher
+            </a>
 
             <div class="mt-4 pt-4 border-t border-white/5">
                 <a href="{{ route('profile.index') }}" class="p-3 text-sm text-white font-bold uppercase rounded-xl hover:bg-white/5 flex items-center gap-3 {{ request()->routeIs('profile.index') ? 'bg-white/5' : '' }}"><i data-lucide="user" class="w-4 h-4 text-purple-400"></i> Profile</a>
