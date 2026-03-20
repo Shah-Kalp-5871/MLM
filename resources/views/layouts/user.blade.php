@@ -107,12 +107,12 @@
                     <!-- Investments Dropdown -->
                     <div class="relative group">
                         <button class="nav-link text-xs font-bold uppercase tracking-wider flex items-center gap-2 {{ request()->routeIs(['invest.create', 'investments.index', 'earnings.index']) ? 'text-white' : 'text-gray-400' }}">
-                            <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-4 h-4 object-contain"> Investments <i data-lucide="chevron-down" class="w-3 h-3 opacity-50"></i>
+                            <i data-lucide="menu" class="w-4 h-4"></i> Investments <i data-lucide="chevron-down" class="w-3 h-3 opacity-50"></i>
                         </button>
                         <div class="dropdown-menu">
                             <a href="{{ route('invest.create') }}" class="dropdown-item {{ request()->routeIs('invest.create') ? 'active' : '' }}"><i data-lucide="plus-circle" class="w-4 h-4"></i> Start Investing</a>
                             <a href="{{ route('investments.index') }}" class="dropdown-item {{ request()->routeIs('investments.index') ? 'active' : '' }}"><i data-lucide="history" class="w-4 h-4"></i> Investment Hub</a>
-                            <a href="{{ route('roi.index') }}" class="dropdown-item {{ request()->routeIs('roi.index') ? 'active' : '' }}"><img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-4 h-4 object-contain"> ROI History</a>
+                            <a href="{{ route('roi.index') }}" class="dropdown-item {{ request()->routeIs('roi.index') ? 'active' : '' }}"><i data-lucide="menu" class="w-4 h-4"></i> ROI History</a>
                             <a href="{{ route('earnings.index') }}" class="dropdown-item {{ request()->routeIs('earnings.index') ? 'active' : '' }}"><i data-lucide="trending-up" class="w-4 h-4"></i> Overall Earnings</a>
                         </div>
                     </div>

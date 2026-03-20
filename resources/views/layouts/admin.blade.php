@@ -136,7 +136,7 @@
                     <span class="text-sm font-medium">Investments List</span>
                 </a>
                     <a href="{{ route('admin.roi.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ request()->routeIs('admin.roi.*') ? 'bg-purple-600/10 text-purple-400 border border-purple-500/20' : 'text-muted hover:bg-white/5' }}">
-                        <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-5 h-5 object-contain">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
                         <span class="text-sm font-medium">ROI Engine</span>
                     </a>
                 <a href="{{ route('admin.reports.vouchers') }}" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.reports.vouchers') ? 'active' : '' }}">
