@@ -10,6 +10,8 @@ class Investment extends Model
 {
     use HasFactory, SoftDeletes;
 
+    const MIN_QUALIFIED_AMOUNT = 500;
+
     protected $fillable = [
         'user_id',
         'amount',

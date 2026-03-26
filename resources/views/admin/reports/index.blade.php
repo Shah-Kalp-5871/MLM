@@ -5,7 +5,7 @@
     <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div>
             <h1 class="text-2xl font-bold tracking-tight">Business Intelligence</h1>
-            <p class="text-slate-400 text-sm">Comprehensive performance metrics and growth analytics.</p>
+            <p class="text-slate-400 text-sm">Comprehensive performance metrics and growth analytics. <span class="text-blue-500 font-bold underline decoration-blue-500/30 font-mono text-[10px]">Min. Qualification: $500</span></p>
         </div>
         <div class="flex flex-wrap items-center gap-3">
             <form action="{{ route('admin.reports.index') }}" method="GET" class="flex items-center gap-2 bg-[#121212] p-1 rounded-xl border border-[#1f1f1f]">

@@ -27,13 +27,15 @@ class ReportService
 
         $data = [];
 
-        // 1. User Stats
+        // 1. User Stats (Definition: Active means total active investment >= $500)
         $data['users'] = [
             'total' => User::count(),
             'new' => User::whereBetween('created_at', [$startDate, $endDate])->count(),
-            'active' => User::where('status', 'active')->count(),
-            'inactive' => User::where('status', '!=', 'active')->count(),
+            'active' => User::whereHas('investments', function($q) {
+                $q->where('status', 'active');
+            })->whereRaw('(select sum(amount) from investments where user_id = users.id and status = "active") >= ?', [Investment::MIN_QUALIFIED_AMOUNT])->count(),
         ];
+        $data['users']['inactive'] = $data['users']['total'] - $data['users']['active'];
 
         // 2. Investment Stats
         $data['investments'] = [

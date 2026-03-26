@@ -96,16 +96,22 @@ class InvestmentService
             $upline = User::find($uplineId);
             if (!$upline) break;
 
-            // Direct Business for Level 1 only
-            if ($level === 1) {
-                $upline->increment('direct_business', $amount);
+            // ONLY COUNT VOLUME IF INVESTOR HAS >= $500 TOTAL ACTIVE INVESTMENT
+            // Note: This check ensures that small investments don't count for club levels until the user is "Active"
+            $totalActiveInvestment = $user->investments()->where('status', 'active')->sum('amount');
+            
+            if ($totalActiveInvestment >= Investment::MIN_QUALIFIED_AMOUNT) {
+                // Direct Business for Level 1 only
+                if ($level === 1) {
+                    $upline->increment('direct_business', $amount);
+                }
+
+                // Team Business for all levels
+                $upline->increment('team_business', $amount);
+
+                // Check for Club Qualification
+                $this->checkClubQualification($upline);
             }
-
-            // Team Business for all levels (Infinite Depth)
-            $upline->increment('team_business', $amount);
-
-            // Check for Club Qualification
-            $this->checkClubQualification($upline);
 
             $uplineId = $upline->upline_id;
             $level++;

@@ -67,12 +67,12 @@ class DistributeROI extends Command
                 ->where('status', 'active')
                 ->sum('amount');
                 
-            if ($totalActiveInvestment < 500) {
+            if ($totalActiveInvestment < Investment::MIN_QUALIFIED_AMOUNT) {
                 // Postpone payout by 7 days since threshold isn't met
                 $investment->update([
                     'next_payout_at' => $investment->next_payout_at->addDays(7),
                 ]);
-                $this->line("Skipped User ID: {$investment->user_id} (Total investment: \${$totalActiveInvestment} < \$500)");
+                $this->line("Skipped User ID: {$investment->user_id} (Total investment: \${$totalActiveInvestment} < \$" . Investment::MIN_QUALIFIED_AMOUNT . ")");
                 return;
             }
 
