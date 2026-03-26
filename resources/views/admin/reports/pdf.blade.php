@@ -190,6 +190,26 @@
             </tr>
         </table>
 
+        <div class="section-title">Performance Analytics (Visual)</div>
+        <table width="100%" style="margin-bottom: 20px;">
+            <tr>
+                <td width="50%" style="vertical-align: top; padding-right: 15px;">
+                    <div style="font-size: 11px; font-weight: bold; color: #64748B; margin-bottom: 10px; text-transform: uppercase;">User Activity Ratio</div>
+                    <div style="width: 100%; background: #F1F5F9; height: 12px; border-radius: 6px; overflow: hidden;">
+                        <div style="width: {{ $data['kpis']['user_activity_rate'] }}%; background: #4F46E5; height: 100%;"></div>
+                    </div>
+                    <div style="font-size: 10px; color: #94A3B8; margin-top: 5px;">{{ $data['kpis']['user_activity_rate'] }}% of total base is active</div>
+                </td>
+                <td width="50%" style="vertical-align: top; padding-left: 15px;">
+                    <div style="font-size: 11px; font-weight: bold; color: #64748B; margin-bottom: 10px; text-transform: uppercase;">Payout to Volume Rate</div>
+                    <div style="width: 100%; background: #F1F5F9; height: 12px; border-radius: 6px; overflow: hidden;">
+                        <div style="width: {{ $data['kpis']['payout_ratio'] > 100 ? 100 : $data['kpis']['payout_ratio'] }}%; background: #059669; height: 100%;"></div>
+                    </div>
+                    <div style="font-size: 10px; color: #94A3B8; margin-top: 5px;">{{ $data['kpis']['payout_ratio'] }}% ratio (Healthy)</div>
+                </td>
+            </tr>
+        </table>
+
         <div class="section-title">Revenue & Commission Summary</div>
         <div class="table-container">
             <table>
@@ -212,25 +232,50 @@
                         <td class="text-right"><span class="badge">Disbursed</span></td>
                     </tr>
                     <tr>
-                        <td>Lifetime Direct Business (BV)</td>
-                        <td><strong>${{ number_format($data['business']['total_direct_bv'], 2) }}</strong></td>
-                        <td class="text-right">Settled</td>
+                        <td>Active Investment Capital</td>
+                        <td><strong>${{ number_format($data['investments']['active_amount'], 2) }}</strong></td>
+                        <td class="text-right">Working</td>
                     </tr>
                     <tr>
                         <td>Lifetime Team Business (BV)</td>
-                        <td><strong>${{ number_format($data['business']['total_team_bv'], 2) }}</strong></td>
-                        <td class="text-right">Settled</td>
+                        <td class="text-primary"><strong>${{ number_format($data['business']['total_team_bv'], 2) }}</strong></td>
+                        <td class="text-right">Platform Total</td>
                     </tr>
-                    <tr>
-                        <td>Pending Withdrawal Requests</td>
-                        <td style="color: #F59E0B"><strong>${{ number_format($data['withdrawals']['pending'], 2) }}</strong></td>
+                    <tr style="background: #FFFBEB;">
+                        <td>Pending Withdrawal Liability</td>
+                        <td style="color: #D97706"><strong>${{ number_format($data['withdrawals']['pending'], 2) }}</strong></td>
                         <td class="text-right"><span class="badge" style="background:#FEF3C7; color:#92400E;">In Queue</span></td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="section-title">Ecosystem Health & Growth</div>
+        <div class="section-title">Voucher Ecosystem</div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>E-Voucher Metrics</th>
+                        <th>Volume/Value</th>
+                        <th class="text-right">Circulation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Total Vouchers Issued</td>
+                        <td><strong>{{ $data['vouchers']['total_count'] }} Units</strong></td>
+                        <td class="text-right">Total: ${{ number_format($data['vouchers']['total_value'], 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Active Unused Vouchers</td>
+                        <td class="text-primary"><strong>${{ number_format($data['vouchers']['unused_value'], 2) }}</strong></td>
+                        <td class="text-right">Available</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section-title">Membership Base Breakdown</div>
         <div class="table-container">
             <table>
                 <thead>
@@ -242,19 +287,19 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Total Membership Base</td>
+                        <td>Growth in Period ({{ $startDate }} - {{ $endDate }})</td>
+                        <td class="text-primary"><strong>+{{ number_format($data['users']['new']) }}</strong></td>
+                        <td class="text-right">New Acquisition</td>
+                    </tr>
+                    <tr>
+                        <td>Total Registered Users</td>
                         <td><strong>{{ number_format($data['users']['total']) }}</strong></td>
-                        <td class="text-right">100% Total</td>
+                        <td class="text-right">100% Base</td>
                     </tr>
                     <tr>
-                        <td>Active Capital Investors</td>
+                        <td>Active Investors</td>
                         <td><strong>{{ number_format($data['users']['active']) }}</strong></td>
-                        <td class="text-right" style="color: #4F46E5">{{ $data['users']['total'] > 0 ? round(($data['users']['active'] / $data['users']['total']) * 100, 1) : 0 }}% Conversion</td>
-                    </tr>
-                    <tr>
-                        <td>Inactive Accounts</td>
-                        <td><strong>{{ number_format($data['users']['inactive']) }}</strong></td>
-                        <td class="text-right">{{ $data['users']['total'] > 0 ? round(($data['users']['inactive'] / $data['users']['total']) * 100, 1) : 0 }}% Unfunded</td>
+                        <td class="text-right" style="color: #4F46E5">{{ $data['kpis']['user_activity_rate'] }}% Conversion</td>
                     </tr>
                 </tbody>
             </table>

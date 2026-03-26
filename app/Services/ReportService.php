@@ -49,38 +49,37 @@ class ReportService
         ];
         $data['payouts']['total'] = $data['payouts']['roi_given'] + $data['payouts']['level_commissions'];
 
-        // 4. Withdrawal Stats
+        // 4. Withdrawal Granularity
         $data['withdrawals'] = [
-            'requested' => Withdrawal::whereBetween('created_at', [$startDate, $endDate])->sum('amount'),
+            'total_requested' => Withdrawal::whereBetween('created_at', [$startDate, $endDate])->sum('amount'),
             'processed' => Withdrawal::where('status', 'paid')
                 ->whereBetween('paid_at', [$startDate, $endDate])
                 ->sum('amount'),
             'pending' => Withdrawal::where('status', 'pending')->sum('amount'),
+            'rejected' => Withdrawal::where('status', 'rejected')->whereBetween('updated_at', [$startDate, $endDate])->sum('amount'),
         ];
 
-        // 5. Business Volume (BV)
-        // Assuming direct_business and team_business columns are updated periodically
-        // For a report, we might want the growth in BV during the period
-        // But since we don't have historical BV snapshots, we'll show current totals
+        // 5. Voucher Metrics (Current Snapshot)
+        $data['vouchers'] = [
+            'total_count' => \App\Models\Voucher::count(),
+            'total_value' => \App\Models\Voucher::sum('amount'),
+            'used_count' => \App\Models\Voucher::where('status', 'used')->count(),
+            'unused_value' => \App\Models\Voucher::where('status', 'unused')->sum('amount'),
+        ];
+
+        // 6. Business Volume (BV)
         $data['business'] = [
             'total_direct_bv' => User::sum('direct_business'),
             'total_team_bv' => User::sum('team_business'),
         ];
 
-        // 6. Club Achievements
-        // Note: Club system mapping is pending implementation in the database schema.
-        $data['clubs'] = [];
-        /*
-        $data['clubs'] = DB::table('users')
-            ->join('club_rewards', 'users.id', '=', 'club_rewards.user_id')
-            ->select('club_rewards.tier as level', DB::raw('count(*) as count'))
-            ->groupBy('club_rewards.tier')
-            ->get()
-            ->pluck('count', 'level')
-            ->toArray();
-        */
+        // 7. Trends (Last 7 Days) for Charts
+        $data['trends'] = $this->getTrends();
 
-        // 7. Success Ratio / KPIs
+        // 8. Club Achievements (Empty for now)
+        $data['clubs'] = [];
+
+        // 9. Success Ratio / KPIs
         $data['kpis'] = [
             'payout_ratio' => $data['investments']['total_amount'] > 0 
                 ? round(($data['payouts']['total'] / $data['investments']['total_amount']) * 100, 2) 
@@ -88,8 +87,35 @@ class ReportService
             'withdrawal_ratio' => $data['payouts']['total'] > 0 
                 ? round(($data['withdrawals']['processed'] / $data['payouts']['total']) * 100, 2) 
                 : 0,
+            'user_activity_rate' => $data['users']['total'] > 0
+                ? round(($data['users']['active'] / $data['users']['total']) * 100, 1)
+                : 0,
         ];
 
         return $data;
+    }
+
+    /**
+     * Get daily trends for the last 7 days.
+     */
+    protected function getTrends()
+    {
+        $days = [];
+        $registrations = [];
+        $investments = [];
+
+        for ($i = 6; $i >= 0; $i--) {
+            $date = Carbon::today()->subDays($i);
+            $days[] = $date->format('d M');
+            
+            $registrations[] = User::whereDate('created_at', $date)->count();
+            $investments[] = Investment::whereDate('created_at', $date)->sum('amount');
+        }
+
+        return [
+            'labels' => $days,
+            'registrations' => $registrations,
+            'investments' => $investments,
+        ];
     }
 }
