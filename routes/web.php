@@ -110,6 +110,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::post('/level-settings', [\App\Http\Controllers\Admin\LevelSettingController::class, 'update'])->name('level-settings.update');
     
     Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
+    Route::post('/reports/trigger', [\App\Http\Controllers\Admin\ReportController::class, 'triggerDaily'])->name('reports.trigger');
+    Route::get('/reports/export', [\App\Http\Controllers\Admin\ReportController::class, 'exportPdf'])->name('reports.export');
     Route::get('/reports/vouchers', [\App\Http\Controllers\Admin\ReportController::class, 'voucherReport'])->name('reports.vouchers');
     Route::get('/settings', [AdminSettingsController::class, 'settings'])->name('settings');
     Route::post('/settings', [AdminSettingsController::class, 'update'])->name('settings.update');

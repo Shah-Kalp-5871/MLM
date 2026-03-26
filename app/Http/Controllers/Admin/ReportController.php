@@ -3,54 +3,86 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Deposit;
-use App\Models\Investment;
-use App\Models\Withdrawal;
+use App\Services\ReportService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
-    public function index()
+    protected $reportService;
+
+    public function __construct(ReportService $reportService)
     {
-        $total_users = User::count();
-        $stats = [
-            'total_users' => $total_users,
-            'monthly_users' => User::where('created_at', '>=', Carbon::now()->startOfMonth())->count(),
-            'total_deposits' => Deposit::where('status', 'approved')->sum('amount'),
-            'total_investments' => Investment::where('status', 'active')->sum('amount'),
-            'total_withdrawals' => Withdrawal::where('status', 'approved')->sum('amount'),
-            'daily_avg_revenue' => Deposit::where('status', 'approved')
-                ->where('created_at', '>=', Carbon::now()->subDays(30))
-                ->sum('amount') / 30,
-            'retention_rate' => $total_users > 0 ? round((Investment::where('status', 'active')->distinct('user_id')->count() / $total_users) * 100, 1) : 0,
-            'total_payouts' => \App\Models\ROIIncome::sum('roi_amount') + \App\Models\LevelCommission::sum('commission_amount'),
-        ];
+        $this->reportService = $reportService;
+    }
 
-        // Payout Composition
-        $roi_total = \App\Models\ROIIncome::sum('roi_amount') ?: 1;
-        $level_total = \App\Models\LevelCommission::sum('commission_amount') ?: 0;
-        $grand_total = $roi_total + $level_total;
+    public function index(Request $request)
+    {
+        $range = $request->get('range', 'today'); // today, week, month, all
+        $customStart = $request->get('start_date');
+        $customEnd = $request->get('end_date');
 
-        $stats['payouts'] = [
-            'roi' => round(($roi_total / $grand_total) * 100),
-            'level' => round(($level_total / $grand_total) * 100),
-            'vouchers' => 0,
-        ];
+        [$startDate, $endDate] = $this->getDatesFromRange($range, $customStart, $customEnd);
 
-        // Top leaders by team size (standard MLM metric)
-        $leaders = User::withCount('referrals')
-            ->orderBy('referrals_count', 'desc')
-            ->take(10)
-            ->get();
-            
-        foreach($leaders as $leader) {
-             $leader->direct_bv = Investment::whereIn('user_id', $leader->referrals->pluck('id'))->sum('amount');
+        $reportData = $this->reportService->getConsolidatedReport($startDate, $endDate);
+
+        return view('admin.reports.index', [
+            'data' => $reportData,
+            'range' => $range,
+            'startDate' => $startDate->toDateString(),
+            'endDate' => $endDate->toDateString(),
+        ]);
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $range = $request->get('range', 'today');
+        $customStart = $request->get('start_date');
+        $customEnd = $request->get('end_date');
+
+        [$startDate, $endDate] = $this->getDatesFromRange($range, $customStart, $customEnd);
+
+        $reportData = $this->reportService->getConsolidatedReport($startDate, $endDate);
+        
+        $pdf = Pdf::loadView('admin.reports.pdf', [
+            'data' => $reportData,
+            'range' => $range,
+            'startDate' => $startDate->toFormattedDateString(),
+            'endDate' => $endDate->toFormattedDateString(),
+            'generatedAt' => Carbon::now()->toDateTimeString(),
+        ]);
+
+        return $pdf->download("Business-Report-{$range}-" . Carbon::now()->format('Y-m-d') . ".pdf");
+    }
+
+    protected function getDatesFromRange($range, $start = null, $end = null)
+    {
+        $endDate = Carbon::now();
+        
+        switch ($range) {
+            case 'today':
+                $startDate = Carbon::today();
+                break;
+            case 'week':
+                $startDate = Carbon::now()->subWeek();
+                break;
+            case 'month':
+                $startDate = Carbon::now()->subMonth();
+                break;
+            case 'custom':
+                $startDate = $start ? Carbon::parse($start) : Carbon::today();
+                $endDate = $end ? Carbon::parse($end)->endOfDay() : Carbon::now();
+                break;
+            case 'all':
+            default:
+                $startDate = Carbon::create(2020, 1, 1);
+                break;
         }
 
-        return view('admin.reports.index', compact('stats', 'leaders'));
+        return [$startDate, $endDate];
     }
+
     public function voucherReport()
     {
         $vouchers = \App\Models\Voucher::with(['owner', 'redeemer'])
@@ -65,5 +97,15 @@ class ReportController extends Controller
         ];
 
         return view('admin.reports.vouchers', compact('vouchers', 'stats'));
+    }
+
+    public function triggerDaily()
+    {
+        try {
+            \Illuminate\Support\Facades\Artisan::call('report:daily');
+            return redirect()->back()->with('success', 'Daily report has been generated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to generate daily report: ' . $e->getMessage());
+        }
     }
 }
