@@ -29,6 +29,17 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+Route::get('/count', function () {
+    $today = date('Y-m-d');
+    $thisMonth = date('Y-m');
+    
+    $todayCount = \App\Models\Visitor::where('visit_date', $today)->count();
+    $thisMonthCount = \App\Models\Visitor::where('visit_date', 'like', $thisMonth . '-%')->count();
+    $allTimeCount = \App\Models\Visitor::count();
+
+    return view('count', compact('todayCount', 'thisMonthCount', 'allTimeCount'));
+});
+
 Route::get('/test/verify', [\App\Http\Controllers\TestController::class, 'verify']);
 
 Route::get('/test-mail', function () {
