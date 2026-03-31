@@ -26,7 +26,7 @@
                         <th class="px-6 py-4">Request Amount</th>
                         <th class="px-6 py-4">Fee (5%)</th>
                         <th class="px-6 py-4">Net Payout</th>
-                        <th class="px-6 py-4">Method</th>
+                        <th class="px-6 py-4">Method & Destination</th>
                         <th class="px-6 py-4">Status</th>
                         <th class="px-6 py-4 text-right">Action</th>
                     </tr>
@@ -44,7 +44,15 @@
                         <td class="px-6 py-4 text-red-500/70">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($withdrawal->amount * 0.05, 2) }}</td>
                         <td class="px-6 py-4 text-green-400">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($withdrawal->amount * 0.95, 2) }}</td>
                         <td class="px-6 py-4">
-                            <span class="text-xs text-slate-500 bg-slate-800/10 px-2 py-1 rounded border border-[#1f1f1f]">{{ strtoupper(str_replace('_', ' ', $withdrawal->payment_method)) }}</span>
+                            <div class="flex flex-col gap-2 items-start mt-1">
+                                <span class="text-[10px] text-slate-500 bg-slate-800/10 px-2 py-0.5 rounded border border-[#1f1f1f] font-bold tracking-wider">{{ strtoupper(str_replace('_', ' ', $withdrawal->payment_method)) }}</span>
+                                <div class="flex items-center gap-2 bg-[#121212] py-1.5 px-2.5 rounded-xl border border-[#1f1f1f]">
+                                    <span class="text-[11px] text-slate-300 font-mono break-all">{{ $withdrawal->wallet_address }}</span>
+                                    <button type="button" onclick="copyToClipboard('{{ $withdrawal->wallet_address }}')" class="text-slate-400 hover:text-emerald-400 transition-colors p-1 bg-white/5 rounded-lg hover:bg-white/10 shrink-0" title="Copy Address">
+                                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </td>
                         <td class="px-6 py-4">
                             @if($withdrawal->status == 'pending')
@@ -116,5 +124,28 @@
             }
         });
     @endif
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                background: '#0f0f0f',
+                color: '#fff',
+                customClass: {
+                    popup: 'glass rounded-xl border border-white/10'
+                }
+            });
+            Toast.fire({
+                icon: 'success',
+                title: 'Address Copied!'
+            });
+        }).catch(err => {
+            console.error('Could not copy text: ', err);
+        });
+    }
 </script>
 @endsection
