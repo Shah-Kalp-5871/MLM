@@ -9,9 +9,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            LevelSettingSeeder::class,
             SettingsSeeder::class,
+            LevelSettingSeeder::class,
+            ClubLevelSeeder::class,
             AdminSeeder::class,
+            RootUserSeeder::class,
         ]);
     }
 }

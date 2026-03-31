@@ -13,11 +13,16 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        Admin::create([
-            'name' => 'Super Admin',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('password'),
-            'status' => true,
-        ]);
+        $email = env('ADMIN_EMAIL', 'admin@emp.com');
+        $admin = \App\Models\Admin::updateOrCreate(
+            ['email' => $email],
+            [
+                'name' => 'System Admin',
+                'password' => Hash::make(env('ADMIN_PASSWORD', 'empadmin1234')),
+                'status' => true,
+            ]
+        );
+
+        $this->command->info('✓ Admin User seeded: ' . $email);
     }
 }
