@@ -57,7 +57,7 @@
                         <td class="px-6 py-4">
                             @if($withdrawal->status == 'pending')
                                 <span class="badge-pending text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">Pending</span>
-                            @elseif($withdrawal->status == 'approved')
+                            @elseif($withdrawal->status == 'approved' || $withdrawal->status == 'paid')
                                 <span class="badge-active text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">Paid</span>
                             @else
                                 <span class="bg-red-500/10 text-red-500 text-[10px] px-2 py-0.5 rounded-full uppercase font-bold border border-red-500/20">{{ $withdrawal->status }}</span>

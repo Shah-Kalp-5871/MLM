@@ -10,20 +10,21 @@
         <div class="flex flex-wrap items-center gap-3">
             <form action="{{ route('admin.reports.index') }}" method="GET" class="flex items-center gap-2" id="reportFilterForm">
                 <div class="flex items-center gap-2 bg-[#121212] p-1 rounded-xl border border-[#1f1f1f]">
-                    <select name="range" onchange="toggleCustomDates(this.value)" class="bg-transparent text-[13px] font-medium border-none focus:ring-0 text-slate-300 px-3 py-1.5 focus:outline-none">
+                    <select name="range" onchange="toggleCustomDate(this.value)" class="bg-transparent text-[13px] font-medium border-none focus:ring-0 text-slate-300 px-3 py-1.5 focus:outline-none">
                         <option value="today" {{ $range == 'today' ? 'selected' : '' }}>Today</option>
                         <option value="week" {{ $range == 'week' ? 'selected' : '' }}>Last 7 Days</option>
                         <option value="month" {{ $range == 'month' ? 'selected' : '' }}>Last 30 Days</option>
-                        <option value="custom" {{ $range == 'custom' ? 'selected' : '' }}>Custom Range</option>
+                        <option value="custom" {{ $range == 'custom' ? 'selected' : '' }}>Specific Date</option>
                         <option value="all" {{ $range == 'all' ? 'selected' : '' }}>All Time</option>
                     </select>
                 </div>
                 
                 <div id="custom-date-container" class="{{ $range == 'custom' ? 'flex' : 'hidden' }} items-center gap-1 bg-[#121212] p-1 rounded-xl border border-[#1f1f1f]">
-                    <input type="date" name="start_date" value="{{ request('start_date') }}" class="bg-transparent text-[11px] uppercase tracking-wider font-bold border-none focus:ring-0 text-slate-300 px-2 py-1.5 focus:outline-none rounded-md hover:bg-white/5 transition-colors cursor-pointer w-auto" max="{{ date('Y-m-d') }}">
-                    <span class="text-slate-600 font-bold px-1 text-[10px]">></span>
-                    <input type="date" name="end_date" value="{{ request('end_date') }}" class="bg-transparent text-[11px] uppercase tracking-wider font-bold border-none focus:ring-0 text-slate-300 px-2 py-1.5 focus:outline-none rounded-md hover:bg-white/5 transition-colors cursor-pointer w-auto" max="{{ date('Y-m-d') }}">
-                    <button type="submit" class="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 px-3 py-1.5 rounded-lg text-[10px] uppercase font-bold tracking-wider transition-all ml-1 border border-blue-500/20">Filter</button>
+                    <input type="date" name="date" id="report_date_input" value="{{ request('date', date('Y-m-d')) }}" class="bg-transparent text-[11px] uppercase tracking-wider font-bold border-none focus:ring-0 text-slate-300 px-3 py-1.5 focus:outline-none rounded-md hover:bg-white/5 transition-colors cursor-pointer w-auto" max="{{ date('Y-m-d') }}">
+                    <button type="submit" class="bg-purple-600/20 hover:bg-purple-600/40 text-purple-400 px-3 py-1.5 rounded-lg text-[10px] uppercase font-bold tracking-wider transition-all border border-purple-500/20 flex items-center gap-2">
+                        <i data-lucide="filter" class="w-3 h-3"></i>
+                        Apply
+                    </button>
                 </div>
             </form>
             <form action="{{ route('admin.reports.trigger') }}" method="POST">
@@ -90,7 +91,13 @@
             <div class="flex items-center justify-between mb-8 relative z-10">
                 <div>
                     <h3 class="font-bold text-lg">Growth Trends</h3>
-                    <p class="text-xs text-slate-500">Last 7 days registration & investment velocity.</p>
+                    <p class="text-xs text-slate-500">
+                        @if($range == 'custom')
+                            Analysis for Specific Date: {{ \Carbon\Carbon::parse(request('date'))->format('d M Y') }}
+                        @else
+                            Activity and performance velocity metrics.
+                        @endif
+                    </p>
                 </div>
                 <div class="flex gap-4">
                     <div class="flex items-center gap-2">
@@ -286,25 +293,11 @@
         });
     });
 
-    function toggleCustomDates(value) {
+    function toggleCustomDate(value) {
         if (value === 'custom') {
             const container = document.getElementById('custom-date-container');
             container.classList.remove('hidden');
             container.classList.add('flex');
-            
-            // Set default dates if empty
-            const startInput = document.querySelector('input[name="start_date"]');
-            const endInput = document.querySelector('input[name="end_date"]');
-            const today = new Date().toISOString().split('T')[0];
-            
-            if (!startInput.value) {
-                let lastWeek = new Date();
-                lastWeek.setDate(lastWeek.getDate() - 7);
-                startInput.value = lastWeek.toISOString().split('T')[0];
-            }
-            if (!endInput.value) {
-                endInput.value = today;
-            }
         } else {
             document.getElementById('reportFilterForm').submit();
         }

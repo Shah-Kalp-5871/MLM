@@ -19,11 +19,10 @@ class ReportController extends Controller
 
     public function index(Request $request)
     {
-        $range = $request->get('range', 'today'); // today, week, month, all
-        $customStart = $request->get('start_date');
-        $customEnd = $request->get('end_date');
+        $range = $request->get('range', 'today'); // today, week, month, all, custom
+        $customDate = $request->get('date');
 
-        [$startDate, $endDate] = $this->getDatesFromRange($range, $customStart, $customEnd);
+        [$startDate, $endDate] = $this->getDatesFromRange($range, $customDate);
 
         $reportData = $this->reportService->getConsolidatedReport($startDate, $endDate);
 
@@ -38,10 +37,9 @@ class ReportController extends Controller
     public function exportPdf(Request $request)
     {
         $range = $request->get('range', 'today');
-        $customStart = $request->get('start_date');
-        $customEnd = $request->get('end_date');
+        $customDate = $request->get('date');
 
-        [$startDate, $endDate] = $this->getDatesFromRange($range, $customStart, $customEnd);
+        [$startDate, $endDate] = $this->getDatesFromRange($range, $customDate);
 
         $reportData = $this->reportService->getConsolidatedReport($startDate, $endDate);
         
@@ -71,8 +69,8 @@ class ReportController extends Controller
                 $startDate = Carbon::now()->subMonth();
                 break;
             case 'custom':
-                $startDate = $start ? Carbon::parse($start) : Carbon::today();
-                $endDate = $end ? Carbon::parse($end)->endOfDay() : Carbon::now();
+                $startDate = $start ? Carbon::parse($start)->startOfDay() : Carbon::today();
+                $endDate = $start ? Carbon::parse($start)->endOfDay() : Carbon::now();
                 break;
             case 'all':
             default:
