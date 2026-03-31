@@ -45,7 +45,12 @@ class WithdrawalController extends Controller
                 'description' => "Approved withdrawal of " . (\App\Models\Setting::where('key', 'platform_currency_symbol')->value('value') ?? '$') . number_format($withdrawal->amount, 2),
             ]);
 
-            $withdrawal->update(['status' => 'approved']);
+            $withdrawal->update([
+                'status' => 'paid',
+                'paid_at' => now(),
+                'approved_at' => now(),
+                'approved_by' => auth()->id(),
+            ]);
             
             return back()->with('success', 'Withdrawal approved and funds deducted.');
         });

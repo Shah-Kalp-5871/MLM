@@ -75,8 +75,8 @@ class ReportService
             'total_team_bv' => User::sum('team_business'),
         ];
 
-        // 7. Trends (Last 7 Days) for Charts
-        $data['trends'] = $this->getTrends();
+        // 7. Trends (Dynamic based on selected range)
+        $data['trends'] = $this->getTrends($startDate, $endDate);
 
         // 8. Club Achievements (Empty for now)
         $data['clubs'] = [];
@@ -98,24 +98,31 @@ class ReportService
     }
 
     /**
-     * Get daily trends for the last 7 days.
+     * Get daily trends for the selected date range.
      */
-    protected function getTrends()
+    protected function getTrends($startDate, $endDate)
     {
-        $days = [];
+        $daysList = [];
         $registrations = [];
         $investments = [];
 
-        for ($i = 6; $i >= 0; $i--) {
-            $date = Carbon::today()->subDays($i);
-            $days[] = $date->format('d M');
-            
-            $registrations[] = User::whereDate('created_at', $date)->count();
-            $investments[] = Investment::whereDate('created_at', $date)->sum('amount');
+        // If the range is "all-time" or very long, we just show the last 30 days to keep the chart readable
+        $diff = $startDate->diffInDays($endDate);
+        
+        if ($diff > 31) {
+            $startDate = $endDate->copy()->subDays(30);
+        }
+
+        $current = $startDate->copy();
+        while ($current->lte($endDate)) {
+            $daysList[] = $current->format('d M');
+            $registrations[] = User::whereDate('created_at', $current)->count();
+            $investments[] = Investment::whereDate('created_at', $current)->sum('amount');
+            $current->addDay();
         }
 
         return [
-            'labels' => $days,
+            'labels' => $daysList,
             'registrations' => $registrations,
             'investments' => $investments,
         ];

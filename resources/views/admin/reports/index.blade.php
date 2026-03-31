@@ -8,13 +8,23 @@
             <p class="text-slate-400 text-sm">Comprehensive performance metrics and growth analytics. <span class="text-blue-500 font-bold underline decoration-blue-500/30 font-mono text-[10px]">Min. Qualification: $500</span></p>
         </div>
         <div class="flex flex-wrap items-center gap-3">
-            <form action="{{ route('admin.reports.index') }}" method="GET" class="flex items-center gap-2 bg-[#121212] p-1 rounded-xl border border-[#1f1f1f]">
-                <select name="range" onchange="this.form.submit()" class="bg-transparent text-sm border-none focus:ring-0 text-slate-300 px-3 py-1">
-                    <option value="today" {{ $range == 'today' ? 'selected' : '' }}>Today</option>
-                    <option value="week" {{ $range == 'week' ? 'selected' : '' }}>Last 7 Days</option>
-                    <option value="month" {{ $range == 'month' ? 'selected' : '' }}>Last 30 Days</option>
-                    <option value="all" {{ $range == 'all' ? 'selected' : '' }}>All Time</option>
-                </select>
+            <form action="{{ route('admin.reports.index') }}" method="GET" class="flex items-center gap-2" id="reportFilterForm">
+                <div class="flex items-center gap-2 bg-[#121212] p-1 rounded-xl border border-[#1f1f1f]">
+                    <select name="range" onchange="toggleCustomDates(this.value)" class="bg-transparent text-[13px] font-medium border-none focus:ring-0 text-slate-300 px-3 py-1.5 focus:outline-none">
+                        <option value="today" {{ $range == 'today' ? 'selected' : '' }}>Today</option>
+                        <option value="week" {{ $range == 'week' ? 'selected' : '' }}>Last 7 Days</option>
+                        <option value="month" {{ $range == 'month' ? 'selected' : '' }}>Last 30 Days</option>
+                        <option value="custom" {{ $range == 'custom' ? 'selected' : '' }}>Custom Range</option>
+                        <option value="all" {{ $range == 'all' ? 'selected' : '' }}>All Time</option>
+                    </select>
+                </div>
+                
+                <div id="custom-date-container" class="{{ $range == 'custom' ? 'flex' : 'hidden' }} items-center gap-1 bg-[#121212] p-1 rounded-xl border border-[#1f1f1f]">
+                    <input type="date" name="start_date" value="{{ request('start_date') }}" class="bg-transparent text-[11px] uppercase tracking-wider font-bold border-none focus:ring-0 text-slate-300 px-2 py-1.5 focus:outline-none rounded-md hover:bg-white/5 transition-colors cursor-pointer w-auto" max="{{ date('Y-m-d') }}">
+                    <span class="text-slate-600 font-bold px-1 text-[10px]">></span>
+                    <input type="date" name="end_date" value="{{ request('end_date') }}" class="bg-transparent text-[11px] uppercase tracking-wider font-bold border-none focus:ring-0 text-slate-300 px-2 py-1.5 focus:outline-none rounded-md hover:bg-white/5 transition-colors cursor-pointer w-auto" max="{{ date('Y-m-d') }}">
+                    <button type="submit" class="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 px-3 py-1.5 rounded-lg text-[10px] uppercase font-bold tracking-wider transition-all ml-1 border border-blue-500/20">Filter</button>
+                </div>
             </form>
             <form action="{{ route('admin.reports.trigger') }}" method="POST">
                 @csrf
@@ -23,7 +33,7 @@
                     Auto-Generate
                 </button>
             </form>
-            <a href="{{ route('admin.reports.export', ['range' => $range]) }}" class="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white px-4 py-2 rounded-xl text-sm font-bold transition-all shadow-lg shadow-purple-900/20">
+            <a href="{{ route('admin.reports.export', array_merge(request()->all(), ['range' => $range])) }}" class="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white px-4 py-2 rounded-xl text-sm font-bold transition-all shadow-lg shadow-purple-900/20">
                 <i data-lucide="download" class="w-4 h-4 text-purple-200"></i>
                 Export PDF
             </a>
@@ -275,6 +285,30 @@
             }
         });
     });
+
+    function toggleCustomDates(value) {
+        if (value === 'custom') {
+            const container = document.getElementById('custom-date-container');
+            container.classList.remove('hidden');
+            container.classList.add('flex');
+            
+            // Set default dates if empty
+            const startInput = document.querySelector('input[name="start_date"]');
+            const endInput = document.querySelector('input[name="end_date"]');
+            const today = new Date().toISOString().split('T')[0];
+            
+            if (!startInput.value) {
+                let lastWeek = new Date();
+                lastWeek.setDate(lastWeek.getDate() - 7);
+                startInput.value = lastWeek.toISOString().split('T')[0];
+            }
+            if (!endInput.value) {
+                endInput.value = today;
+            }
+        } else {
+            document.getElementById('reportFilterForm').submit();
+        }
+    }
 </script>
 @endpush
 @endsection
