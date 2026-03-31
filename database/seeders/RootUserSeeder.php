@@ -36,7 +36,7 @@ class RootUserSeeder extends Seeder
             'user_id'                  => $user->id,
             'balance'                  => 0,
             'total_roi_earned'         => 0,
-            'total_commission_earned'  => 0,
+            'total_level_earned'       => 0,
             'total_withdrawn'          => 0,
         ]);
 
