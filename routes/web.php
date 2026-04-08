@@ -138,6 +138,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 // Auth Routes
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 Route::group(['prefix' => 'auth'], function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -150,4 +151,10 @@ Route::group(['prefix' => 'auth'], function () {
     Route::get('/register/otp', [RegisterController::class, 'showOtpForm'])->name('register.otp');
     Route::post('/register/otp', [RegisterController::class, 'verifyOtp'])->name('register.otp.verify');
     Route::get('/register/otp/resend', [RegisterController::class, 'resendOtp'])->name('register.otp.resend');
+
+    // Password Reset Routes
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/reset-password', [ForgotPasswordController::class, 'reset'])->name('password.update');
 });

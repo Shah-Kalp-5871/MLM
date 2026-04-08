@@ -40,7 +40,7 @@
                 <input type="checkbox" class="w-4 h-4 rounded border-white/10 bg-white/5 text-purple-600 focus:ring-purple-500 transition-all cursor-pointer">
                 <span class="text-[11px] text-gray-500 font-semibold uppercase tracking-wider group-hover/check:text-gray-300">Remember</span>
             </label>
-            <a href="#" class="text-[11px] text-purple-400 font-bold uppercase tracking-wider hover:text-white transition-colors">Forgot Password?</a>
+            <a href="{{ route('password.request') }}" class="text-[11px] text-purple-400 font-bold uppercase tracking-wider hover:text-white transition-colors">Forgot Password?</a>
         </div>
 
         <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-[11px] font-black uppercase tracking-[0.2em] transition-all shadow-xl shadow-purple-900/40 flex items-center justify-center gap-3">

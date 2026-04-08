@@ -109,4 +109,54 @@ class EmailService
             return false;
         }
     }
+
+    /**
+     * Send password reset email
+     */
+    public static function sendPasswordResetEmail($email, $name, $resetUrl)
+    {
+        $mail = new PHPMailer(true);
+        try {
+            // Server settings
+            $mail->isSMTP();
+            $mail->Host       = env('MAIL_HOST');
+            $mail->SMTPAuth   = true;
+            $mail->Username   = env('MAIL_USERNAME');
+            $mail->Password   = env('MAIL_PASSWORD');
+            $mail->SMTPSecure = env('MAIL_ENCRYPTION');
+            $mail->Port       = env('MAIL_PORT');
+
+            // Recipients
+            $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            $mail->addAddress($email, $name);
+
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = "Reset Your Password - " . env('APP_NAME');
+            
+            $mail->Body = "
+                <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e1e1e1; border-radius: 10px;'>
+                    <h2 style='color: #4f46e5; text-align: center;'>Password Reset Request</h2>
+                    <p>Hello <strong>$name</strong>,</p>
+                    <p>You are receiving this email because we received a password reset request for your account.</p>
+                    <div style='text-align: center; margin: 30px 0;'>
+                        <a href='$resetUrl' style='background-color: #4f46e5; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;'>Reset Password</a>
+                    </div>
+                    <p>This password reset link will expire in 15 minutes.</p>
+                    <p>If you did not request a password reset, no further action is required.</p>
+                    <hr style='border: 0; border-top: 1px solid #eee; margin: 20px 0;'>
+                    <p style='font-size: 12px; color: #6b7280; text-align: center;'>If you're having trouble clicking the \"Reset Password\" button, copy and paste the URL below into your web browser:</p>
+                    <p style='font-size: 12px; color: #4f46e5; word-break: break-all; text-align: center;'>$resetUrl</p>
+                    <hr style='border: 0; border-top: 1px solid #eee; margin: 20px 0;'>
+                    <p style='font-size: 12px; color: #6b7280; text-align: center;'>Best regards,<br>The " . env('APP_NAME') . " Team</p>
+                </div>
+            ";
+
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            Log::error("Password Reset Email sending failed for {$email}: " . $mail->ErrorInfo);
+            return false;
+        }
+    }
 }
