@@ -33,8 +33,22 @@ class WithdrawalController extends Controller
 
         $request->validate([
             'amount' => "required|numeric|min:{$minWithdrawal}", 
-            'payment_method' => 'required|string',
-            'wallet_address' => 'required|string',
+            'payment_method' => 'required|string|in:usdt_trc20,usdt_bep20,usdt_erc20',
+            'wallet_address' => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->payment_method === 'usdt_trc20') {
+                        if (!preg_match('/^T[a-zA-Z0-9]{33}$/', $value)) {
+                            $fail('The wallet address is not a valid USDT TRC20 address (must start with T and be 34 characters).');
+                        }
+                    } elseif (in_array($request->payment_method, ['usdt_bep20', 'usdt_erc20'])) {
+                        if (!preg_match('/^0x[a-fA-F0-9]{40}$/', $value)) {
+                            $fail('The wallet address is not a valid ' . strtoupper(str_replace('usdt_', '', $request->payment_method)) . ' address (must start with 0x and be 42 characters).');
+                        }
+                    }
+                },
+            ],
         ]);
 
         if ($user->withdrawals()->where('status', 'pending')->exists()) {

@@ -126,7 +126,7 @@
             </div>
             <div class="row">
                 <span class="label">Method</span>
-                <span class="value">{{ $withdrawal->method }}</span>
+                <span class="value">{{ str_replace(['_', 'usdt'], [' ', 'USDT'], $withdrawal->payment_method) }}</span>
             </div>
             <div class="row">
                 <span class="label">Amount</span>

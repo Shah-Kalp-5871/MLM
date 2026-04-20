@@ -56,17 +56,44 @@
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Select Payment Method</label>
-                    <select name="payment_method" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-emerald-500 focus:outline-none transition-all appearance-none cursor-pointer" required>
-                        <option value="usdt_trc20">USDT TRC20</option>
-                        <option value="bank_transfer">Bank Transfer (IMPS/NEFT)</option>
-                        <option value="upi">UPI ID</option>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Withdrawal Network (USDT Only)</label>
+                    <select id="payment_method" name="payment_method" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-emerald-500 focus:outline-none transition-all appearance-none cursor-pointer" required>
+                        <option value="usdt_trc20" {{ old('payment_method') == 'usdt_trc20' ? 'selected' : '' }}>USDT TRC20</option>
+                        <option value="usdt_bep20" {{ old('payment_method') == 'usdt_bep20' ? 'selected' : '' }}>USDT BEP20</option>
+                        <option value="usdt_erc20" {{ old('payment_method') == 'usdt_erc20' ? 'selected' : '' }}>USDT ERC20</option>
                     </select>
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Destination Address / Details</label>
-                    <input type="text" name="wallet_address" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-emerald-500 focus:outline-none transition-all placeholder:text-gray-600 font-mono" placeholder="Enter Wallet Address or Bank AC/IFSC" required>
+                    <div class="flex justify-between items-center mb-3 ml-1">
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest">Destination Address</label>
+                        <span class="text-[9px] text-emerald-400 font-bold uppercase tracking-widest bg-emerald-500/10 px-2 py-0.5 rounded-md">USDT Only</span>
+                    </div>
+
+                    {{-- USDT-only note (updates dynamically via JS) --}}
+                    <div class="flex items-start gap-3 mb-4 p-4 rounded-2xl border border-yellow-500/20 bg-yellow-500/5 transition-all">
+                        <div class="p-2 rounded-lg bg-yellow-500/10 text-yellow-400">
+                             <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                        </div>
+                        <p class="text-[10px] text-gray-400 leading-relaxed">
+                            <span id="note_title" class="font-black text-white uppercase tracking-wider block mb-1">⚠ USDT (TRC20) Address Only</span>
+                            <span id="note_body">Please provide a valid <strong>USDT TRC20</strong> wallet address. Transferring to a different network or non-USDT address will result in <span class="text-red-400 font-bold">permanent loss of funds</span>.</span>
+                        </p>
+                    </div>
+
+                    <div class="relative group/input">
+                        <input type="text" id="wallet_address" name="wallet_address" value="{{ old('wallet_address') }}" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:border-emerald-500 focus:outline-none transition-all placeholder:text-gray-600 font-mono pr-12" placeholder="Enter your USDT TRC20 wallet address..." required>
+                        <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within/input:text-emerald-500 transition-colors">
+                            <i data-lucide="fingerprint" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 flex items-center gap-2 px-1">
+                        <p id="address_hint" class="text-[10px] text-gray-500 italic">TRC20: starts with <span class="text-emerald-400 font-bold">T</span>, 34 characters long.</p>
+                        <p id="address_error" class="hidden text-[10px] text-red-500 font-bold flex items-center gap-1">
+                            <i data-lucide="x-circle" class="w-3 h-3"></i> <span>Invalid format</span>
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -103,7 +130,7 @@
                     <tr class="border-b border-white/5 last:border-0 group">
                         <td class="py-4 pl-2">
                             <span class="font-bold text-white font-mono">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($w->amount, 2) }}</span>
-                            <p class="text-[9px] text-gray-500 mt-0.5 uppercase tracking-tighter">{{ str_replace('_', ' ', $w->payment_method) }}</p>
+                            <p class="text-[9px] text-gray-500 mt-0.5 uppercase tracking-tighter">{{ str_replace(['_', 'usdt'], [' ', 'USDT'], $w->payment_method) }}</p>
                         </td>
                         <td class="py-4">
                             @if($w->status == 'approved')
@@ -133,13 +160,86 @@
 </div>
 
 <script>
+const walletInput  = document.getElementById('wallet_address');
+const methodSelect = document.getElementById('payment_method');
+const addressHint  = document.getElementById('address_hint');
+const addressError = document.getElementById('address_error');
+const noteTitle    = document.getElementById('note_title');
+const noteBody     = document.getElementById('note_body');
+
+// Network metadata
+const networkMeta = {
+    usdt_trc20: {
+        label:       'USDT TRC20',
+        noteTitle:   '⚠ USDT (TRC20) Address Only',
+        noteBody:    'Please provide a valid <strong>USDT TRC20</strong> wallet address. Transferring to a different network or non-USDT address will result in <span class="text-red-400 font-bold">permanent loss of funds</span>.',
+        placeholder: 'Enter your USDT TRC20 wallet address...',
+        hint:        'TRC20: starts with <span class="text-emerald-400 font-bold">T</span>, 34 characters long.',
+        validate:    (v) => /^T[a-zA-Z0-9]{33}$/.test(v),
+        errorMsg:    'Invalid format: Must start with "T" and be 34 alphanumeric characters.'
+    },
+    usdt_bep20: {
+        label:       'USDT BEP20',
+        noteTitle:   '⚠ USDT (BEP20) Address Only',
+        noteBody:    'Please provide a valid <strong>USDT BEP20</strong> (BSC) wallet address. Transferring to a different network or non-USDT address will result in <span class="text-red-400 font-bold">permanent loss of funds</span>.',
+        placeholder: 'Enter your USDT BEP20 wallet address...',
+        hint:        'BEP20: starts with <span class="text-emerald-400 font-bold">0x</span>, 42 characters long.',
+        validate:    (v) => /^0x[a-fA-F0-9]{40}$/.test(v),
+        errorMsg:    'Invalid format: Must start with "0x" and be 42 characters.'
+    },
+    usdt_erc20: {
+        label:       'USDT ERC20',
+        noteTitle:   '⚠ USDT (ERC20) Address Only',
+        noteBody:    'Please provide a valid <strong>USDT ERC20</strong> (Ethereum) wallet address. Transferring to a different network or non-USDT address will result in <span class="text-red-400 font-bold">permanent loss of funds</span>.',
+        placeholder: 'Enter your USDT ERC20 wallet address...',
+        hint:        'ERC20: starts with <span class="text-emerald-400 font-bold">0x</span>, 42 characters long.',
+        validate:    (v) => /^0x[a-fA-F0-9]{40}$/.test(v),
+        errorMsg:    'Invalid format: Must start with "0x" and be 42 characters.'
+    }
+};
+
+function updateNetworkUI() {
+    const meta = networkMeta[methodSelect.value] || networkMeta['usdt_trc20'];
+    noteTitle.innerHTML   = meta.noteTitle;
+    noteBody.innerHTML    = meta.noteBody;
+    walletInput.placeholder = meta.placeholder;
+    addressHint.innerHTML = meta.hint;
+    addressHint.classList.remove('hidden');
+    addressError.classList.add('hidden');
+    walletInput.value = '';
+    walletInput.classList.remove('border-red-500', 'border-emerald-500');
+}
+
+methodSelect.addEventListener('change', updateNetworkUI);
+
+walletInput.addEventListener('input', function() {
+    const val  = this.value.trim();
+    const meta = networkMeta[methodSelect.value] || networkMeta['usdt_trc20'];
+    if (val.length === 0) {
+        addressHint.classList.remove('hidden');
+        addressError.classList.add('hidden');
+        this.classList.remove('border-red-500', 'border-emerald-500');
+    } else if (meta.validate(val)) {
+        addressHint.classList.add('hidden');
+        addressError.classList.add('hidden');
+        this.classList.remove('border-red-500');
+        this.classList.add('border-emerald-500');
+    } else {
+        addressHint.classList.add('hidden');
+        addressError.innerHTML = meta.errorMsg;
+        addressError.classList.remove('hidden');
+        this.classList.remove('border-emerald-500');
+        this.classList.add('border-red-500');
+    }
+});
+
 document.getElementById('withdrawalForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
     const form = this;
     const amount = parseFloat(document.querySelector('input[name="amount"]').value);
     const method = document.querySelector('select[name="payment_method"]').value;
-    const address = document.querySelector('input[name="wallet_address"]').value;
+    const address = walletInput.value.trim();
     const availableBalance = {{ $wallet->balance ?? 0 }};
     const hasPendingWithdrawal = {{ $withdrawals->where('status', 'pending')->count() > 0 ? 'true' : 'false' }};
 
@@ -169,6 +269,23 @@ document.getElementById('withdrawalForm').addEventListener('submit', function(e)
         return;
     }
 
+    // USDT address validation based on selected network
+    const meta = networkMeta[method] || networkMeta['usdt_trc20'];
+    if (!meta.validate(address)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Invalid USDT Address',
+            html: `Please enter a valid <strong>${meta.label}</strong> wallet address.<br><span style="font-size:11px;color:#9ca3af">${meta.hint.replace(/<[^>]+>/g, '')}</span>`,
+            background: '#0f0f0f',
+            color: '#fff',
+            confirmButtonColor: '#10b981',
+            customClass: { popup: 'glass rounded-3xl border border-white/10' }
+        });
+        walletInput.classList.add('border-red-500');
+        walletInput.focus();
+        return;
+    }
+
     if (amount > availableBalance) {
         Swal.fire({
             icon: 'error',
@@ -192,11 +309,14 @@ document.getElementById('withdrawalForm').addEventListener('submit', function(e)
                 </div>
                 <div class="flex justify-between items-center border-b border-white/5 pb-2">
                     <span class="text-[10px] text-gray-500 uppercase font-black tracking-widest">Method</span>
-                    <span class="text-sm font-bold text-white uppercase">${method.replace('_', ' ')}</span>
+                    <span class="text-sm font-bold text-white uppercase">${networkMeta[method].label}</span>
                 </div>
                 <div class="flex flex-col gap-1">
-                    <span class="text-[10px] text-gray-500 uppercase font-black tracking-widest">Destination</span>
+                    <span class="text-[10px] text-gray-500 uppercase font-black tracking-widest">${networkMeta[method].label} Address</span>
                     <span class="text-[11px] font-mono text-gray-400 break-all">${address}</span>
+                </div>
+                <div class="mt-2 p-2 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
+                    <p class="text-[9px] text-yellow-400 font-bold uppercase tracking-wider">⚠ Double-check your ${networkMeta[method].label} address. Funds sent to a wrong address cannot be recovered.</p>
                 </div>
             </div>
         `,
