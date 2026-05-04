@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('type')->change(); // Temporary change to allow updating enum in some DBs
         });
 
+        if (DB::connection()->getDriverName() === 'sqlite') {
+            return;
+        }
+
         DB::statement("ALTER TABLE wallet_transactions MODIFY COLUMN type ENUM(
             'roi_income',
             'level_income',
@@ -34,6 +38,10 @@ return new class extends Migration
 
     public function down(): void
     {
+        if (DB::connection()->getDriverName() === 'sqlite') {
+            return;
+        }
+
         DB::statement("ALTER TABLE wallet_transactions MODIFY COLUMN type ENUM(
             'roi_income',
             'level_income',

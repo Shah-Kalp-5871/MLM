@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ROIIncome;
 use App\Models\LevelSetting;
 use App\Models\LevelCommission;
-use App\Models\WalletTransaction;
 
 class InvestmentService
 {
@@ -55,14 +54,6 @@ class InvestmentService
                 }
             }
             */
-
-            // 2. Add Funds to Wallet (if not internal transfer)
-            if ($deposit->payment_method !== 'internal_wallet') {
-                $actualCashPaid = $deposit->amount - ($deposit->discount_amount ?? 0);
-                if ($actualCashPaid > 0) {
-                    $this->addToWallet($deposit->user_id, $actualCashPaid, $deposit->payment_method);
-                }
-            }
 
             $weeklyROI = \App\Models\Setting::get('weekly_roi_percentage');
 
@@ -216,22 +207,4 @@ class InvestmentService
         });
     }
 
-    /**
-     * Add funds to user wallet.
-     */
-    protected function addToWallet(int $userId, float $amount, string $category)
-    {
-        $wallet = Wallet::firstOrCreate(['user_id' => $userId]);
-        $wallet->increment('balance', $amount);
-        $wallet->increment('total_deposited', $amount);
-
-        $wallet->user->transactions()->create([
-            'amount' => $amount,
-            'type' => 'deposit',
-            'wallet' => 'cash',
-            'direction' => 'credit',
-            'balance_after' => $wallet->balance,
-            'description' => "Funds credited via " . ucfirst($category),
-        ]);
-    }
 }

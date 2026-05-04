@@ -25,6 +25,7 @@ class WithdrawalController extends Controller
                 throw new \Exception("Withdrawal is already processed.");
             }
 
+            // Only cash wallet earnings can fund withdrawals; investment principal stays locked.
             $wallet = Wallet::where('user_id', $withdrawal->user_id)->lockForUpdate()->firstOrFail();
 
             if ($wallet->balance < $withdrawal->amount) {

@@ -29,7 +29,10 @@ class WithdrawalController extends Controller
     {
         $user = auth()->user();
         
-        $minWithdrawal = \App\Models\Setting::get('min_withdrawal', 200);
+        $minWithdrawal = \App\Models\Setting::get(
+            'min_withdrawal_amount',
+            \App\Models\Setting::get('min_withdrawal', 200)
+        );
 
         $request->validate([
             'amount' => "required|numeric|min:{$minWithdrawal}", 
@@ -57,7 +60,7 @@ class WithdrawalController extends Controller
 
         try {
             DB::transaction(function () use ($user, $request) {
-                // 1. Lock Wallet row for check (don't deduct yet)
+                // 1. Lock wallet earnings only; investment principal is never withdrawable.
                 $wallet = Wallet::where('user_id', $user->id)->lockForUpdate()->firstOrFail();
 
                 if ($wallet->balance < $request->amount) {
