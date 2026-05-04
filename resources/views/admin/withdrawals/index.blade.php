@@ -28,7 +28,7 @@
                         <th class="px-6 py-4">Net Payout</th>
                         <th class="px-6 py-4">Method & Destination</th>
                         <th class="px-6 py-4">Status</th>
-                        <th class="px-6 py-4 text-right">Action</th>
+                        <th class="px-6 py-4 text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#1f1f1f]">
@@ -68,7 +68,16 @@
                             <div class="flex justify-end gap-2">
                                 <form action="{{ route('admin.withdrawals.approve', $withdrawal->id) }}" method="POST" id="approve-withdrawal-{{ $withdrawal->id }}">
                                     @csrf
-                                    <button type="button" onclick="confirmWithdrawal({{ $withdrawal->id }})" class="text-purple-500 hover:text-purple-400 font-bold text-xs uppercase tracking-wider underline">Mark as Paid</button>
+                                    <button type="button" onclick="confirmWithdrawal({{ $withdrawal->id }})" class="px-3 py-2 rounded-xl bg-purple-500/10 text-purple-400 hover:bg-purple-500 hover:text-white transition-all border border-purple-500/20 text-[10px] font-black uppercase">
+                                        Mark Paid
+                                    </button>
+                                </form>
+                                <form action="{{ route('admin.withdrawals.reject', $withdrawal->id) }}" method="POST" id="reject-withdrawal-{{ $withdrawal->id }}">
+                                    @csrf
+                                    <input type="hidden" name="note" id="reject-note-{{ $withdrawal->id }}">
+                                    <button type="button" onclick="confirmWithdrawalReject({{ $withdrawal->id }})" class="px-3 py-2 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all border border-red-500/20 text-[10px] font-black uppercase">
+                                        Reject
+                                    </button>
                                 </form>
                             </div>
                             @endif
@@ -105,6 +114,33 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 document.getElementById(`approve-withdrawal-${id}`).submit();
+            }
+        })
+    }
+
+    function confirmWithdrawalReject(id) {
+        Swal.fire({
+            title: 'Reject Withdrawal?',
+            text: 'This will mark the withdrawal request as rejected. No wallet deduction will be made.',
+            input: 'textarea',
+            inputPlaceholder: 'Optional reason for rejection',
+            icon: 'warning',
+            showCancelButton: true,
+            background: '#0f0f0f',
+            color: '#fff',
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#374151',
+            confirmButtonText: 'Yes, Reject',
+            customClass: {
+                popup: 'glass rounded-3xl border border-white/10 shadow-2xl',
+                confirmButton: 'rounded-xl px-6 py-3 font-bold text-xs uppercase',
+                cancelButton: 'rounded-xl px-6 py-3 font-bold text-xs uppercase',
+                input: 'bg-black/40 border border-white/10 rounded-2xl text-slate-200 text-sm'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`reject-note-${id}`).value = result.value || '';
+                document.getElementById(`reject-withdrawal-${id}`).submit();
             }
         })
     }
