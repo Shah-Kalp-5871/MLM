@@ -59,6 +59,7 @@
         <i data-lucide="award" class="w-8 h-8 text-emerald-500 mb-4 opacity-80"></i>
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Network Team Base</p>
         <h3 class="text-xl font-black text-white">Team: <span class="text-emerald-500">{{ $stats['team_size'] }}</span> | Direct: <span class="text-emerald-500">{{ $stats['direct_referrals'] }}</span></h3>
+        <p class="text-[10px] text-emerald-400 mt-2 font-bold uppercase tracking-tighter">Eligible Depth: {{ $stats['eligible_depth'] }} / 15 Levels</p>
     </div>
 </div>
 

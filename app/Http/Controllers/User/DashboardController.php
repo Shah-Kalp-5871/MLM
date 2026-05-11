@@ -58,6 +58,7 @@ class DashboardController extends Controller
             'roi_percentage'     => \App\Models\Setting::get('weekly_roi_percentage'),
             'total_level_income' => $totalLevelIncome,
             'level_income_today' => $levelIncomeToday,
+            'eligible_depth'     => $user->getEligibleDepth(),
         ];
 
         $recent_transactions = $user->transactions()->orderBy('created_at', 'desc')->limit(5)->get();

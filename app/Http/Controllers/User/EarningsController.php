@@ -29,6 +29,7 @@ class EarningsController extends Controller
             
         $networkInfo = [
             'total_referrals' => $user->calculateTeamSize(),
+            'eligible_depth' => $user->getEligibleDepth(),
             'max_depth' => 15,
         ];
             

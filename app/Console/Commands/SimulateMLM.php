@@ -153,29 +153,11 @@ class SimulateMLM extends Command
                 'matures_at' => Carbon::now()->addDays(365),
             ]);
 
-            // Trigger business distribution manually since we're bypassing the normal service flow for speed/simulation
-            $this->distributeBusiness($user, 1000);
+            // Trigger business distribution via service to follow new dynamic depth rules
+            $service->distributeBusiness($user->id, 1000);
         }
     }
 
-    protected function distributeBusiness($user, $amount)
-    {
-        $uplineId = $user->upline_id;
-        $level = 1;
-
-        while ($uplineId) {
-            $upline = User::find($uplineId);
-            if (!$upline) break;
-
-            if ($level === 1) {
-                $upline->increment('direct_business', $amount);
-            }
-            $upline->increment('team_business', $amount);
-
-            $uplineId = $upline->upline_id;
-            $level++;
-        }
-    }
 
     protected function simulateTime($days)
     {

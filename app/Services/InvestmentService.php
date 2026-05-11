@@ -80,18 +80,24 @@ class InvestmentService
     public function distributeBusiness(int $userId, float $amount)
     {
         $user = User::findOrFail($userId);
+        
+        // ONLY COUNT VOLUME IF INVESTOR HAS >= $500 TOTAL ACTIVE INVESTMENT
+        // This prevents small accounts from qualifying uplines for club levels
+        $totalActiveInvestment = $user->investments()->where('status', 'active')->sum('amount');
+        
+        if ($totalActiveInvestment < Investment::MIN_QUALIFIED_AMOUNT) {
+            return;
+        }
+
         $uplineId = $user->upline_id;
         $level = 1;
 
-        while ($uplineId) {
+        while ($uplineId && $level <= 15) {
             $upline = User::find($uplineId);
             if (!$upline) break;
 
-            // ONLY COUNT VOLUME IF INVESTOR HAS >= $500 TOTAL ACTIVE INVESTMENT
-            // Note: This check ensures that small investments don't count for club levels until the user is "Active"
-            $totalActiveInvestment = $user->investments()->where('status', 'active')->sum('amount');
-            
-            if ($totalActiveInvestment >= Investment::MIN_QUALIFIED_AMOUNT) {
+            // NEW LOGIC: Only count business if it's within the upline's eligible depth
+            if ($level <= $upline->getEligibleDepth()) {
                 // Direct Business for Level 1 only
                 if ($level === 1) {
                     $upline->increment('direct_business', $amount);
@@ -156,11 +162,14 @@ class InvestmentService
                 $upline = User::find($uplineId);
                 if (!$upline) break;
 
-                // ONLY GIVE INCOME IF UPLINE HAS >= $500 TOTAL ACTIVE INVESTMENT
+                // 1. ONLY GIVE INCOME IF UPLINE HAS >= $500 TOTAL ACTIVE INVESTMENT
                 $totalActiveInvestment = $upline->investments()->where('status', 'active')->sum('amount');
 
-                if ($totalActiveInvestment < 500) {
-                    // Skip inactive or underfunded upline, move to next
+                // 2. NEW LOGIC: Only give income if the downline is within the upline's allowed depth
+                $eligibleDepth = $upline->getEligibleDepth();
+
+                if ($totalActiveInvestment < 500 || $level > $eligibleDepth) {
+                    // Skip inactive or underqualified upline, move to next
                     $uplineId = $upline->upline_id;
                     $level++;
                     continue;

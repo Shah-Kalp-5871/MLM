@@ -134,6 +134,22 @@ class User extends Authenticatable
      * Check if this user is an ancestor of another user.
      * Useful for preventing circular referrals.
      */
+    /**
+     * Get the maximum allowed network depth for this user based on direct referrals.
+     * Logic: 1 Direct = 1 Level, 2 Directs = 2 Levels ... Max 15.
+     */
+    public function getEligibleDepth(): int
+    {
+        // Count direct referrals who have at least one active investment
+        $activeDirects = $this->referrals()
+            ->whereHas('investments', function ($query) {
+                $query->where('status', 'active');
+            })
+            ->count();
+            
+        return min($activeDirects, 15);
+    }
+
     public function isAncestorOf($user)
     {
         $current = $user;

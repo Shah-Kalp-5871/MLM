@@ -56,8 +56,8 @@
             <span class="text-sm font-black text-white bg-white/5 px-2 py-1 rounded">{{ $networkInfo['total_referrals'] }} Users</span>
         </div>
         <div class="flex justify-between items-center">
-            <span class="text-xs text-gray-400 font-medium">Income Depth:</span>
-            <span class="text-sm font-black text-indigo-400">{{ $networkInfo['max_depth'] }} Levels</span>
+            <span class="text-xs text-gray-400 font-medium">Eligible Depth:</span>
+            <span class="text-sm font-black text-indigo-400">{{ $networkInfo['eligible_depth'] }} / {{ $networkInfo['max_depth'] }} Levels</span>
         </div>
     </div>
 </div>
