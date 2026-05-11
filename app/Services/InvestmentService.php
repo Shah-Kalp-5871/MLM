@@ -133,6 +133,7 @@ class InvestmentService
                 // One-time reward check for this specific level
                 $alreadyRewarded = $user->vouchers()
                     ->where('type', $type)
+                    ->where('status', '!=', 'revoked')
                     ->exists();
 
                 if (!$alreadyRewarded) {

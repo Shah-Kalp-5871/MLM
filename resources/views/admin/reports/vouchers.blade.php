@@ -55,8 +55,12 @@
                         <td class="px-6 py-4">
                             @if($v->status == 'unused')
                                 <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Unused</span>
+                            @elseif($v->status == 'revoked')
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-red-500/10 text-red-400 border border-red-500/20">Revoked</span>
+                            @elseif($v->status == 'manual_review_required')
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-amber-500/10 text-amber-400 border border-amber-500/20">Needs Review</span>
                             @else
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-white/5 text-slate-500 border border-white/10">Used</span>
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-blue-500/10 text-blue-400 border border-blue-500/20">Used</span>
                             @endif
                         </td>
                         <td class="px-6 py-4">
