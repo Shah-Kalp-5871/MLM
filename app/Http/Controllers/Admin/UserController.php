@@ -17,32 +17,50 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::withTrashed()->with(['wallet', 'investments', 'deposits', 'withdrawals', 'profile', 'upline', 'referrals'])->findOrFail($id);
+        $user = User::withTrashed()->with(['wallet', 'investments', 'deposits', 'withdrawals', 'profile', 'upline', 'referrals', 'vouchers', 'transactions'])->findOrFail($id);
         
         $stats = [
             'total_deposited' => $user->deposits()->where('status', 'approved')->sum('amount'),
             'total_withdrawn' => $user->withdrawals()->where('status', 'approved')->sum('amount'),
+            'pending_withdrawals' => $user->withdrawals()->where('status', 'pending')->count(),
             'total_roi_earned' => \App\Models\ROIIncome::where('user_id', $user->id)->sum('roi_amount'),
             'total_commission_earned' => \App\Models\LevelCommission::where('receiver_id', $user->id)->sum('commission_amount'),
             'total_investments' => $user->investments()->count(),
             'active_investments' => $user->investments()->where('status', 'active')->count(),
             'total_investment_amount' => $user->investments()->sum('amount'),
-            'roi_income_breakdown' => \App\Models\ROIIncome::where('user_id', $user->id)->orderBy('distributed_at', 'desc')->limit(5)->get(),
-            'commission_breakdown' => \App\Models\LevelCommission::where('receiver_id', $user->id)->with('fromUser')->orderBy('created_at', 'desc')->limit(5)->get(),
+            'roi_income_breakdown' => \App\Models\ROIIncome::where('user_id', $user->id)->orderBy('distributed_at', 'desc')->limit(10)->get(),
+            'commission_breakdown' => \App\Models\LevelCommission::where('receiver_id', $user->id)->with('fromUser')->orderBy('created_at', 'desc')->limit(10)->get(),
             'direct_referrals' => $user->referrals()->count(),
             'total_team_size' => $user->calculateTeamSize(),
             'team_investment_volume' => $user->team_business,
+            'direct_business' => $user->direct_business,
+            'vouchers_count' => $user->vouchers()->count(),
+            'vouchers_redeemed' => $user->vouchers()->whereNotNull('redeemed_at')->count(),
         ];
 
         // Combined Earnings Table
         $earnings = collect();
         foreach($stats['roi_income_breakdown'] as $roi) {
-            $earnings->push((object)['type' => 'ROI', 'amount' => $roi->roi_amount, 'from' => 'System', 'id' => $roi->investment_id, 'date' => $roi->distributed_at]);
+            $earnings->push((object)[
+                'type' => 'ROI', 
+                'amount' => $roi->roi_amount, 
+                'from' => 'System', 
+                'id' => $roi->investment_id, 
+                'date' => $roi->distributed_at,
+                'description' => 'Weekly ROI for Investment #' . $roi->investment_id
+            ]);
         }
         foreach($stats['commission_breakdown'] as $com) {
-            $earnings->push((object)['type' => 'Level Commission', 'amount' => $com->commission_amount, 'from' => $com->fromUser->name ?? 'User', 'id' => null, 'date' => $com->created_at]);
+            $earnings->push((object)[
+                'type' => 'Level Commission', 
+                'amount' => $com->commission_amount, 
+                'from' => $com->fromUser->name ?? 'User', 
+                'id' => null, 
+                'date' => $com->created_at,
+                'description' => 'Commission from ' . ($com->fromUser->name ?? 'User') . ' at Level ' . $com->level
+            ]);
         }
-        $earnings = $earnings->sortByDesc('date');
+        $earnings = $earnings->sortByDesc('date')->take(20);
 
         return view('admin.users.show', compact('user', 'stats', 'earnings'));
     }
