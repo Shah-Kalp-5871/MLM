@@ -264,24 +264,24 @@
                         <tr>
                             <th class="px-8 py-5">Investment ID</th>
                             <th class="px-8 py-5">Amount</th>
-                            <th class="px-8 py-5">Package</th>
+                            <th class="px-8 py-5">Plan</th>
                             <th class="px-8 py-5">Returns (ROI)</th>
                             <th class="px-8 py-5">Status</th>
                             <th class="px-8 py-5 text-right">Activated At</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-white/5">
-                        @forelse($user->investments()->with('package')->latest()->get() as $inv)
+                        @forelse($user->investments->sortByDesc('created_at') as $inv)
                         <tr class="hover:bg-white/[0.02]">
                             <td class="px-8 py-5 font-mono text-xs text-slate-400">#INV-{{ str_pad($inv->id, 6, '0', STR_PAD_LEFT) }}</td>
                             <td class="px-8 py-5 font-black text-slate-200">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($inv->amount, 2) }}</td>
                             <td class="px-8 py-5">
                                 <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] px-3 py-1 rounded-lg uppercase font-black">
-                                    {{ $inv->package->name ?? 'Custom' }}
+                                    {{ $inv->weekly_roi_percentage }}% Weekly
                                 </span>
                             </td>
                             <td class="px-8 py-5 text-emerald-400 font-bold">
-                                {{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($inv->roiIncomes()->sum('roi_amount'), 2) }}
+                                {{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($inv->roiIncomes->sum('roi_amount'), 2) }}
                             </td>
                             <td class="px-8 py-5">
                                 <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase {{ $inv->status == 'active' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-slate-800 text-slate-500' }}">

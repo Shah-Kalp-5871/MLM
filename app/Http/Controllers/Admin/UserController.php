@@ -17,7 +17,7 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::withTrashed()->with(['wallet', 'investments', 'deposits', 'withdrawals', 'profile', 'upline', 'referrals', 'vouchers', 'transactions'])->findOrFail($id);
+        $user = User::withTrashed()->with(['wallet', 'investments.roiIncomes', 'deposits', 'withdrawals', 'profile', 'upline', 'referrals', 'vouchers.redeemer', 'transactions'])->findOrFail($id);
         
         $stats = [
             'total_deposited' => $user->deposits()->where('status', 'approved')->sum('amount'),
