@@ -504,15 +504,15 @@
                         @forelse($user->vouchers as $vouch)
                         <tr class="hover:bg-white/[0.02]">
                             <td class="px-8 py-5 font-mono font-bold text-amber-400">{{ $vouch->code }}</td>
-                            <td class="px-8 py-5 font-black text-slate-200">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($vouch->value, 2) }}</td>
+                            <td class="px-8 py-5 font-black text-slate-200">{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($vouch->amount, 2) }}</td>
                             <td class="px-8 py-5">
-                                <span class="px-2 py-0.5 rounded text-[9px] font-black uppercase {{ $vouch->redeemed_at ? 'bg-rose-500/10 text-rose-500' : 'bg-emerald-500/10 text-emerald-500' }}">
-                                    {{ $vouch->redeemed_at ? 'Redeemed' : 'Active' }}
+                                <span class="px-2 py-0.5 rounded text-[9px] font-black uppercase {{ $vouch->used_at ? 'bg-rose-500/10 text-rose-500' : 'bg-emerald-500/10 text-emerald-500' }}">
+                                    {{ $vouch->used_at ? 'Redeemed' : 'Active' }}
                                 </span>
                             </td>
                             <td class="px-8 py-5 text-slate-500 text-xs">{{ $vouch->created_at->format('d M, Y') }}</td>
-                            <td class="px-8 py-5 text-right text-xs font-bold {{ $vouch->redeemed_at ? 'text-slate-300' : 'text-slate-600' }}">
-                                {{ $vouch->redeemed_at ? $vouch->redeemed_at->format('d M Y • H:i') : 'Not Redeemed' }}
+                            <td class="px-8 py-5 text-right text-xs font-bold {{ $vouch->used_at ? 'text-slate-300' : 'text-slate-600' }}">
+                                {{ $vouch->used_at ? $vouch->used_at->format('d M Y • H:i') : 'Not Redeemed' }}
                             </td>
                         </tr>
                         @empty

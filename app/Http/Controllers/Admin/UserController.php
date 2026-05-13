@@ -35,7 +35,7 @@ class UserController extends Controller
             'team_investment_volume' => $user->team_business,
             'direct_business' => $user->direct_business,
             'vouchers_count' => $user->vouchers()->count(),
-            'vouchers_redeemed' => $user->vouchers()->whereNotNull('redeemed_at')->count(),
+            'vouchers_redeemed' => $user->vouchers()->whereNotNull('used_at')->count(),
         ];
 
         // Combined Earnings Table
