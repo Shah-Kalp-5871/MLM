@@ -26,11 +26,16 @@ class RegisterController extends Controller
     {
         $request->validate([
             'name'          => 'required|string|max:255',
-            'email'         => 'required|string|email|max:255|unique:users',
+            'email'         => 'required|string|email|max:255',
             'phone'         => 'required|string|max:20',
             'password'      => 'required|string|min:8|confirmed',
             'referral_code' => 'required|exists:users,referral_code',
         ]);
+
+        // Check if email exists even in soft-deleted state to prevent database conflict
+        if (User::withTrashed()->where('email', $request->email)->exists()) {
+            return back()->withErrors(['email' => 'The email has already been taken.'])->withInput();
+        }
 
         // Generate 6-digit OTP
         $otp = rand(100000, 999999);
@@ -89,47 +94,71 @@ class RegisterController extends Controller
             return back()->withErrors(['otp' => 'Invalid OTP. Please try again.']);
         }
 
-        // Create user
-        $upline = null;
-        if ($pending['referral_code']) {
-            $upline = User::where('referral_code', $pending['referral_code'])->where('status', 'active')->first();
-            if (!$upline) {
-                return redirect()->route('register')->withErrors(['email' => 'The referral link used is no longer active.']);
+        // Double-click protection & Soft-delete conflict check
+        $existingUser = User::withTrashed()->where('email', $pending['email'])->first();
+        
+        if ($existingUser) {
+            if ($existingUser->trashed()) {
+                return redirect()->route('register')->withErrors(['email' => 'This email is associated with a deactivated account. Please contact support.']);
             }
+            
+            // User already created (likely a double-click), just log them in
+            session()->forget('pending_registration');
+            Auth::login($existingUser);
+            return redirect()->route('dashboard');
         }
 
-        $user = User::create([
-            'name'          => $pending['name'],
-            'email'         => $pending['email'],
-            'phone'         => $pending['phone'],
-            'password'      => $pending['password'],
-
-            'referral_code' => $this->generateUniqueReferralCode(),
-            'upline_id'     => $upline ? $upline->id : null,
-            'status'        => 'active',
-        ]);
-
-        Wallet::create([
-            'user_id'                  => $user->id,
-            'balance'                  => 0,
-            'total_roi_earned'         => 0,
-            'total_commission_earned'  => 0,
-            'total_withdrawn'          => 0,
-        ]);
-
-        // Send welcome email
+        \Illuminate\Support\Facades\DB::beginTransaction();
         try {
-            EmailService::sendWelcomeEmail($user->email, $user->name);
+            // Create user
+            $upline = null;
+            if ($pending['referral_code']) {
+                $upline = User::where('referral_code', $pending['referral_code'])->where('status', 'active')->first();
+                if (!$upline) {
+                    \Illuminate\Support\Facades\DB::rollBack();
+                    return redirect()->route('register')->withErrors(['email' => 'The referral link used is no longer active.']);
+                }
+            }
+
+            $user = User::create([
+                'name'          => $pending['name'],
+                'email'         => $pending['email'],
+                'phone'         => $pending['phone'],
+                'password'      => $pending['password'],
+
+                'referral_code' => $this->generateUniqueReferralCode(),
+                'upline_id'     => $upline ? $upline->id : null,
+                'status'        => 'active',
+            ]);
+
+            Wallet::create([
+                'user_id'                  => $user->id,
+                'balance'                  => 0,
+                'total_roi_earned'         => 0,
+                'total_commission_earned'  => 0,
+                'total_withdrawn'          => 0,
+            ]);
+
+            // Send welcome email
+            try {
+                EmailService::sendWelcomeEmail($user->email, $user->name);
+            } catch (\Exception $e) {
+                Log::error('Welcome email failed: ' . $e->getMessage());
+            }
+
+            // Clear session
+            session()->forget('pending_registration');
+
+            \Illuminate\Support\Facades\DB::commit();
+            
+            Auth::login($user);
+            return redirect()->route('dashboard');
+
         } catch (\Exception $e) {
-            Log::error('Welcome email failed: ' . $e->getMessage());
+            \Illuminate\Support\Facades\DB::rollBack();
+            Log::error('User creation failed: ' . $e->getMessage());
+            return redirect()->route('register')->withErrors(['email' => 'Registration failed. Please try again.']);
         }
-
-        // Clear session
-        session()->forget('pending_registration');
-
-        Auth::login($user);
-
-        return redirect()->route('dashboard');
     }
 
     // ─── Resend OTP ──────────────────────────────────────────────────────────────
