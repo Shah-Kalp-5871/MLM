@@ -42,11 +42,29 @@ Route::get('/count', function () {
 
 Route::get('/test/verify', [\App\Http\Controllers\TestController::class, 'verify']);
 
+use Illuminate\Support\Facades\Mail;
+
 Route::get('/test-mail', function () {
-    return app(\App\Services\EmailService::class)
-        ->sendWelcomeEmail('test@example.com', 'Test User') 
-        ? 'Email Sent successfully!' 
-        : 'Email Sending Failed! Check logs.';
+
+    try {
+
+        Mail::raw('Laravel SMTP test successful.', function ($message) {
+            $message->to('YOUR_EMAIL@gmail.com')
+                    ->subject('Laravel SMTP Test');
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Mail sent successfully'
+        ]);
+
+    } catch (\Exception $e) {
+
+        return response()->json([
+            'success' => false,
+            'error' => $e->getMessage()
+        ], 500);
+    }
 });
 
 // User Routes

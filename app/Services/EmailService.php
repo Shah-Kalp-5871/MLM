@@ -22,24 +22,24 @@ class EmailService
         try {
             // SMTP Settings
             $mail->isSMTP();
-            $mail->Host       = env('MAIL_HOST');
+            $mail->Host       = config('mail.mailers.smtp.host');
             $mail->SMTPAuth   = true;
-            $mail->Username   = env('MAIL_USERNAME');
-            $mail->Password   = env('MAIL_PASSWORD');
-            $mail->SMTPSecure = env('MAIL_ENCRYPTION'); // ssl or tls
-            $mail->Port       = env('MAIL_PORT');
+            $mail->Username   = config('mail.mailers.smtp.username');
+            $mail->Password   = config('mail.mailers.smtp.password');
+            $mail->SMTPSecure = config('mail.mailers.smtp.encryption'); // ssl or tls
+            $mail->Port       = config('mail.mailers.smtp.port');
 
             // Recipients
-            $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            $mail->setFrom(config('mail.from.address'), config('mail.from.name'));
             $mail->addAddress($email, $name);
 
             // Content
             $mail->isHTML(true);
-            $subject = 'Welcome to ' . env('APP_NAME');
+            $subject = 'Welcome to ' . config('app.name');
             $mail->Subject = $subject;
 
-            $loginUrl = env('APP_URL') . '/auth/login';
-            $appName = env('APP_NAME');
+            $loginUrl = config('app.url') . '/auth/login';
+            $appName = config('app.name');
 
             $mail->Body = "
                 <p>Hello {$name},</p>
@@ -73,20 +73,20 @@ class EmailService
         try {
             // Server settings
             $mail->isSMTP();
-            $mail->Host       = env('MAIL_HOST');
+            $mail->Host       = config('mail.mailers.smtp.host');
             $mail->SMTPAuth   = true;
-            $mail->Username   = env('MAIL_USERNAME');
-            $mail->Password   = env('MAIL_PASSWORD');
-            $mail->SMTPSecure = env('MAIL_ENCRYPTION');
-            $mail->Port       = env('MAIL_PORT');
+            $mail->Username   = config('mail.mailers.smtp.username');
+            $mail->Password   = config('mail.mailers.smtp.password');
+            $mail->SMTPSecure = config('mail.mailers.smtp.encryption');
+            $mail->Port       = config('mail.mailers.smtp.port');
 
             // Recipients
-            $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            $mail->setFrom(config('mail.from.address'), config('mail.from.name'));
             $mail->addAddress($email, $name);
 
             // Content
             $mail->isHTML(true);
-            $mail->Subject = "Your OTP for Registration - " . env('APP_NAME');
+            $mail->Subject = "Your OTP for Registration - " . config('app.name');
             
             $mail->Body = "
                 <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e1e1e1; border-radius: 10px;'>
@@ -98,7 +98,7 @@ class EmailService
                     </div>
                     <p>This code is valid for 10 minutes. If you did not request this, please ignore this email.</p>
                     <hr style='border: 0; border-top: 1px solid #eee; margin: 20px 0;'>
-                    <p style='font-size: 12px; color: #6b7280; text-align: center;'>Best regards,<br>The " . env('APP_NAME') . " Team</p>
+                    <p style='font-size: 12px; color: #6b7280; text-align: center;'>Best regards,<br>The " . config('app.name') . " Team</p>
                 </div>
             ";
 
@@ -119,20 +119,20 @@ class EmailService
         try {
             // Server settings
             $mail->isSMTP();
-            $mail->Host       = env('MAIL_HOST');
+            $mail->Host       = config('mail.mailers.smtp.host');
             $mail->SMTPAuth   = true;
-            $mail->Username   = env('MAIL_USERNAME');
-            $mail->Password   = env('MAIL_PASSWORD');
-            $mail->SMTPSecure = env('MAIL_ENCRYPTION');
-            $mail->Port       = env('MAIL_PORT');
+            $mail->Username   = config('mail.mailers.smtp.username');
+            $mail->Password   = config('mail.mailers.smtp.password');
+            $mail->SMTPSecure = config('mail.mailers.smtp.encryption');
+            $mail->Port       = config('mail.mailers.smtp.port');
 
             // Recipients
-            $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            $mail->setFrom(config('mail.from.address'), config('mail.from.name'));
             $mail->addAddress($email, $name);
 
             // Content
             $mail->isHTML(true);
-            $mail->Subject = "Reset Your Password - " . env('APP_NAME');
+            $mail->Subject = "Reset Your Password - " . config('app.name');
             
             $mail->Body = "
                 <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e1e1e1; border-radius: 10px;'>
@@ -148,7 +148,7 @@ class EmailService
                     <p style='font-size: 12px; color: #6b7280; text-align: center;'>If you're having trouble clicking the \"Reset Password\" button, copy and paste the URL below into your web browser:</p>
                     <p style='font-size: 12px; color: #4f46e5; word-break: break-all; text-align: center;'>$resetUrl</p>
                     <hr style='border: 0; border-top: 1px solid #eee; margin: 20px 0;'>
-                    <p style='font-size: 12px; color: #6b7280; text-align: center;'>Best regards,<br>The " . env('APP_NAME') . " Team</p>
+                    <p style='font-size: 12px; color: #6b7280; text-align: center;'>Best regards,<br>The " . config('app.name') . " Team</p>
                 </div>
             ";
 
