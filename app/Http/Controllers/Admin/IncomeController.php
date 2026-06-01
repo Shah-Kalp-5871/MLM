@@ -16,18 +16,16 @@ class IncomeController extends Controller
         
         $total_investments = $activeInvestments->count();
 
-        // Always point to the next upcoming Monday (ROI is distributed every Monday manually)
-        $nextMonday = \Carbon\Carbon::now()->startOfWeek(\Carbon\Carbon::MONDAY);
-        if ($nextMonday->isToday() || $nextMonday->isPast()) {
-            $nextMonday->addWeek();
-        }
+        // Find the actual earliest next payout date in the database
+        $next_payout_raw = $activeInvestments->min('next_payout_at');
+        $next_payout_date = $next_payout_raw ? \Carbon\Carbon::parse($next_payout_raw)->startOfDay() : \Carbon\Carbon::now()->startOfWeek(\Carbon\Carbon::MONDAY);
+        
+        $next_payout = $next_payout_date->format('D, d M Y');
+        $days_left   = max(0, (int) now()->startOfDay()->diffInDays($next_payout_date, false));
 
-        $next_payout = $nextMonday->format('D, d M Y'); // e.g. "Mon, 09 Jun 2026"
-        $days_left   = max(0, (int) now()->diffInDays($nextMonday, false));
-
-        // Eligible = investments whose next_payout_at is on or before this coming Monday
+        // Eligible = investments whose next_payout_at is on or before this upcoming payout date
         $eligible_investments = \App\Models\Investment::where('status', 'active')
-            ->where('next_payout_at', '<=', $nextMonday)
+            ->where('next_payout_at', '<=', $next_payout_date->copy()->endOfDay())
             ->get();
 
         $eligible_amount = 0;
@@ -35,7 +33,7 @@ class IncomeController extends Controller
             $isFirstPayout = ($inv->total_roi_earned == 0);
             if ($isFirstPayout) {
                 $activatedDay  = $inv->created_at->startOfDay();
-                $daysActive    = $activatedDay->diffInDays($nextMonday->startOfDay());
+                $daysActive    = $activatedDay->diffInDays($next_payout_date);
                 $dailyRoi      = $inv->amount * ($inv->weekly_roi_percentage / 7 / 100);
                 $eligible_amount += round($dailyRoi * $daysActive, 2);
             } else {
