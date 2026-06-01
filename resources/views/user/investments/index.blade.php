@@ -25,7 +25,9 @@
     <div class="glass-panel p-6 rounded-2xl border border-purple-500/20 flex flex-col justify-center">
         <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-2">ROI Transparency</h2>
         <p class="text-xs text-gray-400 leading-relaxed mb-4">
-            Each investment earns a fixed weekly ROI. Your profit is credited to your wallet exactly 7 days after approval, <strong>provided your total active investments are at least $500</strong>.
+            Each investment earns a fixed weekly ROI, credited to your wallet every <strong class="text-blue-400">Monday</strong>.
+            Your first payout is <strong>pro-rated</strong> based on how many days your investment has been active (minimum 7 active days required).
+            <strong>Minimum $500 total active investment required.</strong>
         </p>
         <div class="flex gap-4">
             <div class="bg-black/30 p-4 rounded-xl border border-white/5 flex-1">
@@ -96,8 +98,9 @@
                     <td class="text-xs text-gray-400 font-medium">{{ $inv->created_at->format('d M, Y') }}</td>
                     <td class="text-right">
                         <div class="flex flex-col items-end">
-                            <span class="text-xs text-white font-bold">{{ \Carbon\Carbon::parse($inv->next_payout_at)->format('d M') }}</span>
-                            <span class="text-[9px] text-indigo-400 font-bold uppercase tracking-tighter">In {{ now()->diffInDays($inv->next_payout_at) }} Days</span>
+                            <span class="text-xs text-white font-bold">{{ \Carbon\Carbon::parse($inv->next_payout_at)->format('D, d M') }}</span>
+                            <span class="text-[9px] text-blue-400 font-bold uppercase tracking-tighter">In {{ now()->diffInDays($inv->next_payout_at) }} Days</span>
+                            <span class="mt-1 px-2 py-0.5 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[8px] font-black rounded-full uppercase tracking-wider">Every Monday</span>
                         </div>
                     </td>
                 </tr>
@@ -224,7 +227,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" class="text-center py-12 text-gray-500 italic font-medium">No ROI payouts recorded yet. Your first ROI will appear 7 days after approval.</td>
+                        <td colspan="4" class="text-center py-12 text-gray-500 italic font-medium">No ROI payouts recorded yet. Your first ROI will be credited on the first Monday that is at least 7 days after your investment was approved.</td>
                     </tr>
                     @endforelse
                 </tbody>

@@ -353,7 +353,7 @@
                             <div class="w-14 h-14 rounded-2xl glass-panel flex items-center justify-center font-black text-purple-400 text-xl shrink-0 group-hover:bg-purple-600 group-hover:text-white transition-all">01</div>
                             <div>
                                 <h4 class="text-white font-bold text-lg mb-2">Automated ROI</h4>
-                                <p class="text-sm text-gray-500 leading-relaxed">Earn 3% to 3.5% weekly returns on your principal investment, credited automatically every Friday.</p>
+                                <p class="text-sm text-gray-500 leading-relaxed">Earn 3% to 3.5% weekly returns on your principal investment, credited automatically every <strong class="text-purple-400">Monday</strong>.</p>
                             </div>
                         </div>
                         <div class="flex gap-6 group border-l-2 border-purple-600/20 pl-6 ml-7">

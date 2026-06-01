@@ -34,11 +34,12 @@
     <!-- ROI Metrics -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="glass p-6 rounded-2xl border-l-4 border-purple-600">
-            <h4 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Next Payout</h4>
+            <h4 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Next Payout (Monday)</h4>
             <div class="flex items-end justify-between">
                 <span class="text-2xl font-bold">{{ $next_payout }}</span>
                 <span class="text-[10px] text-purple-400 font-bold uppercase tracking-widest">In {{ $days_left }} days</span>
             </div>
+            <p class="text-[10px] text-slate-600 mt-2 font-medium">📅 All payouts are processed every Monday night</p>
         </div>
         <div class="glass p-6 rounded-2xl border-l-4 border-blue-600">
             <h4 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Eligible Amount</h4>
@@ -50,8 +51,8 @@
         <div class="glass p-6 rounded-2xl border-l-4 border-green-600">
             <h4 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Engine Status</h4>
             <div class="flex items-end justify-between">
-                <span class="text-2xl font-bold text-green-500">OPTIMAL</span>
-                <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Scheduler Live</span>
+                <span class="text-2xl font-bold text-green-500">READY</span>
+                <span class="text-[10px] text-amber-400 font-bold uppercase tracking-widest">Manual · Every Monday</span>
             </div>
         </div>
     </div>

@@ -25,10 +25,10 @@
     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group border-l-4 border-l-blue-500">
         <div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         <i data-lucide="calendar-check" class="w-8 h-8 text-blue-400 mb-4 opacity-80"></i>
-        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Next ROI Payout</p>
+        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Next ROI Payout &middot; <span class="text-blue-400">Every Monday</span></p>
         <h3 class="text-xl font-black text-white">
             @if($stats['next_payout_at'])
-                {{ $stats['next_payout_at']->format('d M') }}
+                {{ $stats['next_payout_at']->format('D, d M') }}
                 <span class="text-[10px] text-blue-400 block mt-1 font-bold uppercase tracking-tighter">In {{ now()->diffInDays($stats['next_payout_at']) }} Days</span>
             @else
                 <span class="text-sm">No Active Plan</span>
@@ -148,7 +148,7 @@
             <div class="space-y-3">
                 <div class="text-2xl font-black text-purple-500/30 group-hover:text-purple-500 transition-colors">01</div>
                 <h4 class="text-sm font-bold text-white uppercase">Automated ROI</h4>
-                <p class="text-[11px] text-gray-400 leading-relaxed">Earn 3% to 3.5% weekly returns on your principal investment, credited automatically every Friday.</p>
+                <p class="text-[11px] text-gray-400 leading-relaxed">Earn 3% to 3.5% weekly returns on your principal investment, credited automatically every <strong class="text-blue-400">Monday</strong>. First payout is pro-rated based on your activation date.</p>
             </div>
             <div class="space-y-3">
                 <div class="text-2xl font-black text-purple-500/30 group-hover:text-purple-500 transition-colors">02</div>
