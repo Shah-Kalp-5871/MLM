@@ -20,6 +20,11 @@ class IncomeController extends Controller
         $next_payout_raw = $activeInvestments->min('next_payout_at');
         $next_payout_date = $next_payout_raw ? \Carbon\Carbon::parse($next_payout_raw)->startOfDay() : \Carbon\Carbon::now()->startOfWeek(\Carbon\Carbon::MONDAY);
         
+        // Force snap to next Monday if the database has a stray non-Monday date
+        if (!$next_payout_date->isMonday()) {
+            $next_payout_date = $next_payout_date->copy()->next(\Carbon\Carbon::MONDAY);
+        }
+
         $next_payout = $next_payout_date->format('D, d M Y');
         $days_left   = max(0, (int) now()->startOfDay()->diffInDays($next_payout_date, false));
 

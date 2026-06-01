@@ -69,9 +69,14 @@ class DistributeROI extends Command
                 ->sum('amount');
                 
             if ($totalActiveInvestment < Investment::MIN_QUALIFIED_AMOUNT) {
-                // Postpone payout by 7 days since threshold isn't met
+                // Postpone payout by 7 days since threshold isn't met (Align to next Monday)
+                $nextPostponedMonday = \Carbon\Carbon::now()->startOfWeek(\Carbon\Carbon::MONDAY);
+                if ($nextPostponedMonday->isToday() || $nextPostponedMonday->isPast()) {
+                    $nextPostponedMonday->addWeek();
+                }
+                
                 $investment->update([
-                    'next_payout_at' => $investment->next_payout_at->addDays(7),
+                    'next_payout_at' => $nextPostponedMonday,
                 ]);
                 $this->line("Skipped User ID: {$investment->user_id} (Total investment: \${$totalActiveInvestment} < \$" . Investment::MIN_QUALIFIED_AMOUNT . ")");
                 return;
@@ -131,8 +136,15 @@ class DistributeROI extends Command
 
             // 5. Update Investment record
             $investment->increment('total_roi_earned', $roiAmount);
+
+            // Strictly align next payout to the next upcoming Monday
+            $nextMondayDate = \Carbon\Carbon::now()->startOfWeek(\Carbon\Carbon::MONDAY);
+            if ($nextMondayDate->isToday() || $nextMondayDate->isPast()) {
+                $nextMondayDate->addWeek();
+            }
+
             $investment->update([
-                'next_payout_at' => $investment->next_payout_at->addDays(7),
+                'next_payout_at' => $nextMondayDate,
             ]);
 
             $this->line("Successfully processed \$" . number_format($roiAmount, 2) . " for User ID: {$investment->user_id}");
