@@ -31,7 +31,7 @@ class DistributeROI extends Command
     public function handle()
     {
         $investments = Investment::where('status', 'active')
-            ->where('next_payout_at', '<=', now())
+            ->where('next_payout_at', '<=', now()->endOfDay())
             ->get();
 
         if ($investments->isEmpty()) {
