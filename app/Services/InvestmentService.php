@@ -63,7 +63,7 @@ class InvestmentService
                 'daily_roi_percentage' => $weeklyROI / 7, // Kept for legacy if needed
                 'weekly_roi_percentage' => $weeklyROI,
                 'status' => 'active',
-                'next_payout_at' => now()->addDays(7),
+                'next_payout_at' => $this->getFirstEligibleMonday(now()),
                 'matures_at' => now()->addDays(365),
             ]);
 
@@ -215,6 +215,27 @@ class InvestmentService
                 $level++;
             }
         });
+    }
+    /**
+     * Return the first Monday that is at least 7 days after the given activation date.
+     *
+     * Examples:
+     *   Activated Monday  June 1  → pays Monday June 8  (7 days)
+     *   Activated Tuesday June 2  → pays Monday June 15 (13 days)
+     *   Activated Thursday June 4 → pays Monday June 15 (11 days)
+     *   Activated Sunday  June 7  → pays Monday June 15  (8 days)
+     */
+    private function getFirstEligibleMonday(\Carbon\Carbon $activatedAt): \Carbon\Carbon
+    {
+        // Start from the next Monday after activation
+        $candidate = $activatedAt->copy()->next(\Carbon\Carbon::MONDAY);
+
+        // If that Monday is fewer than 7 days away, push forward one more week
+        while ($activatedAt->diffInDays($candidate) < 7) {
+            $candidate->addWeek();
+        }
+
+        return $candidate->startOfDay();
     }
 
 }

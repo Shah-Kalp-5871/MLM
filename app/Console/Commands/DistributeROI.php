@@ -51,7 +51,8 @@ class DistributeROI extends Command
     protected function processPayout(Investment $investment)
     {
         DB::transaction(function () use ($investment) {
-            $weekKey = now()->format('o-\WW'); 
+            // Key is the Monday date of this payout cycle (e.g. "2026-06-09")
+            $weekKey = \Carbon\Carbon::now()->startOfWeek(\Carbon\Carbon::MONDAY)->format('Y-m-d');
 
             // Duplicate Protection Check (Strict Weekly)
             $alreadyPaidThisWeek = ROIIncome::where('investment_id', $investment->id)
@@ -76,7 +77,24 @@ class DistributeROI extends Command
                 return;
             }
 
-            $roiAmount = $investment->amount * ($investment->weekly_roi_percentage / 100);
+            // --- Monday-Centralized ROI Calculation ---
+            // First payout: pro-rata daily rate × days active since activation
+            // All subsequent payouts: flat weekly rate
+            $isFirstPayout = ($investment->total_roi_earned == 0);
+
+            if ($isFirstPayout) {
+                $activatedDay  = $investment->created_at->startOfDay();
+                $thisMondayDay = \Carbon\Carbon::now()->startOfWeek(\Carbon\Carbon::MONDAY)->startOfDay();
+                $daysActive    = $activatedDay->diffInDays($thisMondayDay);
+
+                $dailyRoiAmount = $investment->amount * ($investment->weekly_roi_percentage / 7 / 100);
+                $roiAmount      = round($dailyRoiAmount * $daysActive, 2);
+
+                $this->line("First payout for User ID: {$investment->user_id} — {$daysActive} active days (pro-rata \$" . number_format($roiAmount, 2) . ")");
+            } else {
+                // Flat weekly ROI for all payouts after the first
+                $roiAmount = $investment->amount * ($investment->weekly_roi_percentage / 100);
+            }
 
             // 1. Credit Wallet
             $wallet = Wallet::firstOrCreate(['user_id' => $investment->user_id]);

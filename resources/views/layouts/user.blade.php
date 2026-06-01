@@ -334,6 +334,68 @@
     <script>
         lucide.createIcons();
     </script>
+    {{-- ─── One-time Policy Update Popup ─────────────────────────────────────── --}}
+    @auth
+    @if(is_null(auth()->user()->policy_accepted_at))
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        Swal.fire({
+            title: '📢 Platform Policy Update',
+            html: `
+                <div style="text-align:left; font-size:13px; color:#cbd5e1; line-height:1.8;">
+                    <p style="margin-bottom:12px;">We have updated our platform policies. Please review the key changes below:</p>
+                    <div style="background:rgba(147,51,234,0.08); border:1px solid rgba(147,51,234,0.2); border-radius:12px; padding:14px 16px; margin-bottom:12px;">
+                        <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;">
+                            <span style="color:#a855f7;font-size:16px;margin-top:1px;">📅</span>
+                            <div><strong style="color:#fff;">ROI Payout Schedule</strong><br>All weekly ROI payouts are now processed every <strong style="color:#a855f7;">Monday</strong>. If your investment was activated mid-week, your first payout will include all days since activation.</div>
+                        </div>
+                        <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;">
+                            <span style="color:#a855f7;font-size:16px;margin-top:1px;">⏳</span>
+                            <div><strong style="color:#fff;">Minimum 7-Day Rule</strong><br>A minimum of <strong style="color:#a855f7;">7 active days</strong> is required before your first ROI payout. Investments activated after Monday will receive their first payout on the second following Monday.</div>
+                        </div>
+                        <div style="display:flex;align-items:flex-start;gap:10px;">
+                            <span style="color:#a855f7;font-size:16px;margin-top:1px;">✅</span>
+                            <div><strong style="color:#fff;">Terms & Compliance</strong><br>By continuing to use the platform you agree to our updated Terms of Service and Investment Guidelines.</div>
+                        </div>
+                    </div>
+                    <p style="font-size:11px;color:#64748b;">If you have any questions, please contact support.</p>
+                </div>
+            `,
+            icon: false,
+            showConfirmButton: true,
+            confirmButtonText: '✓ I Understand',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            customClass: {
+                popup:             'swal-policy-popup',
+                title:             'swal-policy-title',
+                confirmButton:     'swal-policy-btn',
+            },
+            background: '#0f1120',
+            color: '#94a3b8',
+        }).then(function (result) {
+            if (result.isConfirmed) {
+                fetch('{{ route('policy.accept') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    body: JSON.stringify({}),
+                });
+            }
+        });
+    });
+    </script>
+    <style>
+        .swal-policy-popup  { border: 1px solid rgba(147,51,234,0.25) !important; border-radius: 20px !important; max-width: 480px !important; padding: 28px 20px !important; }
+        .swal-policy-title  { color: #fff !important; font-size: 17px !important; font-weight: 800 !important; margin-bottom: 4px !important; }
+        .swal-policy-btn    { background: linear-gradient(135deg, #7c3aed, #4f46e5) !important; border: none !important; border-radius: 12px !important; padding: 12px 32px !important; font-size: 14px !important; font-weight: 700 !important; letter-spacing: 0.02em !important; box-shadow: 0 4px 20px rgba(124,58,237,0.4) !important; }
+        .swal-policy-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(124,58,237,0.5) !important; }
+        .swal2-backdrop-show { backdrop-filter: blur(4px) !important; }
+    </style>
+    @endif
+    @endauth
     @stack('scripts')
 </body>
 </html>

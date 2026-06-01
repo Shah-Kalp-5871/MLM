@@ -29,6 +29,7 @@ class User extends Authenticatable
         'status',
         'direct_business',
         'team_business',
+        'policy_accepted_at',
     ];
 
     /**
@@ -49,8 +50,9 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'email_verified_at'  => 'datetime',
+            'policy_accepted_at' => 'datetime',
+            'password'           => 'hashed',
         ];
     }
 

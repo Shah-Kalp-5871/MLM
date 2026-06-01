@@ -75,6 +75,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/vouchers', [App\Http\Controllers\User\VoucherController::class, 'index'])->name('vouchers.index');
     Route::get('/vouchers/redeem', [App\Http\Controllers\User\VoucherController::class, 'showRedeemForm'])->name('vouchers.redeem');
     Route::post('/vouchers/redeem', [App\Http\Controllers\User\VoucherController::class, 'redeem'])->name('vouchers.redeem.submit');
+    // Policy acceptance — called once via AJAX when user clicks OK on the popup
+    Route::post('/policy/accept', function () {
+        auth()->user()->update(['policy_accepted_at' => now()]);
+        return response()->json(['status' => 'ok']);
+    })->name('policy.accept');
 });
 
 Route::get('/admin', function () {
