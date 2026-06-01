@@ -22,12 +22,20 @@
             <p class="text-slate-400 text-sm">Automate and monitor weekly profit distribution.</p>
         </div>
         <div class="flex items-center gap-3">
-             <form action="{{ route('admin.roi.trigger') }}" method="POST">
+             @if($executable_count > 0)
+            <form id="executeRoiForm" action="{{ route('admin.roi.trigger') }}" method="POST" class="inline-block">
                 @csrf
-                <button type="submit" class="btn-gradient px-8 py-3 rounded-2xl text-sm font-bold shadow-xl shadow-purple-600/20 flex items-center gap-2">
-                    <i data-lucide="play" class="w-4 h-4"></i> Execute ROI Distribution
+                <button type="button" onclick="confirmExecuteRoi()" class="group px-6 py-3 rounded-2xl bg-purple-600/20 text-purple-300 font-bold uppercase tracking-widest text-xs hover:bg-purple-600 hover:text-white transition-all border border-purple-500/30 flex items-center gap-3 shadow-[0_0_15px_rgba(147,51,234,0.3)]">
+                    <i data-lucide="play" class="w-4 h-4 text-purple-400 group-hover:text-white"></i>
+                    Execute {{ $executable_count }} Payout{{ $executable_count > 1 ? 's' : '' }}
                 </button>
-             </form>
+            </form>
+        @else
+            <button type="button" disabled class="group px-6 py-3 rounded-2xl bg-gray-500/10 text-gray-500 font-bold uppercase tracking-widest text-xs border border-gray-500/20 flex items-center gap-3 cursor-not-allowed">
+                <i data-lucide="check-circle" class="w-4 h-4"></i>
+                Caught Up (Pending: 0)
+            </button>
+        @endif
         </div>
     </div>
 
@@ -101,4 +109,39 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmExecuteRoi() {
+        Swal.fire({
+            title: 'Distribute ROI?',
+            html: "You are about to distribute <strong style='color:#a855f7'>{{ $settings['platform_currency_symbol'] ?? '$' }}{{ number_format($executable_amount, 2) }}</strong> across <strong>{{ $executable_count }} active asset(s)</strong>.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#9333ea',
+            cancelButtonColor: '#475569',
+            confirmButtonText: 'Yes, Execute Now!',
+            cancelButtonText: 'Cancel',
+            background: '#0a0b14',
+            color: '#fff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Show a loading state
+                Swal.fire({
+                    title: 'Executing...',
+                    text: 'Please wait while the ROI is distributed.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading()
+                    },
+                    background: '#0a0b14',
+                    color: '#fff'
+                });
+                document.getElementById('executeRoiForm').submit();
+            }
+        });
+    }
+</script>
+@endpush
 

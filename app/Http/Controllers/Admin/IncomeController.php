@@ -46,6 +46,25 @@ class IncomeController extends Controller
             }
         }
 
+        // Executable right now (pending)
+        $executable_investments = \App\Models\Investment::where('status', 'active')
+            ->where('next_payout_at', '<=', now()->endOfDay())
+            ->get();
+            
+        $executable_count = $executable_investments->count();
+        $executable_amount = 0;
+        foreach ($executable_investments as $inv) {
+            $isFirstPayout = ($inv->total_roi_earned == 0);
+            if ($isFirstPayout) {
+                $activatedDay  = $inv->created_at->startOfDay();
+                $daysActive    = $activatedDay->diffInDays($next_payout_date);
+                $dailyRoi      = $inv->amount * ($inv->weekly_roi_percentage / 7 / 100);
+                $executable_amount += round($dailyRoi * $daysActive, 2);
+            } else {
+                $executable_amount += $inv->amount * ($inv->weekly_roi_percentage / 100);
+            }
+        }
+
         $roi_history = ROIIncome::with(['user', 'investment'])->orderBy('distributed_at', 'desc')->paginate(20);
         
         $settings = [
@@ -58,6 +77,8 @@ class IncomeController extends Controller
             'next_payout', 
             'days_left', 
             'eligible_amount',
+            'executable_count',
+            'executable_amount',
             'settings'
         ));
     }
