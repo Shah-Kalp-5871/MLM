@@ -28,8 +28,21 @@
         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Next ROI Payout &middot; <span class="text-blue-400">Every Monday</span></p>
         <h3 class="text-xl font-black text-white">
             @if($stats['next_payout_at'])
-                {{ $stats['next_payout_at']->format('D, d M') }}
-                <span class="text-[10px] text-blue-400 block mt-1 font-bold uppercase tracking-tighter">In {{ now()->diffInDays($stats['next_payout_at']) }} Days</span>
+                @php
+                    $targetDate = \Carbon\Carbon::parse($stats['next_payout_at']);
+                    $days = now()->startOfDay()->diffInDays($targetDate->copy()->startOfDay(), false);
+                    if ($days < 0) {
+                        $days = 0;
+                    }
+                @endphp
+                {{ $targetDate->format('D, d M') }}
+                <span class="text-[10px] text-blue-400 block mt-1 font-bold uppercase tracking-tighter">
+                    @if($days == 0)
+                        Today
+                    @else
+                        In {{ $days }} Days
+                    @endif
+                </span>
             @else
                 <span class="text-sm">No Active Plan</span>
             @endif
