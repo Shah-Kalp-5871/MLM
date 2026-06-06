@@ -29,8 +29,19 @@
         <h3 class="text-xl font-black text-white">
             @if($stats['next_payout_at'])
                 @php
-                    $targetDate = \Carbon\Carbon::parse($stats['next_payout_at']);
-                    $days = now()->startOfDay()->diffInDays($targetDate->copy()->startOfDay(), false);
+                    $targetDate = \Carbon\Carbon::parse($stats['next_payout_at'])->startOfDay();
+                    
+                    // Align legacy non-Monday dates to the actual Monday the cron will process them
+                    if (!$targetDate->isMonday()) {
+                        $targetDate = $targetDate->copy()->next('Monday');
+                    }
+                    
+                    // If the expected Monday is in the past (e.g. cron delay), show the upcoming processing day
+                    if ($targetDate->isPast() && !$targetDate->isToday()) {
+                        $targetDate = now()->isMonday() ? now()->startOfDay() : now()->next('Monday')->startOfDay();
+                    }
+
+                    $days = now()->startOfDay()->diffInDays($targetDate, false);
                     if ($days < 0) {
                         $days = 0;
                     }
