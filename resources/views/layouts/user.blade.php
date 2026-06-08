@@ -396,6 +396,55 @@
     </style>
     @endif
     @endauth
+    {{-- ─── Site Maintenance / Withdrawal Delay Notice ──────────────────────── --}}
+    @auth
+    @if(is_null(auth()->user()->maintenance_noticed_at))
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        Swal.fire({
+            title: '🔧 Site Maintenance Notice',
+            html: `
+                <div style="text-align:center; font-size:13px; color:#cbd5e1; line-height:1.8;">
+                    <div style="background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.25); border-radius:14px; padding:16px 18px; margin-bottom:14px;">
+                        <p style="color:#fbbf24; font-weight:700; font-size:14px; margin-bottom:8px;">⚠️ Withdrawal Processing Delay</p>
+                        <p style="color:#94a3b8; font-size:12px;">Our platform is currently undergoing scheduled maintenance. Withdrawal requests may experience delays and payments may not be processed during this period.</p>
+                    </div>
+                    <p style="font-size:11px; color:#64748b;">We appreciate your patience. Normal operations will resume shortly. Your funds remain safe and secure.</p>
+                </div>
+            `,
+            icon: false,
+            showConfirmButton: true,
+            confirmButtonText: 'I Understand',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            background: '#0f1120',
+            color: '#94a3b8',
+            customClass: {
+                popup: 'swal-maintenance-popup',
+                title: 'swal-maintenance-title',
+                confirmButton: 'swal-maintenance-btn',
+            }
+        }).then(function (result) {
+            if (result.isConfirmed) {
+                fetch('{{ route('maintenance.noticed') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    body: JSON.stringify({}),
+                });
+            }
+        });
+    });
+    </script>
+    <style>
+        .swal-maintenance-popup  { border: 1px solid rgba(245,158,11,0.25) !important; border-radius: 20px !important; max-width: 420px !important; padding: 28px 20px !important; }
+        .swal-maintenance-title  { color: #fff !important; font-size: 17px !important; font-weight: 800 !important; }
+        .swal-maintenance-btn    { background: linear-gradient(135deg, #d97706, #b45309) !important; border: none !important; border-radius: 12px !important; padding: 12px 32px !important; font-size: 13px !important; font-weight: 700 !important; }
+    </style>
+    @endif
+    @endauth
     @stack('scripts')
 </body>
 </html>

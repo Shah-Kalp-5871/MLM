@@ -30,6 +30,7 @@ class User extends Authenticatable
         'direct_business',
         'team_business',
         'policy_accepted_at',
+        'maintenance_noticed_at',
     ];
 
     /**
@@ -51,7 +52,8 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at'  => 'datetime',
-            'policy_accepted_at' => 'datetime',
+            'policy_accepted_at'       => 'datetime',
+            'maintenance_noticed_at'   => 'datetime',
             'password'           => 'hashed',
         ];
     }

@@ -80,6 +80,12 @@ Route::middleware(['auth'])->group(function () {
         auth()->user()->update(['policy_accepted_at' => now()]);
         return response()->json(['status' => 'ok']);
     })->name('policy.accept');
+
+    // Maintenance notice — dismiss once per user permanently
+    Route::post('/maintenance/noticed', function () {
+        auth()->user()->update(['maintenance_noticed_at' => now()]);
+        return response()->json(['status' => 'ok']);
+    })->name('maintenance.noticed');
 });
 
 Route::get('/admin', function () {
